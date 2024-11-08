@@ -30,13 +30,18 @@
 %
 %=== für schnelleres kompilieren alle ungeänderten Dateien auskommentieren =====
 \includeonly{
-	content/Cover,
-	%content/chapAbstract,
-	%content/chapEinleitung,
-	%content/chapForm,
-	content/chapGestaltung,
-	%content/chapLiteratur,
-	%content/chapDeclaration =====
+	content/0Cover,
+	content/1chapAbstract,
+	content/2chapKurzfassung,
+	content/3chapEinleitung,
+	content/4chapTechnischesUmfeld,
+	content/5chapTheoretischerHintergrund,
+	content/6chapMethodik,
+	content/7chapImplementierung,
+	content/8chapErgebnisse,
+	content/9chapZusammenfassung,
+	content/10chapDeclaration
+	=====
 }
 %
 %
@@ -45,11 +50,11 @@
 \begin{document}
 %
 \pdfbookmark[0]{Titelseite}{titel}
-\input{content/Cover}
+\input{content/0Cover}
 \cleardoublepage
 \pagenumbering{Roman}
-\include{content/chapAbstract}
-
+\include{content/1chapAbstract}
+\include{content/2chapKurzfassung}
 \cleardoublepage
 \pdfbookmark[0]{Inhaltsverzeichnis}{toc}
 \tableofcontents
@@ -62,10 +67,13 @@
 \cleardoublepage
 \KOMAoptions{open=right}
 \pagenumbering{arabic}
-\include{content/chapEinleitung}
-\include{content/chapForm}
-\include{content/chapGestaltung}
-\include{content/chapLiteratur}
+\include{content/3chapEinleitung}
+\include{content/4chapTechnischesUmfeld}
+\include{content/5chapTheoretischerHintergrund}
+\include{content/6chapMethodik}
+\include{content/7chapImplementierung}
+\include{content/8chapErgebnisse}
+\include{content/9chapZusammenfassung}
 %
 \printbibliography
 %
@@ -73,7 +81,7 @@
 \addchap{Anhang}
 \KOMAoptions{open=any}
 %
-\include{content/chapDeclaration}
+\include{content/10chapDeclaration}
 %
 %
 \end{document}
