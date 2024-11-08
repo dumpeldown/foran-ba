@@ -1,0 +1,56 @@
+\begin{titlepage}
+    %
+    \sffamily% Umschalten auf serifenlose Schrift
+    %
+    \begin{center}
+        % Define a minipage for each image to control width and alignment
+        \begin{minipage}[c]{0.33\textwidth}
+            \includegraphics[height=2cm]{images/th_koeln.png} % Adjust height as needed
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.1\textwidth}
+            % Add an empty minipage in the center if necessary for spacing
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.52\textwidth}
+            \includegraphics[height=2cm]{images/foran.png} % Same height for alignment
+        \end{minipage}
+        % Draw colored line below images
+        \begin{tikzpicture}
+            \fill[THRed] (0, 0) rectangle (\textwidth/3, 3pt);
+            \fill[THOrange] (\textwidth/3, 0) rectangle (2*\textwidth/3, 3pt);
+            \fill[THPurple] (2*\textwidth/3, 0) rectangle (\textwidth, 3pt);
+        \end{tikzpicture}
+    \end{center}
+    %
+    \vfill
+    %
+    \begin{center}
+        \huge Implementierung eines Dashboard für Pentesting in einer Digital Forensik and Incident Response (DFIR) Umgebung für Open RAN\\[10mm]
+    \end{center}
+    %
+    Bachelorarbeit zur Erlangung des akademischen Grades\newline
+    \emph{Bachelor of Science}\newline
+    im Studiengang Technische Informatik\newline
+    an der Fakultät für Informations-, Medien- und Elektrotechnik\newline
+    der Technischen Hochschule Köln
+    %
+    \vfill
+    %
+    \begin{tabular}{@{}ll}
+        vorgelegt von:   & Jurek Miklas Jesse                             \\
+        Matrikel-Nr.:    & 11135480                                       \\
+        Adresse:         & Winkeler Str. 7                                \\
+                         & 65197 Wiesbaden                                \\
+                         & \texttt{jurek\_miklas.jesse@smail.th-koeln.de} \\[5mm]
+        eingereicht bei: & Prof. Dr. Andreas Grebe                        \\
+        Zweitgutachter:  & Henrik Wittemeier, B.Sc.
+    \end{tabular}
+    %
+    \\[10mm]
+    %
+    Wiesbaden, TT.12.2024%
+    %
+    \rmfamily% Umschalten auf Standard-Schrift mit Serifen
+    %
+\end{titlepage}
