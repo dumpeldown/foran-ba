@@ -34,6 +34,28 @@
 \newcommand{\crefpairconjunction}{ und~}
 \newcommand{\crefrangeconjunction}{ bis~}
 \crefname{figure}{Abbildung}{Abbildungen}
+\renewcommand{\lstlistingname}{Abbildung}
+% Define custom colors
+\definecolor{mygray}{rgb}{0.95,0.95,0.95}
+
+% Define a custom environment for code blocks
+\lstnewenvironment{code}[1][] % Optional argument for customization
+{
+  \lstset{
+    backgroundcolor=\color{mygray},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    rulecolor=\color{gray},
+    xleftmargin=5mm,
+    numbers=left,
+    numberstyle=\tiny,
+    captionpos=b, % Position of the caption (b for bottom, t for top)
+    #1 % Allow overriding settings using optional arguments
+  }
+}
+{}
 
 %=== Einstellungen für plots ==================================================
 \pgfplotsset{
