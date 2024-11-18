@@ -4,6 +4,15 @@
 %
 \usepackage{ifluatex}
 \usepackage{babel}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage{float}
+\usepackage{scrhack}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.85]{beramono}
+\usepackage{xcolor}
+\usepackage{fvextra}
+\usepackage{listings}
+\usepackage{tcolorbox}
 %
 \ifluatex
  % LuaLaTeX
@@ -25,9 +34,13 @@
 \usepackage{pgfplots}
 %
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\DefineBibliographyStrings{german}{%
+  andothers = {{et al}\adddot}
+}
 %
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{csquotes}
 %
 \usepackage{hyperref}
 %
