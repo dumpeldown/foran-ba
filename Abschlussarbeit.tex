@@ -14,9 +14,7 @@
 %
 %
 \input{packages}
-%
 \input{definitions}
-%
 \input{glsdefs}
 %
 \makeglossaries
@@ -25,18 +23,18 @@
 %
 \addbibresource{references.bib}
 
+
 \nocite{} % listet alle zitierten Quellen
 %
-%=== für schnelleres kompilieren alle ungeänderten Dateien auskommentieren =====
 \includeonly{
-	%content/0Cover,
+	content/0Cover,
 	%content/1chapAbstract,
 	%content/2chapKurzfassung,
 	%content/3chapEinleitung,
-	content/4chapForschungsstand,
-	content/5chapTechnischerHintergrund,
-	%content/6chapMethodik,
-	%content/7chapImplementierung,
+	%content/4chapForschungsstand,
+	%content/5chapTechnischerHintergrund,
+	content/6chapMethodik,
+	content/7chapImplementierung,
 	%content/8chapErgebnisse,
 	%content/9chapZusammenfassung,
 	%content/10chapDeclaration
@@ -55,10 +53,13 @@
 \include{content/1chapAbstract}
 \include{content/2chapKurzfassung}
 \cleardoublepage
+%
 \pdfbookmark[0]{Inhaltsverzeichnis}{toc}
 \tableofcontents
+%
 \listoftables
 \listoffigures
+%
 \printglossary
 \printglossary[type=\acronymtype, title={Abkürzungsverzeichnis}]
 \printglossary[type=symbols, title={Symbolverzeichnis}]

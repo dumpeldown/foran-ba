@@ -4,5 +4,21 @@
 \label{sec:anwendungVonAcema}
 \section{CVSS Integration}
 \label{sec:cvssIntegration}
+
+\begin{code}[caption={Quellcode zur farblichen Kategorisierung von Schweregraden}]
+func ScoreColor(score float64) string {
+    switch {
+    case score > 7.0:
+        return "danger"
+    case score > 3.0:
+        return "warning"
+    case score == 0.0:
+        return "secondary"
+    default:
+        return "success"
+    }
+}
+\end{code}
+
 \section{Visualisierung des Angriffspfads}
 \label{sec:visualisierungDesAngriffspfads}
