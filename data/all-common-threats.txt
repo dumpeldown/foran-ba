@@ -1,0 +1,521 @@
+7.4.1	Threats against O-RAN system
+7.4.1.1	Common among O-RAN components
+
+The O-RAN system architecture introduces the following common threats among its components:
+Threat ID	T-O-RAN-01
+Threat title	An attacker exploits insecure designs or lack of adoption in O-RAN components
+Threat description	Unauthenticated/unauthorized access to O-RAN components could possibly be achieved via the different O-RAN interfaces, depending upon the design of the hardware-software O-RAN system and how different functions are segregated within the O-RAN system. 
+O-RAN components might be vulnerable if: 
+•	Outdated component from the lack of update or patch management,
+•	Poorly design architecture,
+•	Missing appropriate security hardening,
+•	Unnecessary or insecure function/protocol/component.
+An attacker could, in such case, either inject malwares and/or manipulate existing software, harm the O-RAN components, create a performance issue by manipulation of parameters, or reconfigure the O-RAN components and disable the security features with the purpose of eavesdropping or wiretapping on various CUS & M planes, reaching northbound systems, attack broader network to cause denial-of-service, steal unprotected private keys, certificates, hash values, or other type of breaches.
+In addition, O-RAN components could be software providing network functions, so they are likely to be vulnerable to software flaws: it could be possible to bypass firewall restrictions or to take advantage of a buffer overflow to execute arbitrary commands, etc.
+
+Threat ID	T-O-RAN-02
+Threat title	An attacker exploits misconfigured or poorly configured O-RAN components 
+Threat description	Unauthenticated/unauthorized access to O-RAN components could possibly be achieved via the different O-RAN interfaces, depending upon the configuration of the hardware-software O-RAN system. 
+O-RAN components might be vulnerable if: 
+•	Errors from the lack of configuration change management,
+•	Misconfigured or poorly configured O-RAN components,
+•	Improperly configured permissions,
+•	Unnecessary features are enabled (e.g. unnecessary ports, services, accounts, or privileges),
+•	Default accounts and their passwords still enabled and unchanged,
+•	Security features are disabled or not configured securely.
+An attacker could, in such case, either inject malwares and/or manipulate existing software, harm the O-RAN components, create a performance issue by manipulation of parameters, or reconfigure the O-RAN components and disable the security features with the purpose of eavesdropping or wiretapping on various CUS & M planes, reaching northbound systems, attack broader network to cause denial-of-service, steal unprotected private keys, certificates, hash values, or other type of breaches.
+
+Threat ID	T-O-RAN-03
+Threat title	Attacks from the internet exploit weak authentication and access control to penetrate O-RAN network boundary
+Threat description	Web servers serving O-RAN functional and management services should provide adequate protection. 
+An attacker that have access to the uncontrolled O-RAN network could:
+•	Bypass the information flow control policy implemented by the firewall,
+•	And/or attack O-RAN components in the trusted networks by taking advantage of particularities and errors in the design and implementation of the network protocols (IP, TCP, UDP, application protocols),
+•	Use of incorrect or exceeded TCP sequence numbers,
+•	Perform brute force attacks on FTP passwords,
+•	Use of improper HTTP user sessions,
+•	Etc.
+The effects of such attacks may include:
+•	An intrusion, meaning unauthorized access to O-RAN components,
+•	Blocking, flooding or restarting an O-RAN component causing a denial of service,
+•	Flooding of network equipment, causing a denial of service,
+•	Etc.
+
+Threat ID	T-O-RAN-04
+Threat title	An attacker attempts to jam the airlink signal through IoT devices
+Threat description	DDoS attacks on O-RAN systems: The 5G evolution means billions of things, collectively referred to as IoT, will be using the 5G O-RAN. Thus, IoT could increase the risk of O-RAN resource overload by way of DDoS attacks. Attackers create a botnet army by infecting many (millions/billions) IoT devices with a “remote-reboot” malware. Attackers instruct the malware to reboot all devices in a specific or targeted 5G coverage area at the same time.
+
+Threat ID	T-O-RAN-05
+Threat title	An attacker penetrates and compromises the O-RAN system through the open O-RAN’s Fronthaul, O1, O2, A1, and E2
+Threat description	O-RAN’s Fronthaul, O1, O2, A1, and E2 management interfaces are the new open interfaces that allow software programmability of RAN. These interfaces may not be secured to industry best practices.
+O-RAN components might be vulnerable if: 
+•	Improper or missing authentication and authorization processes,
+•	Improper or missing ciphering and integrity checks of sensitive data exchanged over O-RAN interfaces,
+•	Improper or missing replay protection of sensitive data exchanged over O-RAN interfaces,
+•	Improper prevention of key reuse,
+•	Improper implementation,
+•	Improperly validate inputs, respond to error conditions in both the submitted data as well as out of sequence protocol steps.
+An attacker could, in such case, cause denial-of-service, data tampering or information disclosure, etc.
+NOTE: O-RAN interfaces allow use of TLS or SSH. Industry best practices mandate the use of TLS (v1.2 or higher) or SSH certificate-based authentication. An implementation that implements TLS version lower than 1.2 or a SSH password authentication, may become the key source of vulnerability that a malicious code will exploit to compromise the O-RAN system.
+
+Threat ID	T-O-RAN-06
+Threat title	An attacker exploits insufficient/improper mechanisms for authentication and authorization to compromise O-RAN components
+Threat description	O-RAN management and orchestration should not be used without appropriate authentication and authorization and authorization checks. 
+O-RAN components might be vulnerable if: 
+•	Unauthenticated access to O-RAN functions,
+•	Improper authentication mechanisms,
+•	Use of Predefined/ default accounts,
+•	Weak or missing password policy,
+•	Lack of mutual authentication to O-RAN components and interfaces,
+•	Failure to block consecutive failed login attempts,
+•	Improper authorization and access control policy.
+An attacker could, in such case, either inject malwares and/or manipulate existing software, harm the O-RAN components, create a performance issue by manipulation of parameters, or reconfigure the O-RAN components and disable the security features with the purpose of eavesdropping or wiretapping on various CUS & M planes, reaching northbound systems, attack broader network to cause denial-of-service, steal unprotected private keys, certificates, hash values, or other type of breaches.
+
+Threat ID	T-O-RAN-07
+Threat title	An attacker compromises O-RAN monitoring mechanisms and log files integrity and availability
+Threat description	Improper / missing controls for protection of security event log files generated by O-RAN components and the lack of security events logged together with a unique system reference (e.g. host name, IP or MAC address) and the exact time the incident occurred do not allow a correct and rapid audit in case of security incident occurrence. Security restoration is delayed. Compromise of availability and integrity of security event log files could conduct to delays, wrong audit results, delays in security restoration, threats persistence.
+
+Threat ID	T-O-RAN-08
+Threat title	An attacker compromises O-RAN data integrity, confidentiality and traceability
+Threat description	O-RAN components may not be secured to industry best practices. Adequate security controls are needed for protecting sensitive data stored, processed and transferred by O-RAN components. 
+O-RAN components might be vulnerable if: 
+•	Improper or missing ciphering of sensitive data in storage or in transfer,
+•	Improper or missing integrity mechanisms to protect sensitive data in storage or in transfer,
+•	Presence of active function(s) that reveal confidential internal data in the clear to administrators. Such functions could be, for example, local or remote OAM CLI or GUI, logging messages, alarms, configuration file exports etc.
+•	No traceability (logging) of access to personal data.
+An attacker could, in such case, cause denial-of-service, data tampering, information disclosure, spoofing identity, elevation of privilege, etc.
+
+Threat ID	T-O-RAN-09
+Threat title	An attacker compromises O-RAN components integrity and availability
+Threat description	Overload situation could appear in the case of DoS attack or increased traffic. Inability to deal with such events affects availability of information or security functionalities of O-RAN components.
+O-RAN components may boot from unauthorized memory devices. Inability to deal with such events affects integrity of information or security functionalities of O-RAN components.
+Insufficient assurance of O-RAN software package integrity could affect CIA of data, services, hardware and policies during installation or upgrade phases for O-RAN components.
+An attacker could, in such case, cause denial-of-service, data tampering, information disclosure, spoofing identity, etc.
+
+Threat ID	T-O-RAN-10
+Threat title	Inconsistent Log Format Impeding Effective Attack Detection
+Threat description	In the given scenario, the network operates with various devices and systems that generate logs in different formats. The lack of a standardized, common log format hinders the network operator's ability to aggregate and analyse logs centrally. This fragmentation creates blind spots and significantly delays the detection of attacks, as correlating events across disparate systems becomes challenging. An attacker can exploit this vulnerability by conducting attacks that leave traces across multiple systems, knowing that the lack of a centralized logging system will complicate the timely detection and response to the threat.
+Threat type	Spoofing, Tampering, Repudiation, Information Disclosure, Denial of service, Elevation of privilege
+Impact type	Authentication, Integrity, Non-repudiation, Confidentiality, Availability, Authorization
+Affected Assets	all
+
+7.4.1.2	Threats against the fronthaul interface and M-S-C-U planes
+The LLS architecture and the fronthaul interface introduce the following threats:
+ 
+Figure 7 1 : Threats and Vulnerabilities for O-RAN LLS 7-2x
+Threat ID	T-FRHAUL-01
+Threat title	An attacker penetrates O-DU and beyond through O-RU or the Fronthaul interface [i.12]
+Threat description	When having two different vendors, the O-RU and the O-DU needs to be managed as different entities and may have heterogeneous security levels. Instead, the O-DU will have to bridge the management traffic between the management system and the O-RU. Hence the possibilities to reach the northbound systems beyond the O-DU through the Open Fronthaul interface become a possible attack vector in this split architecture.
+
+Threat ID	T-FRHAUL-02
+Threat title	Unauthorized access to Open Front Haul Ethernet L1 physical layer interface(s)
+Threat description	The Open Front Haul Ethernet L1 physical interface comprises one or more coaxial cables, twisted pairs, or optical fibers. Each end of the Open Front Haul Ethernet L1 physical interface comprises a physical connection (colloquially known as an Ethernet Port) to physical O-RAN network elements, e.g., O-DU, O-RU, etc.
+Unauthorized access to the Open Front Haul Ethernet L1 physical layer interface (cables and connections) provides a means to launch attacks on the availability, integrity, and confidentiality of the Open Front Haul system.
+Potential loss of availability on the Open Front Haul interface can occur from one or more of the following threats:
+•	An unauthorized device on the Ethernet L1 Interface can flood the L1 interface with unintended network traffic causing disruption or degradation of authorized network elements on the Open Front Haul interface.
+•	An unauthorized device on the Ethernet L1 Interface can send L2 messages to authorized network devices causing disruption, denial, or degradation of the Open Front Haul interface.
+•	An attacker (person) gains access to the Open Front Haul Ethernet L1 interface(s) and denies the Open Front Haul services by disabling a physical connection to a network element either by removing an Ethernet port connection or cutting the physical interface (coaxial cable, twisted pair, or optical fiber). 
+
+Potential loss of availability, confidentiality, and/or integrity on the Open Front Haul interface can occur from one or more of the following threats:
+•	An unauthorized device on the Ethernet L1 Interface has access to U-Plane traffic on the Open Front Hall Interface.
+•	An unauthorized device on the Ethernet L1 Interface has access to S-Plane traffic on the Open Front Hall Interface.
+•	An unauthorized device on the Ethernet L1 Interface has access to C-Plane traffic on the Open Front Hall Interface.
+•	An unauthorized device on the Ethernet L1 Interface has access to M-Plane traffic on the Open Front Hall Interface.
+
+Threat ID	T-MPLANE-01
+Threat title	An attacker attempts to intercept the Fronthaul (MITM) over M Plane
+Threat description	The High bit rate Fronthaul interface impose strict performance requirements ((bandwidth, latency, fronthaul transport link length, etc.) that limit the use of some security features, due to the increased processing delay. This opens the risk of Man-in-the-Middle (MITM) attacks over the fronthaul interface or O1 to intercept the M plane.
+For the transported Management-Plane data over the fronthaul interface or O1, an Attacker could potentially do threats, such as passive wiretapping and denial of service, but would need to break M-Plane Security prior to gain OAM access.
+
+Threat ID	T-SPLANE-01
+Threat title	DoS attack against a Master clock
+Threat description	A denial of service (DoS) attack towards a Master clock of the timing network used by the open Fronthaul to maintain the availability and accuracy of the Master clock. An attacker can attack a master clock by sending an excessive number of time protocol packets or impersonate a legitimate clock, a slave, or an intermediate clock, by sending malicious messages to the master, thus degrading the victim’s performance.
+The attacker may be residing either within the attacked network (insider) or on an external network connected to the attacked network.
+This attack results in a situation where the clock service is interrupted completely or the timing protocol is operational but slaves are being provided inaccurate timing information due the degraded performance of the Master clock.
+This clock service disruption or degradation in the accuracy of time may cause DoS to applications on all the RUs that rely on accurate time, potentially bringing down the cell.
+A cell outage caused by misaligned time, may further impact performance in connected neighboring cells.
+
+Threat ID	T-SPLANE-02
+Threat title	Impersonation of a Master clock (Spoofing) within a PTP network with a fake ANNOUNCE message
+Threat description	An attacker within the PTP network can impersonate the master clock’s grandmasterIdentity value and propose himself as a grandmaster candidate by sending fake ANNOUNCE messages declaring him to be the best clock in the network. The attacker may be residing either within the attacked network (insider) or on an external network connected to the attacked network.
+This attack results in a situation where the attacker clock becomes a GM, PTP is operational, all clocks are synchronized, but the malicious GM provides intentionally inaccurate timing information.
+This degradation in the accuracy of time may cause DoS to applications on all the RUs that rely on accurate time, potentially bringing down the cell.
+A cell outage caused by misaligned time, may further impact performance in connected neighboring cells.
+
+Threat ID	T-SPLANE-03
+Threat title	A Rogue PTP Instance wanting to be a Grand Master
+Threat description	An attacker can propose himself as a grandmaster candidate by sending manipulated/malicious ANNOUNCE messages declaring him to be the best clock in the network. The attacker causes other nodes in the network to believe it is a legitimate master. The attacker is internal to the attacked PTP network and could launch this attack by either modification of in-flight protocol packets or injecting fake ANNOUNCE messages to the PTP network. It is assumed that an MITM attacker has physical access to a segment of the network or has gained control of one of the nodes in the network. This attack results in a situation where the time protocol is operational but slaves are being provided intentionally inaccurate timing information.
+This degradation in the accuracy of time may cause DoS to applications on all the RUs that rely on accurate time, potentially bringing down the cell.
+A cell outage caused by misaligned time, may further impact performance in connected neighboring cells.
+
+Threat ID	T-SPLANE-04
+Threat title	Selective interception and removal of PTP timing packets
+Threat description	An attacker can position himself in such way that allows him to intercept and remove valid synchronization packets. This leads to clock synchronization errors of all clocks downstream or makes them go into free-running mode.
+Attacks may be launched close to the GM by tapping the egress line of an active GM clock. This impacts a larger set of slaves who depend on this GM for timing synchronization.
+Attacks may also target a one or more slaves. This is done by tapping the ingress line of a particular slave(s). The impact is confined to the targeted slaves.
+Alternatively, a MiTM attacker can reside in an intermediate node such as TCs, routers and switches to launch this attack. The attacker has physical access to a node of the PTP n/w or has gained full control of one device in the network. This requires additional capability to tap the h/w where PTP timing is implemented.
+Selective interception and removal can impact timing packets and cause clock degradation in attacked nodes. Removing all packets or random packets may push the clocks in attacked nodes into free running mode
+This attack results in a situation where the time protocol is operational, but slaves are being provided intentionally inaccurate timing information.
+This degradation in the accuracy of time may cause DoS to applications on all the RUs that rely on accurate time, potentially bringing down the cell.
+A cell outage caused by misaligned time, may further impact performance in connected neighboring cells.
+
+Threat ID	T-SPLANE-05
+Threat title	Packet delay manipulation attack
+Threat description	IEEE 1588 requires symmetric delays between GM and slaves. In packet delay manipulation attacks, the attacker is positioned such a way that allows him to delay the transmission of legitimate time synchronization protocol packets to the indended destination.
+An attacker launches this attack by either tapping the transmission network or by taking control of an intermediate nodes such as routers, switches and T-TCs.
+This attack results in a situation where the time protocol is operational, but slaves are being provided intentionally inaccurate timing information.
+This degradation in the accuracy of time may cause DoS to applications on all the RUs that rely on accurate time, potentially bringing down the cell.
+A cell outage caused by misaligned time, may further impact performance in connected neighboring cells.
+
+Threat ID	T-CPLANE-01
+Threat title	Spoofing of DL C-plane messages
+Threat description	The lack of authentication could allow an adversary to inject their own DL C-plane messages that falsely claim to be from the associated O-DU. 
+As a result, it would block the O-RU from processing the corresponding U-Plane packets, leading to temporary DoS. (Dropping the entire DL C-plane messages achieves the same goal).
+
+Threat ID	T-CPLANE-02 
+Threat title	Spoofing of UL C-plane messages
+Threat description	The lack of authentication could allow an adversary to inject their own UL C-plane messages that falsely claim to be from the associated O-DU.
+As a result, temporarily limited cell performance (or even DoS) on cells served by the O-RU and in addition a consequential DoS threat to all O-RUs served by that O-DU will exist. (Dropping the entire UL C-plane messages achieves the same goal).
+
+Threat ID	T-UPLANE-01
+Threat title	An attacker attempts to intercept the Fronthaul (MITM) over U Plane
+Threat description	The High bit rate Fronthaul interface impose strict performance requirements ((bandwidth, latency, fronthaul transport link length, etc.) that limit the use of some security features, due to the increased processing delay. This opens the risk of Man-in-the-Middle (MITM) attacks over the fronthaul interface to intercept the U-Plane.
+For the transported U-Plane data an attacker could potentially do threats, such as passive wiretapping and denial of service, but would need to break PDCP Security prior to any content access.
+3GPP defines UP integrity protection algorithms in their specifications but many of the OEMs have not implemented them because of impact on the user experience (e.g. download and upload data throughputs). Enabling UP integrity protection requires considerable compute resources and adds overhead that directly impacts the maximum throughputs that can be measured on the user device. The integrity protection is enabled on the Control Plane messages but that still leaves the user’s data traffic vulnerable because the Control Plane and User Plane are segregated. For example, the lack of UP integrity could enable a rogue base station to manipulate the user data messages (i.e. DNS) and redirect a user to a malicious website. 
+
+7.4.1.3	Threats against O-RU
+7.4.1.3.1	Generic threats
+The O-RU introduces the following threats:
+Threat ID	T-ORU-01
+Threat title	An attacker stands up a false base station attack by attacking an O-RU 
+Threat description	A false base station attack occurs when an attacker masquerades as a legitimate mobile network to facilitate a Man-in-The-Middle (MiTM) attack between a subscriber’s user equipment (UE) and the mobile network. 
+There are three attack scenarios on an O-RU that enable an attacker to realize a false base station attack: 
+1.	Hijack fronthaul to realize a false base station attack: Attacker disables an operational O-RU’s access to the open fronthaul, plugs a false base station system into the operational O-RU’s fronthaul interface, and launches a false base station attack with the O-RU providing the air interface.
+2.	Recruit a standalone O-RU to realize a false base station attack: The stand-alone O-RU is an O-RU that is not operational but is available to an attacker to incorporate into a false base station system. The attacker plugs a false base station system into the standalone O-RU’s fronthaul interface and launches a false base station attack with the O-RU providing the air interface.
+3.	Gain unauthorized physical access to O-RU to realize a false base station attack: An attacker gains access to external and internal components of an O-RU (other than the open fronthaul interface), connects the O-RU under attack to a false base station system, and launches a false base station attack with the O-RU providing the air interface.
+Successful attacks may cause:
+a)	For a subscriber’s UE in attack scenarios 1, 2, and 3: the false base stations, also known as SUPI/5G-GUTI catchers, retrieves a subscriber identity by forcing a UE to attach to the false base station systems. This opens the door to subscriber identity interception/disclosure and unauthorized subscriber tracking attacks. These attacks include stealing subscriber information, tampering with transmitted information, tracking subscribers, and compromising subscriber privacy.
+b)	For the operator network: in attack scenario 1, the attacker removes the operational O-RU from providing service to UEs in the coverage area served by the operational O-RU.
+c)	For operators and vendors in attack scenarios 1, 2, and 3, the attacker recruits legitimate operator/vendor equipment for the purpose of creating a false base station attack on subscribers, possibly harming the reputation of the operator and vendor whose O-RU was used in the attack.
+NOTE: The false base station threat has existed since GSM networks and continued to evolve and persist with the evolution of mobile networks. 5G networks are expected to introduce several security enhancements over 4G and legacy networks. Despite these security enhancements, 5G networks could still be a target of false base station attacks [i.19].
+
+7.4.1.3.2	Centralized user management for the O-RU related threats
+Threat ID	T-O-RU-02
+Threat title	An attacker leverages the lack of traceability with shared user accounts
+Threat description	O-RU can be contacted via various controllers for example the SMO and/or the O-DU. This can lead to multiple users on these entities connecting to possibly the few shared local user accounts on the O-RU.
+O-RU components might be vulnerable if: 
+•	Identical local user accounts are shared across entities (e.g: SMO, O-DU) for concurrent access
+
+Threat ID	T-O-RU-03
+Threat title	An attacker manipulates initial provisioning information
+Threat description	Before the O-RU centralized user management feature is activated the initial provisioning information containing for example the IP address of the centralized authentication and authorization server needs to be configured in the O-RU. The provisioning information could be in the Software Configuration server for example and transfers the information to the O-RU
+O-RU components might be vulnerable if: 
+•	Initial provisioning information from the Software configuration server could be manipulated to point to another server rather than the centralized authentication and authorization server.
+
+Threat ID	T-O-RU-04
+Threat title	An attacker compromises O-RU user information, data integrity, confidentiality towards an external centralized authentication and authorization server
+Threat description	O-RU can connect to a external centralized authentication and authorization server. 
+The local users on the O-RU should be minimized and the centralized users should be maximized.
+Also credentials should be transferred between the O-RU and the centralized authentication and authorization and should be secure. 
+The centralized authentication and authorization should also store the credentials of the centralized users in a secure manner
+O-RU components might be vulnerable if: 
+•	O-RU credentials including account information and passwords could be mismanaged, misclassifying O-RU users between centralized and local users which could defeat the purpose of central authentication, authorization and administration
+•	Data in plain text between the O-RU and centralized Authentication and authorization server could be manipulated 
+•	O-RU related credentials can be manipulated if not stored securely in the centralised server
+
+7.4.1.4	Threats against Near-RT RIC
+Near-Real-Time (RT) RIC introduces the following threats:
+ 
+Figure 7 2 : UE Identification in Near-RT-RIC
+Threat ID	T-NEAR-RT-01
+Threat title	Malicious xApps can exploit UE identification, track UE location and change UE priority [i.12]
+Threat description	xApps in the Near-RT-RIC have the capability to manipulate behavior of a certain cell, a group of UEs, and a specific UE. A malfunctioning or unavailable root of trust could potentially cause issues on the network and compromise RAN performance, privacy, etc. For example, the xApp could track a certain subscriber or impact service for a subscriber or a dedicated area. In addition, an xApp can receive order via A1 to control a certain UE and if a malfunctioning xApp receives an order to prioritize this UE, then the owner of the malfunctioning xApp knows a VIP that they want to track is in a certain area. With this command exposure, the attacker can obtain a rough location of a very important person and change the order from prioritize to deprioritize for a UE.
+Further, E2 interface exposes UE identification that can be exploited by a malicious xApp. As the E2 interface (similar to A1 interface) can point out a certain UE in the network, this will create a correlation between the randomized (anonymized) UE identities between the RAN nodes. For example, a xApp can potentially be used as a “sniffer” for UE identification. The additional challenge for the Near-RT RIC / E2 compared to the Non-RT RIC / A1 is that more frequent signaling is expected over the E2 interface to enable near-real-time operation. Therefore, the UE identifier will be exchanged more frequently over the E2 than over the A1.
+
+
+Threat ID	T-NEAR-RT-02
+Threat title	Risk of deployment of a malicious xApp on Near-RT RIC 
+Threat description	 The security threats associated with the onboarding and deployment of malicious xApps include:
+•	Malicious xApps attaining unauthorized access to the Near-RT RIC and E2 Nodes
+•	Malicious xApps abusing radio network information and control capabilities over RAN functions
+•	Malicious xApp impacting service for a subscriber or a dedicated area
+•	Malicious xApp exploiting UE identification, tracking UE location and changing UE slice priority  
+
+Threat ID	T-NEAR-RT-03
+Threat title	Attackers exploit non authenticated, weakly or incorrectly authenticated Near-RT RIC APIs
+Threat description	Not mutually authenticating xApps and Near-RT RIC platform APIs could potentially allow attackers to perform the following type of attacks [i.20]:
+-	Operating malicious xApp claiming to be genuine in order to request certain services (theft of services) or information (data leakage)
+-	Man in the middle attacks between a genuine xApp and a Near-RT RIC platform API
+-	Querying network or UE information from a compromised xApp to Near-RT RIC platform (e.g. database via SDL API), thereby leaking potentially sensitive data about network and/or UE (potential privacy issues) 
+-	Subscribing a malicious xApp to services provided by the Near-RT RIC platform, such as API-related events notifications, discovery of APIs, E2SM, etc. 
+The use of weak credentials in the process of API authentication can compromise the overall system. The user/password combination isn’t considered safe, not only for password related attacks (e.g., brute-force), but also it would represent a high risk to allow xApps, especially 3rd party xApps, to store the user/password combo. This approach would extend the attack surface into xApps side.   
+As a reference, OWASP API Security Top 10 report [i.21] indicates that authentication mechanisms are often implemented incorrectly, allowing attackers to compromise authentication tokens or to exploit implementation flaws to assume other user's identities temporarily or permanently. Compromising system's ability to identify the client/user, compromises API security overall.
+
+Threat ID	T-NEAR-RT-04
+Threat title	Attackers exploit non authorized Near-RT RIC APIs to access to resources and services which they are not entitled to use. 
+Threat description	If the API consumers are not authorized by the API producers, attackers (e.g, malicious xApps) would potentially be able to perform the following types of attacks:
+-	Abuse and/or theft of services or information (data leakage), requesting and successfully obtaining them from the platform, e.g, in order to extract potentially sensitive information from the network and/or UEs
+-	Negatively impacting the network performance due to malicious policies over E2 Nodes
+-	Flooding the platform with resource demanding operations that may lead to a Denial of Service attack
+
+As a reference, OWASP API Security Top 10 report [i.21] indicates that ‘Broken Object Level Authorization’ has been the most common and impactful attack on APIs. Even if the application implements a proper infrastructure for authorization checks, developers might forget to use these checks before accessing a sensitive object. Unauthorized access can result in data disclosure to unauthorized parties, data loss, or data manipulation.
+In the actual context of Near-RT RIC [i.8], the platform as API producer is responsible to specify those rights/privileges for the platform services as resources to the xApps as consumers. In general, an xApp should only have the required set of permissions to perform the actions for which they are authorized, and no more. 
+NOTE: The investigation of services for which the API producer is the xApp is for further study
+
+Threat ID	T-NEAR-RT-05
+Threat title	Attackers exploit non uniquely identified xApps using a trusted xAppID to access to resources and services which they are not entitled to use. 
+Threat description	Not uniquely identifying xApps using a trusted xAppID potentially entails certain threats and potential attacks:
+-	A non-unique xAppID might cause misidentification of an xApp, possibly allowing a potentially malicious xApp to request certain services (theft of services), information (data leakage), or alter existing information
+-	A malicious xApp might use the xAppID assigned to a legitimate xApp to request services or information from Near-RT RIC platform
+-	A non-unique xApp ID could make it impossible to accurately assign actions to the correct xApp
+-	A non-unique xApp ID could make it difficult to recognize that a malicious xApp is in the environment
+
+
+7.4.1.5	Threats against Non-RT RIC
+Threats against Non-RT RIC include:
+Threat ID	T-NONRTRIC-01
+Threat title	An attacker penetrates the Non-RT RIC to cause a denial of service or degrade the performance
+Threat description	An attacker penetrates the Non-RT RIC through the SMO and attempts to trigger a Denial of Service or degrade the performance of non-RT RIC so that non-RT RIC would not be liable for ensuring:
+•	The monitoring or tracing of the network to understand the effect of the A1 policy on performance in Near-RT RIC 
+•	The update of A1 policy 
+•	The exposure and secure delivery of A1 Enrichment Information to near-RT RIC
+•	The setup of access control rules and the selection of which Enrichment Information ID (EiId) are exposed to a near-RT RIC
+
+Threat ID	T-NONRTRIC-02
+Threat title	UE tracking in the Non-RT RIC
+Threat description	An attacker gains access to the Non-RT RIC through the SMO for UE tracking. 
+
+Threat ID	T- NONRTRIC-03
+Threat title	Data Corruption/Modification 
+Threat description	An attacker gains access to the Non-RT RIC through the SMO to cause Data Corruption/Modification.
+
+Threat ID	T-NONRTRIC-04
+Threat title	Attacker exploits non-uniquely identified rApp instances
+Threat description	An attacker can exploit non-uniquely identified rApp instances using a trusted rAppID to gain unauthorized access to services and data. Potential threats and attacks include:
+-	A non-unique rAppID might cause misidentification of an rApp instance, possibly allowing a potentially malicious rApp instance to request certain services (theft of services), information (data leakage), or alter existing information
+-	A malicious rApp instance might use the rAppID assigned to a legitimate rApp instance to request access to R1 services or data
+-	A non-unique rApp ID could make it impossible to accurately assign actions to the correct rApp instance
+-	A non-unique rApp ID could make it difficult to recognize that a malicious rApp instance is in the environment
+
+7.4.1.6	Threats against xApps
+xApps introduce the following threats:
+ 
+Figure 7 3 : Near-RT-RIC and xApps conflict with gNB
+Threat ID	T-xApp-01
+Threat title	An attacker exploits xApps vulnerabilities and misconfiguration
+Threat description	Vulnerabilities can potentially exist in any xApp if it stems from an untrusted or unmaintained source. If attackers can find exploitable xApp, they can disrupt the offered network service and potentially take over another xApp or the whole near-RT RIC. 
+The actual consequences may vary. For example, an attacker may gain the ability to alter data transmitted over A1 or E2 interfaces, extract sensitive information, etc.
+Malicious xApps impact near-RT RIC functions in the purpose of performance degradation, DoS, etc.
+xAPPs have the capability to manipulate behavior of a certain cell, a group of UEs, and a specific UE. A malfunctioning xApp could potentially track a certain subscriber or impact service for a subscriber or a dedicated area [i.12].
+
+Threat ID	T-xApp-02
+Threat title	Conflicting xApps unintentionally or maliciously impact O-RAN system functions to degrade performance or trigger a DoS [i.12]
+Threat description	Conflicting xApps unintentionally or maliciously impact O-RAN system functions such as mobility management, admission controls, bandwidth management and load balancing in the purpose of performance degradation.
+There is no clear functional split between the Near-RT RIC and the O-gNB. The functional split depends on the available xApps and the capabilities exposed by the O-gNB. This creates possible conflicts between the decisions taken by the Near-RT RIC and the O-gNB that could lead to instability in the network, which introduces vulnerabilities that could be exploited by threat actors. For example, a threat actor can utilize a malicious xApp that intentionally triggers RRM decisions conflicting with the O-gNB internal decisions to create denial of service.
+
+Threat ID	T-xApp-03
+Threat title	An attacker compromises xApp isolation
+Threat description	An attacker can exploit weaknesses and vulnerabilities to compromise xApp isolation and to break out of xApp confinement. For example, attacker can use the underlying system vulnerabilities to easily breach isolation and confinement. 
+Adversary can use side effects resulting from a shared resource usage to deduce information from co-hosted xApps.
+Gaining unauthorized access to the underlying system provides new opportunities to exploit vulnerabilities in other xApps or O-RAN components to intercept and spoof network traffic, to degrade services (DoS), etc.
+
+Threat ID	T-xApp-04
+Threat title	False or malicious A1 policies from the Non-RT RIC inform behavior of xApps to trigger a DoS, affect performance, or locate a subscriber. 
+Threat description	Unauthorized access to the Non-RT RIC enables the creation of ‘false policies’ that can be issued to the Near-RT RIC for enforcement. Existing Near-RT RIC policies could also be modified to achieve a false policy. False policies passed to the Near-RT RIC would be persistent until they were modified or deleted by the Non-RT RIC or the Near-RT RIC power cycles.
+False policies can be created to have numerous impacts to the normal performance of the RAN. A single false A1 policy can target a specific UE, groups of UEs, or an entire cell. A false policy could influence the Near-RT RIC to configure the O-DU and O-RU functions to support Denial of Service (DoS) attacks by using feedback data to degrade RAN performance. 
+False policies could also be used for the purpose of locating a subscriber or group of subscribers. In this case, the false policy would cause the Near-RT RIC to isolate a subscriber in the O-CU. The Near-RT RIC could also use MIMO beamforming in the O-DU and O-RU to isolate a user onto a single beam. The data feedback from the RAN can include UE location or trajectory information from GPS data. The subscriber location would be attained from access to the Non-RT RIC in the SMO function.
+The Near-RT RIC is capable of steering traffic to achieve optimal QoS or QoE performance. A false policy could notionally cause the Near-RT RIC to steer user data to isolate the data in order to facilitate a cyber-attack.
+
+7.4.1.7	Threats against rApps
+Threats against rApps include:
+Threat ID	T-rAPP-01
+Threat title	Conflicting rApps unintentionally or maliciously impact O-RAN system functions to degrade performance or trigger a DoS
+Threat description	rApps in the Non-RT RIC can be provided by different vendors. For example, one vendor can provide the rApp for Carrier license scheduling and another vendor provide the rApp for energy saving, etc.
+This creates the risk that different rApps will take conflicting decisions at the same instance in time for the same user. Such conflicts between rApps include:
+•	Direct conflicts: different rApps request change for the same parameter.
+•	Indirect conflicts: different rApps request change to different parameters that will create opposite effects.
+•	Implicit conflicts: different rApps request change to different parameters that are not creating any obvious opposite effect but result in an overall network performance degradation, instabilities, etc. 
+These conflicts are difficult to mitigate since dependencies are impossible to observe.
+
+Threat ID	T-rAPP-02
+Threat title	An attacker exploits rApp vulnerabilities 
+Threat description	Vulnerabilities can potentially exist in any rApp. If attackers can find exploitable rApp, they can potentially force a data breach, disrupt the offered network service. and take over another rApp or the non-RT RIC. 
+The actual consequences may vary. For example, an attacker may gain the ability to alter data transmitted over A1 interface, extract sensitive information, etc.
+
+Threat ID	T-rAPP-03
+Threat title	An attacker exploits rApps misconfiguration
+Threat description	Security misconfiguration, such as open ports or enabled unused protocols, can potentially exist in an rApp. If attackers can find exploitable rApp, they can disrupt the offered network service and potentially take over another rApp or the whole non-RT RIC. 
+The actual consequences may vary. For example, an attacker may gain the ability to alter data transmitted over A1 interface, extract sensitive information, etc.
+
+Threat ID	T-rAPP-04
+Threat title	An attacker bypasses authentication and authorization
+Threat description	An Attacker can exploit an rApp that has weak or misconfigured authentication and authorization to gain access to the rApp and pose as a tenant. 
+
+Threat ID	T-rAPP-05
+Threat title	An attacker deploys and exploits malicious rApp 
+Threat description	An untrusted source may intentionally provide a malicious rApp.  A trusted source may have a backdoor intentionally inserted in the rApp.  If attackers can find exploitable rApp, they can disrupt the offered network service and potentially take over another rApp or the whole non-RT RIC. 
+Malicious rApps could impact non-RT RIC functions such as AI/ML model training, A1 policy management, Enrichment information management, Network Configuration Optimization in the purpose of performance degradation, DoS, enrichment data sniffing (UE location, trajectory, navigation information, GPS data, etc.), etc.
+
+Threat ID	T-rAPP-06
+Threat title	An attacker bypasses authentication and authorization using an injection attack
+Threat description	It is possible that an attacker to submit requests without prior authentication and authorization by executing an injection attack to manipulate configurations, access logs, perform remote code execution, etc.
+
+Threat ID	T-rAPP-07
+Threat title	rApp exploits services
+Threat description	A malicious rApp or a trusted but compromised rApp can exploit services across the R1 interface
+
+7.4.1.8	Threats against PNF
+NFs could be either VNF, CNF or PNF. Vulnerabilities of a PNF could be used as a starting point for an attack against VNFs/CNFs. 
+Threat ID	T-PNF-01
+Threat title	An attacker compromises a PNF to launch reverse attacks and other attacks against VNFs/CNFs
+ Threat description	A lack of security policies to protect mixed PNF-VNF/CNF deployments could be used to perform attacks against VNFs/CNFs, potentially taking advantage of legacy security used by PNFs and not provided by the virtualization/containerization layer.
+Attackers could use insecure interfaces as injection points and for reverse attack. 
+
+7.4.1.9	Threats against R1 interface
+The R1 interface facilitates inter-connection between rApps and Non-RT RIC framework supplied by different vendors, and provides a level of abstraction between rApps and Non-RT RIC framework/SMO that can be the consumers and or producers of R1 services. 
+
+Threat ID	T-R1-01
+Threat title	An attacker gains unauthorized access to R1 services
+Threat description	“Service management and exposure services Producer” determines whether the Service Producer is authorized to produce the service.  An attacker can perform a spoofing attack to gain unauthorized access to R1 services.
+
+Threat ID	T-R1-02
+Threat title	Attacker modifies Service Heartbeat message to cause Denial of Service
+Threat description	Attacker can exploit the Service Heartbeat on the R1 by modifying or inserting heartbeat messages to cause denial of service
+
+Threat ID	T-R1-03
+Threat title	Malicious actor bypasses authentication to Request Data 
+Threat description	Attacker can exploit password-based authentication on the R1 to request unauthorized data.  Weak password management can easily be exploited.  (Certificate-based mutual authentication using TLS and PKI X.509 certificates is recommended).
+
+Threat ID	T-R1-04
+Threat title	An attacker bypasses authorization to discover data
+Threat description	“Data registration and discovery service producer” determines whether the Data Producer is authorized to produce the data types.  An attacker can perform a spoofing attack to bypass authorization to discover available data.
+
+Threat ID	T-R1-05
+Threat title	An attacker gains unauthorized access to data
+Threat description	An attacker can perform a spoofing attack to exploit the Data request and subscription service for the purpose to gain unauthorized access to data.
+
+Threat ID	T-R1-06
+Threat title	An attacker modifies a Data Request
+Threat description	Data Consumers consume the “Data request and subscription service” to request data instances or subscribe to them.  An attacker can modify a request to force the consumer to receive a different data set then that intended.  Without checks, the received data could be processed, leading to erroneous decisions or triggers.  
+
+Threat ID	T-R1-07
+Threat title	A malicious actor snoops Data Delivery to the Data Consumer
+Threat description	Data delivery messages relate to a particular data request or subscription. The data can be delivered to the Data Consumer in different ways, including:
+ • as part of the payload of a data delivery message,
+• as a data stream,
+ • from e.g., a REST endpoint, a message bus or object store location.
+An attacker can perform snooping, injection, or modification attacks in the Delivery of Data process.  
+
+7.4.1.10	Threats against A1 interface
+A1 interface enables the Non-RT RIC function to provide policy-based guidance, ML model management and enrichment information to the Near-RT RIC function for RAN can optimization.  The Non-RT RIC can provide enrichment information over the A1 interface to support the policy enforcement in the Near-RT RIC.  The A1 interface is used for discovery, request and delivery of A1 Enrichment Information and discovery of External Enrichment Information. 
+ 
+Figure 7 4 : A1 interface between the Non-RT RIC and the Near-RT RIC
+
+Threat ID	T-A1-01
+Threat title	Untrusted peering between Non-RT-RIC and Near-RT-RIC 
+Threat description	Malicious Non-RT-RIC peers with a Near-RT-RIC over the A1 interface, or a malicious Near-RT-RIC peers with a Non-RT-RIC over the A1 interface, due to weak mutual authentication.
+
+Threat ID	T-A1-02
+Threat title	Malicious function or application monitors messaging across A1 interface
+Threat description	Internal threat actor can gain access to the messaging across the A1 interface for a MiTM attack to read policy.
+
+Threat ID	T-A1-03
+Threat title	Malicious function or application modifies messaging across A1 interface
+Threat description	Internal threat actor can gain access to the messaging across the A1 interface for a MiTM attack to modify or inject policy.  This can result in the Near-RT RIC receiving malicious policy.
+
+7.4.1.11	Threats against application life cycle
+
+Threat ID	T-AppLCM-01
+Threat title	Compromise of App/VNF/CNF update package integrity prior to onboarding
+Threat description	Attackers gains access to the SMO to modify the App/VNF/CNF update package to enable a malicious application. 
+Threat type	Tampering; Denial of Service
+Impact type	Integrity; Availability
+Affected Asset	ASSET-D-15: App/VNF/CNF software package
+
+Threat ID	T-AppLCM-02
+Threat title	Compromise of App/VNF/CNF update image integrity during instantiation 
+Threat description	Attacker gains access to the O-Cloud platform to modify the App/VNF/CNF update image to enable a malicious application. 
+Threat type	Tampering; Denial of Service
+Impact type	Integrity; Availability
+Affected Asset	ASSET-D-15: App/VNF/CNF software package
+
+
+Threat ID	T-AppLCM-03
+Threat title	Downgrade attack to vulnerable application version
+Threat description	A software version downgrade attack is a form of attack on a system that makes it abandon a more recent version of a software package in favor of an older, possibly vulnerable, version. 
+Malicious actor downgrades an application to enable exploitation of application vulnerabilities.
+Threat type	Denial of Service; Tampering
+Impact type	Availability; Integrity
+Affected Asset	ASSET-D-15: App/VNF/CNF software package
+
+
+Threat ID	T-AppLCM-04
+Threat title	Attacker exploits missing or improperly defined elements of application’s SecurityDescriptor 
+Threat description	Proper and comprehensive definition of the App/VNF/CNF package SecurityDescriptor helps ensure elements of security needed for the App/VNF/CNF package are present. If attackers can find missing or improperly defined elements of an App/VNF/CNF package SecurityDescriptor, they can exploit that to gain unauthorized access to data and services. 
+Threat type	Elevation of Privilege; Denial of Service
+Impact type	Authorization; Availability
+Affected Asset	ASSET-D-15: App/VNF/CNF software package
+
+
+Threat ID	T-AppLCM-05
+Threat title	Malicious actor modifies application’s SecurityDescriptor
+Threat description	Malicious actor modifies fields of an App/VNF/CNF package SecurityDescriptor to change security elements of the App/VNF/CNF, which could include information on encryption, algorithms, key requirements, firewall rules, etc. An attacker can modify the SecurityDescriptor to cause service disruption and gain unauthorized access to data and services.
+Threat type	Tampering; Elevation of Privilege; Denial of Service
+Impact type	Integrity; Authorization; Availability
+Affected Asset	ASSET-D-15: App/VNF/CNF software package
+
+
+Threat ID	T-AppLCM-06
+Threat title	Improper decommissioning of application  
+Threat description	The improper decommissioning of an application can lead to excessive or conflicting resource usage, accidental deletion of pertinent data (such as application data, cryptographic keys, etc.), and misallocation of resources to a malicious application. Credentials or other trust relationships may not be revoked or removed, which leaves an exposure. 
+Threat type	Denial of Service, Information Disclosure
+Impact type	Availability, Confidentiality
+Affected Asset	ASSET-C-02: Near-RT RIC software, ASSET-C-11: Non-RT RIC software, ASSET-C-09: xApps, ASSET-C-10: rApps, ASSET-C-03: O-CU-CP software, ASSET-C-04: O-CU-UP software, ASSET-C-05: O-DU software
+
+
+Threat ID	T-AppLCM-07
+Threat title	Improper deletion of application sensitive data
+Threat description	Adversary can gain access to sensitive data and secrets if an application’s data is not securely deleted. This can include access to secure artifacts such as certificates and keys.
+
+Threat type	Information Disclosure
+Impact type	Confidentiality
+Affected Asset	ASSET-D-16: X.509 certificates, ASSET-D-17: Private keys, ASSET-D-32: Cryptographic keys used during secure boot
+
+
+7.4.1.12	Threats against E2 interface
+E2 is a logical interface connecting the Near-RT RIC with an E2 Node as defined in [i.25]. The E2 functions are grouped into the following categories:
+•	Near-RT RIC Services 
+•	Near-RT RIC support functions
+
+
+Threat ID	T-E2-01
+Threat title	Untrusted Near-RT-RIC and/or E2 Nodes
+Threat description	A malicious E2 Node communicates with a Near-RT-RIC over the E2 interface, or a malicious Near-RT-RIC communicates with an E2 Node over the E2 interface, due to weak mutual authentication.
+
+Threat ID	T-E2-02
+Threat title	Malicious actor monitors messaging across E2 interface
+Threat description	Threat actor can gain access to the messaging across the E2 interface for a MiTM attack to read messages.
+
+Threat ID	T-E2-03
+Threat title	Malicious actor modifies messaging across E2 interface
+Threat description	Threat actor can gain access to the messaging across the E2 interface for a MiTM attack to modify or inject messages.  This can result in the Near-RT RIC and/or the E2 Nodes receiving malicious messages.
+
+7.4.1.13	Threats against Y1 interface
+The Near-RT RIC provides RAN analytics information (RAI) services via Y1 service interface. These services can be consumed by Y1 consumers by subscribing to or requesting the RAN analytics information via the Y1 service interface. Y1 consumers may be Application Functions (AFs) which are within an O-RAN trusted domain. AFs outside the O-RAN trusted domain may use Y1 services, too. Further details are available in the O-RAN Architecture Description [i.6], clauses 5.1 and 5.4.18.
+
+ 
+Figure 7 5 : RAN analytics information (RAI) services via Y1 service interface
+
+Malicious Y1 consumers may use their access through the Y1 interface with the intent of accessing, manipulating or negatively impacting the privacy of subscribers, the RAN or the core network. 
+
+Threat ID	T-Y1-01
+Threat title	Untrusted Near-RT-RIC and Y1 consumers
+Threat description	A Malicious Y1 consumer communicates with a Near-RT-RIC over the Y1 interface, or a malicious Near-RT-RIC communicates with a Y1 consumer over the Y1 interface, due to weak mutual authentication.
+
+Threat ID	T-Y1-02
+Threat title	Malicious actor monitors messaging across Y1 interface
+Threat description	Threat actor can gain access to the messaging across the Y1 interface for a MiTM attack to read messages.
+
+Threat ID	T-Y1-03
+Threat title	Malicious actor modifies messaging across Y1 interface
+Threat description	Threat actor can gain access to the messaging across the Y1 interface for a MiTM attack to modify or inject messages.  This can result in the Near-RT RIC and/or the Y1 consumers receiving malicious messages.

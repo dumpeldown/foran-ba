@@ -5,7 +5,20 @@
 \section{CVSS Integration}
 \label{sec:cvssIntegration}
 
-\begin{code}[caption={Quellcode zur farblichen Kategorisierung von Schweregraden}]
+\begin{table}[H]
+    \centering
+    \caption{Laufzeitanalyse beim Aufruf von \textit{nvdlib.searchCVE()}}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Parameterkonfiguration} & \textbf{Dauer} \\
+        \hline
+        Ohne Parameter                & 00h 14m 18.22s \\
+        Mit \texttt{delay=0.6}        & 00h 04m 13.23s \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{code}[caption={Implementierung der farblichen Kategorisierung von Schweregraden}]
 func ScoreColor(score float64) string {
     switch {
     case score > 7.0:

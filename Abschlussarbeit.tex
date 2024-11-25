@@ -1,4 +1,6 @@
 \documentclass[
+	12pt,
+	a4paper,
 	ngerman,
 	%twoside,
 	BCOR=8mm,
@@ -38,7 +40,7 @@
 	%content/8chapErgebnisse,
 	%content/9chapZusammenfassung,
 	%content/10chapDeclaration
-	=====
+	anhang
 }
 %
 %
@@ -59,6 +61,7 @@
 %
 \listoftables
 \listoffigures
+\lstlistoflistings %Quelltextverzeichnis
 %
 \printglossary
 \printglossary[type=\acronymtype, title={Abkürzungsverzeichnis}]
@@ -79,6 +82,7 @@
 %
 \appendix
 \addchap{Anhang}
+\include{anhang}
 \KOMAoptions{open=any}
 %
 \include{content/10chapDeclaration}
