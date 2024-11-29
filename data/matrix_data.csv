@@ -1,0 +1,39 @@
+MS_ID;MITRE_ID;NAME;TACTIC;THREAT_ID
+MS-TA9002;T1195.002, T1525;Compromised image In registry;initial-access;T-IMG-01
+MS-TA9003;;Kubeconfig file;initial-access;
+MS-TA9004;T1190;Application vulnerability;initial-access;T-IMG-01
+MS-TA9005;T1133, T1078;Exposed sensitive interfaces;initial-access, discovery;T-GEN-02
+MS-TA9006;T1609;Exec into container;execution;T-ADMIN-02, T-O2-01, T-VM-C-03, T-VM-C-04
+MS-TA9007;T1059, TT1204;Bash or cmd inside container;execution;T-VM-C-01,T-ADMIN-02, T-HW-01, T-IMG-01
+MS-TA9008;T1610, T1612;New container;execution;T-IMG-01, T-IMG-04
+MS-TA9009;T1190;Application exploit (RCE);execution;T-GEN-01
+MS-TA9010;;SSH server running inside container;execution;T-O-RAN-05
+MS-TA9011;T1610;Sidecar injection;execution;
+MS-TA9012;T1543, T1542;Backdoor container;persistence;T-VM-C-01, T-VL-02
+MS-TA9013;T1611;Writable hostPath mount;persistence, privilege-escalation, lateral-movement;T-VM-C-02
+MS-TA9014;T1053.007;Kubernetes CronJob;persistence;T-VM-C-01
+MS-TA9015;T1546;Malicious admission controller;persistence, credential-access;
+MS-TA9016;T1528;Container service account;credential-access, lateral-movement, persistence;T-GEN-02
+MS-TA9017;;Static pods;persistence;
+MS-TA9018;T1610;Privileged container;privilege-escalation;T-VM-C-01
+MS-TA9019;T1078.003;Cluster-admin binding;privilege-escalation;
+MS-TA9021;T1070;Clear container logs;defense-evasion;T-VM-C-01
+MS-TA9022;T1070;Delete Kubernetes events;defense-evasion;T-O2-01
+MS-TA9023;T1036, T1036.005;Pod or container name similarity;defense-evasion;T-VL-01, T-IMG-01
+MS-TA9024;T1090;Connect from proxy server;defense-evasion;
+MS-TA9025;T1552;List Kubernetes secrets;credential-access;T-IMG-03
+MS-TA9026;T1552;Mount service principal;credential-access;T-GEN-02
+MS-TA9027;T1552;Application credentials in configuration files;credential-access, lateral-movement;T-ADMIN-02, T-VM-C-03
+MS-TA9028;T1552;Access Managed Identity credentials;credential-access;T-GEN-02
+MS-TA9029;T1613;Access Kubernetes API server;discovery;T-O2-01
+MS-TA9030;T1613;Access Kubelet API;discovery;T-O2-01
+MS-TA9031;T1046;Network mapping;discovery;T-O2-01
+MS-TA9033;T1552;Instance Metadata API;discovery;T-VM-C-03,T-IMG-03;
+MS-TA9034;T1210;Cluster internal networking;lateral-movement;T-VM-C-02
+MS-TA9035;T1557;CoreDNS poisoning;lateral-movement;
+MS-TA9036;T1557;ARP poisoning and IP spoofing;lateral-movement;
+MS-TA9037;T1530;Images from a private registry;collection;T-IMG-01,T-IMG-04
+MS-TA9041;;Collecting data from pod;collection;T-IMG-01
+MS-TA9038;T1485;Data destruction;impact;T-VM-C-01
+MS-TA9039;T1496;Resource hijacking;impact;T-VM-C-04, T-VL-01
+MS-TA9040;T1498, T1499;Denial of service;impact;T-ADMIN-01, T-VM-C-04, T-VM-C-05
