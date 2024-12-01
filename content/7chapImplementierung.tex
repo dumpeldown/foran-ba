@@ -4,7 +4,7 @@
 \section[Anwendung von ACEMA]{Anwendung von ACEMA auf das Dashboard}
 \label{sec:impl-anwendungVonAcema}
 
-Die Funktionen, die die Datenverarbeitung aus der \verb|json| Datei vornehmen, arbeiten nicht direkt mit dem Output von \gls{acema}, sondern mit einer eigens leicht abgewandelten Version, in der nur die für das Dashboard relevanten Daten vorhanden sind. Der abgewandelten Quellcodes sind im Fork \autocite{DumpeldownAcema_oranDev} des Repositories \autocite{FklementAcema_oranCode} \todo{Und im Anhang?? Das sind aber circa 800 Zeilen Code.} verfügbar. Diese \textit{neue} Datei mit dem Suffix \textit{\_small} wird über das Ausführen von \verb|data_analysis_nb.py| erstellt. \todo{Hier erklären, welche Daten für uns im Dashboard wichtig sind und wie die Daten aus der großen json extrahiert werden und wie die durchschnittswerte gebildet werden. Wichtig erklärung: AVG Werte sind schon in der json, nicht erst im Go Code im Dashboard berechnet.}
+Die Funktionen, die die Datenverarbeitung aus der \verb|json| Datei vornehmen, arbeiten nicht direkt mit dem Output von \gls{acema} (Dateiname: \verb|t-cwe-cve-dict.json|), sondern mit einer eigens leicht abgewandelten Version, in der nur die für das Dashboard relevanten Daten vorhanden sind. Der abgewandelten Quellcodes sind im Fork \autocite{DumpeldownAcema_oranDev} des Repositories \autocite{FklementAcema_oranCode} \todo{Und im Anhang?? Das sind aber circa 800 Zeilen Code.} verfügbar. Diese \textit{neue} Datei mit dem Suffix \textit{\_small} wird über das Ausführen von \verb|data_analysis_nb.py| erstellt. Darin sind nur die Daten enthalten, die für die Integration einer Bewertung nach \gls{cvss} nötig sind. Anstatt 43 Zeilen beanspruchen die Daten über einen CVE nur noch sechs Zeilen und beschränken sich auf \gls{cve}-ID, und vier Metriken aus zwei Metrikgruppen die in \gls{cvss}\textit{v2} definiert sind \autocite{CVSSV2Complete}. Details über die Inhalte der Metrikgruppen werden in Kapitel \ref{sec:impl-cvssIntegration} beschrieben.
 
 Es wurden weitere Anpassungen des verfügbaren \gls{acema}-Quellcodes vorgenommen, die den Entwicklungsfluss vereinfachen und Verbesserungen vornehmen. Die Implementierung lässt sich in zwei Teile spalten: den \verb|Gathering|-Teil (deutsch: Sammlungsteil) und den \verb|Analysis|-Teil (deutsch: Analyseteil). Es existieren hierfür jeweils eine Datei mit den aufrufbaren Funktionen und eine andere, die die Aufrufe dieser Funktionen tätigt und prozedural ausgeführt wird und auch so gelesen werden kann.
 Die prozeduralen Teile sind im originalen Repository als \verb|jupyter notebooks| (\verb|.ipynb|-Dateien) geschrieben \autocite{FklementAcema_oranCode} \autocite{ProjectJupyter}. Diese Teil wurden zu einfacheren Ausführung in \verb|.py| Dateien konvertiert, sodass sie direkt über die Python-\gls{cli} aufrufbar sind. 
@@ -85,15 +85,77 @@ Zu Letzt muss noch das Mapping von \gls{cwe} zu \gls{cve} betrachtet werden. Die
 
 Das Mapping zwischen \gls{mitre}-Technik und \glspl{cve} ändert sich in Folge dessen nur in geringer Weise. Eine Integration der neuen Daten durch das Ausführen der \gls{acema} Skript und das Kopieren der \verb|json|-Datei in die Dashboard Verzeichnisse \verb|pkg\artifacts| und \verb|pkg\mitre| ist demnach nicht kontinuierlich, aber mit einem Abstand von ungefähr vier Monaten, angepasst an die Änderungsrate der \gls{cwe} Liste, empfehlenswert.
 
+Um die Outputdatei der verbesserten Implementierung im Dashboard nutzen zu können, wird das Paket \verb|embed| aus der Standard Bibliothek von \textit{Go} genutzt \autocite{EmbedPackageEmbed}. Dies ermöglicht es, auf die Datei zuzugreifen, nachdem das Dashboard Projekt mit \verb|go build cmd/main.go| zu einer Binärdatei kompiliert wurde. Der Quellcode in Listing \ref{list:go-embed} zeigt, wie die Datei in eine Variable gelesen wird, die ein lokales Dateisystem simuliert. Von dort kann die Datei in Objekt in die vorher definierte Struktur \verb|Data| gelesen werden. Die Variable \verb|ACEMA_DATA.Data| agiert hierbei quasi als \textit{Singleton}, die Datei wird nicht unnötig aus dem Speicher gelesen, wenn die Daten bereits in der Variable vorhanden sind. Die Funktion, in der dieser Code aus Zeile 3 bis 12 ausgeführt wird, kann also ohne Bedenken mehrfach aufgerufen werden.
 
-\section{CVSS Integration}
+\begin{code}[caption=Datei in Binardatei einbetten und in Struktur überführen.]
+    //go:embed t-cwe-cve-dict-small.json
+    var data_json embed.FS
+    if ACEMA_DATA.Data == nil {
+		fileData, err := data_json.ReadFile("t-cwe-cve-dict-small.json")
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = json.Unmarshal(fileData, &ACEMA_DATA.Data)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+\end{code}
+
+
+\section{CVSS Integration} \todo{In diesem Kapitel ist eine Umordnung von Paragraphen nötig!!}
 \label{sec:impl-cvssIntegration}
-Eine Integration mit dem \gls{cvss} ist eine grundlegende Funktion für jede Anwendung, die eine Bewertung von Schwachstellen vornimmt. Der \gls{cvss} Wert hilft dabei, schnell einen Überblick über den Schweregrad eines potentiellen Angriffs durch Ausnutzung der spezifischen Schwachstelle zubekommen. Aus diesem Grund hatte die Umsetzung von Beginn an eine hohe Priorität. Ursprünglich sollte die Bewertung nur über manuell zugeordnete \glspl{cve} vorgenommen werden, diese Ansatz stellte sich allerdings als mühsam und nicht praktikabel heraus. Über die in Kapitel \ref{sec:impl-anwendungVonAcema} beschriebene Implementierung von \gls{acema} war eine deutlich schnellere und automatisierte Anreicherung von Daten mit \glspl{cve} möglich. Die Visualisierung der \gls{cvss} Werte wurde an zwei Stellen implementiert, die im Folgenden genauer betrachtet werden.
+Eine Integration mit dem \gls{cvss} ist eine grundlegende Funktion für jede Anwendung, die eine Bewertung von Schwachstellen vornimmt. Der \gls{cvss} Wert hilft dabei, schnell einen Überblick über den Schweregrad eines potentiellen Angriffs durch Ausnutzung der spezifischen Schwachstelle zubekommen. Aus diesem Grund hatte die Umsetzung von Beginn an eine hohe Priorität. Ursprünglich sollte die Bewertung nur über manuell zugeordnete \glspl{cve} vorgenommen werden, diese Ansatz stellte sich allerdings als mühsam und nicht praktikabel heraus. Über die in Kapitel \ref{sec:impl-anwendungVonAcema} beschriebene Implementierung von \gls{acema} war eine deutlich schnellere und automatisierte Anreicherung von Daten mit \glspl{cve} möglich. Die Visualisierung von spezifischen Werten, die sich aus insgesamt sechs \gls{cvss} Metriken zusammensetzen, wurde an zwei Stellen implementiert, die im Folgenden genauer betrachtet werden.
 
-\par Die Visualisierung von einem durchschnittlichen \gls{cvss} für eine \gls{tm4k}-Technik in der Matrix ist einer der Anwendungszwecke, die durch das von \gls{acema} erstellte Mapping möglich gemacht wird. Dabei wird für eine Technik der Durchschnitt aller \gls{cvss} \textit{v2\_score} Werte in den zugeordneten \glspl{cve} gebildet. Wie bereits in Kapitel \ref{limitationen-acema} beschrieben, nutzt \gls{acema} das \gls{cvss} in \textit{Version 2}. Die Metrik \textit{v2\_score} ist dabei ein Wert aus der \textit{Gruppe der Basismetriken} und beschreibt die grundlegenden Merkmale einer Schwachstelle, die im Gegensatz zu Metriken aus der \textit{Zeitlichen Gruppe} und der \textit{Umgebungsgruppe} nicht über die Zeit verändern \autocite{CVSSV2Complete}. Die vollständigen Schritte der Zuordnung sind in Abbildung \ref{fig:mitre_mapping} dargestellt. Zu \~90\% der im Dashboard dargestellten Techniken ist eine \gls{mitre}-Technik zugeordnet  und über \gls{acema} können für diese insgesamt 306 relevante \glspl{cve} gefunden werden. Diese Menge an \glspl{cve} bietet eine ausreichende wissenschaftliche Basis zur Auswertung von \gls{cvss} Daten. 
+Die Visualisierung von einem durchschnittlichen \footnote{In diesem Kapitel wird über den Durchschnitt von Werten gesprochen, gemeint ist immer das arithmetische Mittel.} \gls{cvss} Wert für eine \gls{tm4k}-Technik in der Matrix ist einer der Anwendungszwecke, die durch das von \gls{acema} erstellte Mapping möglich gemacht wird. Dabei wird für eine Technik der Durchschnitt aller \gls{cvss} \textit{v2\_score} Werte in den zugeordneten \glspl{cve} gebildet (siehe Zeile 1 im Listing \ref{list:mean}).  Wie bereits in Kapitel \ref{limitationen-acema} beschrieben, nutzt \gls{acema} das \gls{cvss} in \textit{Version 2}. Die Metrik \textit{v2\_score} ist dabei ein Wert aus der sich aus allen vorhandenen Metriken aus den verschiedenen Metrikgruppen zusammensetzt. In der \textit{Gruppe der Basismetriken} werden die grundlegenden Merkmale einer Schwachstelle bewertet, die sich, im Gegensatz zu Metriken aus der \textit{Zeitlichen Gruppe} und der \textit{Umgebungsgruppe}, nicht über die Zeit verändern \autocite{CVSSV2Complete}. 
 
-\par Eine weitere Anwendung findet die Integration mit \gls{cvss} Daten in der Übersichtsseite eines Artefakts. Die dort angezeigten Werte sind auch wieder Durchschnittswerte, die sich aus den \glspl{cve} zusammensetzen, die genau der einen \gls{mitre}-Technik in diesem Artefakt zugeordnet wurden. Der \textit{Average Score} für ein Artefakt unterscheidet sich deshalb vom Wert der in der Matrix für die \gls{tm4k}-Technik angezeigt wird, wenn zwei verschiedene \gls{mitre}-Techniken dieser zugeordnet sind. Das ist in circa 18\% der \gls{tm4k}-Techniken der Fall. \todo{Relevanz??}
-Zusätzlich zu diesem generellen Durchschnittswert wird in der Detailansicht ein Wert dargestellt, der die Auswirkung und die Ausnutzbarkeit der zugeordneten \glspl{cve} darstellt. Diese Metriken stammen aus der \textit{Gruppe der Basismetriken} \autocite{CVSSV2Complete}.
+Bei der Ausführung von \verb|data_analysis_nb.py| wird auch für jede \gls{mitre}-Technik die Berechnung der durchschnittlichen \gls{cvss} Werte über alle gefundenen \glspl{cve} durchgeführt. In der Funktion \verb|generate_json_with_scores| werden dazu die jeweiligen Werte in einer Liste gesammelt und mithilfe der Funktion \verb|mean(list[])| aus dem Python Modul \verb|statistics| das arithmetische Mittel berechnet, wie in Listing \ref{list:mean} gezeigt.
+\begin{code}[caption=Berechnung des arithmetischen Mittels aus den CVSS Metriken mehrerer CVEs]
+    new_technique["avg_score"] = statistics.mean(all_v2_scores)
+    new_technique["avg_impact_score"] = statistics.mean(all_v2_impact_scores)
+    new_technique["avg_exploitability_score"] = statistics.mean(all_v2_exploitability_score)
+\end{code}
+\label{list:mean}
+Die arithmetischen Mittel der Metriken werden daher somit direkt in die \verb|json|-Datei geschrieben und müssen nicht bei einem Neustart des Dashboards neu berechnet werden. 
+
+Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildung \ref{fig:calc-cvss} gezeigt. Zu \~90\% der im Dashboard dargestellten Techniken ist eine \gls{mitre}-Technik zugeordnet und über \gls{acema} können für diese insgesamt 306 relevante \glspl{cve} gefunden werden. Diese Menge an \glspl{cve} bietet eine ausreichende wissenschaftliche Basis zur Auswertung von \gls{cvss} Daten. Es sind keine zu visualisierende Daten verfügbar, wenn entweder keine \glspl{cve} zu der \gls{mitre}-Technik gefunden werden oder keine \gls{mitre}-Technik zu der Technik im Dashboard zugewiesen ist. Zwei Beispiele, eins mit Daten und eines ohne, sind in Abbildung \ref{fig:technik-vis-example} abgebildet.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{technik-vis-example}
+    \caption{Visualisierung des Basiswerts für eine Technik}
+    \label{fig:technik-vis-example}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{calc-cvss}
+    \caption{Einflüsse in der Berechnung des CVSS \textit{Basisscores} über die drei Metrikgruppen}
+    \label{fig:calc-cvss}
+\end{figure}
+
+\par Eine weitere Anwendung findet die Integration mit \gls{cvss} Daten in der Übersichtsseite eines Artefakts. Die dort angezeigten Werte sind auch wieder Durchschnittswerte, die sich aus den \glspl{cve} zusammensetzen, die genau der einen \gls{mitre}-Technik in diesem Artefakt zugeordnet wurden. Zusätzlich zu dem generellen Durchschnittswert wird in der Detailansicht zwei weitere Wert dargestellt, der die Auswirkung und die Ausnutzbarkeit der zugeordneten \glspl{cve} darstellt. Einer der Werte setzt sich auf drei der Metriken aus der  \textit{Gruppe der Basismetriken} zusammen. Alle \textit{Impact} (deutsch: Auswirkung) Metriken werden zu einem \textit{v2\_impact\_score} zusammengefasst. Der andere Wert stammt aus der zweitlich veränderlichen Metrikgruppe und beschreibt die \textit{Exploitability} (deutsch: Ausnutzbarkeit) der Schwachstelle \autocite{CVSSV2Complete}. Die Bewertung der Ausnutzbarkeit verändert sich zum Beispiel, wenn ein Update für die angreifbare Software veröffentlich wird, die die Sicherheitslücke schließt. 
+Über die Darstellung der Werte wird eine gute Übersicht der Schwere einer Schwachstelle gegeben. Nach dem Basisscores sind die Angabe der Bewertung der Ausnutzbarkeit und der Auswirkungen die gängigsten Matriken. Die Berechung dieser Werte wird durch die folgenden Formeln ausgedrückt:
+
+\begin{align*}
+    \text{Auswirkungen} & = 10{,}41 \cdot \Big( 1 
+        - (1 - \text{Vertraulichkeitsverlust}) \notag \\
+        & \quad \cdot (1 - \text{Integritätsverlust}) 
+        \cdot (1 - \text{Verfügbarkeitsverlust}) \Big) \notag \\[10pt]
+    \text{Ausnutzbarkeit} & = 20 \cdot \text{Angriffsvektor} 
+        \cdot \text{Angriffskomplexität} \notag \\
+        & \quad \cdot \text{Authentifizierung} \notag \\[10pt]
+    f(\text{Auswirkungen}) & =
+    \begin{cases} 
+    0, & \text{wenn Auswirkungen} = 0, \\
+    1{,}176, & \text{sonst.}
+    \end{cases} \\
+    \text{Basisscore} & = \text{Runden auf 1 Dezimalstelle} \Bigg[ \Big( 
+        (0{,}6 \cdot \text{Auswirkungen}) \notag \\
+        & \quad + (0{,}4 \cdot \text{Ausnutzbarkeit}) - 1{,}5 \Big) 
+        \cdot f(\text{Auswirkungen}) \Bigg] \notag \\[10pt]
+\end{align*}
 
 \par In beiden Fälle ergänzt eine farbliche Darstellung die numerischen Werte. Die Implementierung im \textit{Go} Quellcode ist in Listing \ref{list:scorecolor} gezeigt. Die Schwellwerte, die ein Spektrum zu einer diskreten Farbe abbilden können hier angepasst werden. Diese Funktion wird dann über die \verb|template.FuncMap| als Funktion definiert, die direkt in einer \verb|.tmpl| Datei genutzt werden kann. \textit{Go Templates} (deutsch: Vorlagen) werden in \textit{Go} genutzt, um datengesteuert HTML-Seiten mit dynamischen Daten aus einer Datenquelle zu befüllen. Die Datenquellen sind in der Implementierung der das Dashboard Objekte oder eine Liste von Objekten vom Datentyp \verb|Tactic|, \verb|Technique| und \verb|Artifact|. Die Möglichkeit, eine Funktion über \verb|template.FuncMap| verfügbar zu machen, erweitert die Standardfunktionen der Vorlagen-Engine und erlaubt es, komplexe logische Operationen oder Formatierungen direkt im Template auszuführen. Dies führt zu einer klaren Trennung von Logik in \textit{.go} und Darstellung in \textit{.tmpl} Dateien \autocite{TemplatePackageText}.
 
@@ -120,6 +182,8 @@ Die Rückgabe der Funktion \verb|ScoreColor| wird im Template direkt als String 
     <span class="badge bg-{{ scoreColor .AvgV2Score }}">{{ .AvgV2Score }}</span>
 \end{code}
 \label{listing:template-cvss}
+
+Eine Verwendung weiterer Daten, wie weiterführende Infos über spezifische \glspl{cve} und \glspl{cwe}, die in der originalen \verb|t-cwe-cve-dict.json| Datei vorhanden sind, ist in der aktuellen Version des Dashboard nicht implementiert. \todo{In Ausblick auf dieses Thema eingehen.}
 
 \todo{Worüber kann ich hier noch mehr schreiben??}
 
