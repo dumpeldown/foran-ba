@@ -36,7 +36,9 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 %
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sortcites=true,sorting=none]{biblatex}
+\DeclareDelimFormat{multicitedelim}{\addcomma}
+\DeclareDelimFormat{compcitedelim}{\addcomma}
 \DefineBibliographyStrings{german}{%
   andothers = {{et al}\adddot}
 }
