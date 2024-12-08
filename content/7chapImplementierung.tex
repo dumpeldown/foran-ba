@@ -66,6 +66,8 @@ In der folgenden Übersicht sind die Routen dargestellt, die im Dashboard verfü
 
 \section[Anwendung von ACEMA]{Anwendung von ACEMA auf das Dashboard}
 \label{sec:impl-anwendungVonAcema}
+\todo{Dieses Kapitel benötigt noch viel Arbeit.}
+\todo{Hier muss erstmal noch erklärt werden, wie aus den in Go Code definierten Techniken der Input für ACEMA generiert wird.}
 
 Die Funktionen, die die Datenverarbeitung aus der \verb|json| Datei vornehmen, arbeiten nicht direkt mit dem Output von \gls{acema} (Dateiname: \verb|t-cwe-cve-dict.json|), sondern mit einer eigens leicht abgewandelten Version, in der nur die für das Dashboard relevanten Daten vorhanden sind. Der abgewandelten Quellcodes sind im Fork \autocite{jesseDumpeldownAcema_oranDev} des Repositories \autocite{klement2023acema} \todo{Und im Anhang?? Das sind aber circa 800 Zeilen Code.} verfügbar. Diese \textit{neue} Datei mit dem Suffix \textit{\_small} wird über das Ausführen von \verb|data_analysis_nb.py| erstellt. Darin sind nur die Daten enthalten, die für die Integration einer Bewertung nach \gls{cvss} nötig sind. Anstatt 43 Zeilen beanspruchen die Daten über einen CVE nur noch sechs Zeilen und beschränken sich auf \gls{cve}-ID, und vier Metriken aus zwei Metrikgruppen die in \gls{cvss}\textit{v2} definiert sind \autocite{CVSSV2Complete}. Details über die Inhalte der Metrikgruppen werden in Kapitel \ref{sec:impl-cvssIntegration} beschrieben.
 
@@ -299,7 +301,9 @@ Die Visualisierung des Angriffspfads bietet im Dashboard eine intuitive Darstell
 \section{Sonstige Implementierungen}
 Neben den bereits genannten Themen, wurden viele weitere kleinere Änderungen am Dashboard vorgenommen, um die Funktionalität und die Benutzererfahrung zu verbessern. Auf eine Auswahl dieser sonstigen Verbesserungen wird in diesem Kapitel eingegangen.
 
-\par Kennzeichnung der Datenquelle der Technik in der Matrix
+\par Wie in Kapitel \ref{sec:datenquellen} beschrieben, bieten sich drei wissenschaftliche Konstruktur an, aus denen Techniken in die Matrix im Dashboard übernommen werden können. Bis auf zwei Techniken können alle im Dashboard angezeigten Techniken mindestens zwei Techniken aus \gls{tm4k}, \gls{mitre} \gls{attack} Matrix und \gls{wg11} Report zugeordnet werden. Wie in \ref{sec:impl-anwendungVonAcema} beschrieben, wurde diese Zuweisung über einen Vergleich der Beschreibungen der jeweiligen Techniken manuell vorgenommen.
+Um diese Zuweisungen nicht nur ohne weitere Funktion textuell darzustellen, wurde eine Verlinkung zu weiterführenden Informationen auf den Seiten \autocite{MITREATTCK} und \autocite{TacticsThreatMatrix} hinzugefügt. Eine Onlinequelle zu den O-RAN Bedrohungen gibt es bisher nicht, diese sind alleine in einem Microsoft Word Dokument veröffentlicht. Die URL, an die nach einem Klick weitergeleitet wird, ist dynamisch aus den Daten der Technik zusammengesetzt. Für die \gls{mitre} \gls{attack} Webseite setzt sich die URL so zusammen: \verb|/techniques/:Technik-ID/:Subtechnik-ID|
+\par Microsofts \gls{tm4k} Seite nutzt für die URLs nicht die eindeutige ID, sondern den Titel der Technik. Die URL kann also wie folgt definiert werden: \verb|/techniques/:Technik-Titel|
 
 \par Zoom- und Filterverhalten in der Zeitleiste
 

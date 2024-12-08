@@ -18,27 +18,28 @@ Die Implementierung von \gls{acema} nutzt für die Bewertung das \gls{cvss} in V
 \begin{table}[H]
     \centering
     \caption{Vergleich der Daten zwischen eigener Implementierung und ACEMA Implementierung inklusive prozentualer Differenzen}
-        \begin{tikzpicture}
-            \node[draw, thick, inner sep=3mm, rectangle] (table) {
-            \begin{tabular}{|l|c|c|c|}
-            \hline
-            \textbf{Metrik} & \textbf{Eigene Impl.} & \textbf{ACEMA Impl.} & \textbf{Differenz (\%)} \\
-            \hline
-            Techniken & 27 & 27 & 0 \% \\
-            \hline
-            Techniken mit CAPEC & 14 & 3 & -75 \% \\
-            \hline
-            Einzigartige CAPECs & 25 & 6 & -76 \% \\
-            \hline
-            Einzigartige CWEs & 39 & 15 & -62 \% \\
-            \hline
-            \end{tabular}
-        };
-        \end{tikzpicture}
+    \begin{tikzpicture}
+        \node[draw, thick, inner sep=3mm, rectangle] (table) {
+        \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Metrik} & \textbf{Eigene Impl.} & \textbf{ACEMA Impl.} & \textbf{Differenz (\%)} \\
+        \hline
+        Techniken & 27 & 27 & 0 \% \\
+        \hline
+        Techniken mit CAPEC & 14 & 3 & -75 \% \\
+        \hline
+        Einzigartige CAPECs & 25 & 6 & -76 \% \\
+        \hline
+        Einzigartige CWEs & 39 & 15 & -62 \% \\
+        \hline
+        \end{tabular}
+    };
+    \end{tikzpicture}
 \label{tab:comparison_with_diff}
 \end{table}
-\section[Wissenschaftliches Ergebnis]
-\label{sec:WissenschaftlichesErgebnis}
+
+\section{Wissenschaftliches Ergebnis}
+\label{sec:WissenschaftlichesErgebnis} 
 \todo{Eventuell streichen.}
 \section{Ausblick}
 \label{sec:ausblick}
