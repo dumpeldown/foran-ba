@@ -29,17 +29,18 @@ Für das Attack-Teilvorhaben wurde ein Framework implementiert, was es ermöglic
 \label{sec:tech-dashboard}
 Das Dashboard ist ein Visualisierungtool, über das die Gesamtmenge aller Angriffssimulationen dargestellt werden kann. Für jeden Angriff werden die Metadaten und Ergebnisse textuell aufbereitet dargestellt und mit weiteren grafischen Visualisierungen, wie einem zeitlichen Verlauf, aufgewertet.
 Das Dashboard ist über einen Webserver in der Programmiersprache \textit{Go} implementiert, der serverseitig eine Darstellung der Webseite erstellt und diese beim Aufruf der spezifischen Seiten des Dashboards an den Browser des Anwenders schickt. Neben den \gls{html} Dateien werden außerdem \gls{css} und \gls{js} Dateien ausgeliefert, die für die Weboberfläche stilisieren und Fuktionalität hinzufügen, die nicht in \gls{html} ausgedrückt werden kann. Die Architektur des Dashboard basiert auf dem Hotwire (HTML-over-the-wire) Web-Framework, welches es zum Ziel hat, möglich wenig \gls{js} einzusetzen. Stattdessen werden die \gls{html} Dateien dynamisch vom Server angepasst und in wenigen Millisekunden an den Client versandt. Dieser Ansatz ist weit verbreitet und wird auch als \textit{server-sided rendering} bezeichnet \autocite{HTMLWireHotwire}. Die einzelnen Seiten, die im Dashboard aufgerufen werden können, sind in einer Übersicht in Kapitel \ref{chap:implementierung} aufgelistet.
-\todo{Hier noch weiterer ausführen, wenn nötig??}
 
 \label{bg:mitre-frameworks}
 \section{MITRE Frameworks}
 Die von \gls{mitre} zur Verfügung gestellten Werkzeuge und Kategorisierungssysteme wurden entwickelt, um Sicherheitsrisiken zu analysieren, zu bewerten und zu behandeln. Die im Folgenden beschriebenen Frameworks bieten strukturierte Daten zur Analyse von Schwachstellen, Schwachstellenkategorien und Angriffsmustern. In diesem Kapitel werden die einzelnen Frameworks beschrieben und deren Anwendungsgebiete erläutert.
 
 \subsection{MITRE ATT\&CK}
+\glsreset{attack}
 Das \gls{mitre} \gls{attack} Framework ist ein Wissensfundus, der Angreifertaktiken und -techniken dokumentiert, die auf realen Beobachtungen basieren. Es bietet eine strukturierte Möglichkeit, Angriffsmethoden zu analysieren und deren Auswirkung auf einzelne Systeme oder Infrastrukturen zu bewerten. In der aktuellen \textit{Version 16.1} enthält das Framework 14 Taktiken und 203 Techniken in der \textit{enterprise}-Matrix. Die Quelle ist aufgrund ihrer breiten Akzeptanz und der kontinuierlichen Aktualisierung durch die \gls{mitre}-Organisation als äußerst verlässlich einzustufen \autocite{MITREATTCK}. Es existieren diverse Spezialisierung der \gls{attack} Matrix, die sich auf konkrete Anwendungsfälle konzentrieren, wie zum Beispiel die \gls{mitre} \gls{atlas} Matrix. Diese beschäftigt sich insbesondere mit Angriffen auf KI-gestützte Systeme \autocite{ATLASMatrixMITRE}.
 
 \subsection{CAPEC}
 \label{bg:capec}
+\glsreset{capec}
 Das \gls{capec} Framework zielt darauf ab, Angriffsmuster systematisch zu dokumentieren und zu klassifizieren, um Sicherheitsforscher:innen und Entwickler:innen bei der Identifikation und Vermeidung von Schwachstellen zu unterstützen. Jede \gls{capec}-Instanz beschreibt ein spezifisches Angriffsmuster, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
 
 \begin{itemize}
@@ -53,6 +54,7 @@ Die Datenbank ist umfassend und bietet eine hierarchische Klassifikation der Ang
 
 \subsection{CWE}
 \label{bg:cwe}
+\glsreset{cwe}
 Die \gls{cwe} ist eine Aufzählung von häufigen Schwachstellenkategorien und Fehlermustern in Software und Hardware, die dazu dient, Sicherheitsprobleme systematisch zu identifizieren, zu dokumentieren und zu \autocite{CWEWebsite}. Jede \gls{cwe}-Instanz beschreibt eine spezifische Schwachstellenkategorie, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
 
 \begin{itemize}
@@ -64,6 +66,7 @@ Die \gls{cwe} ist eine Aufzählung von häufigen Schwachstellenkategorien und Fe
 
 \subsection{CVE}
 \label{bg:cve}
+\glsreset{cve}
 Das \gls{cve}-System ist eine standardisierte Referenzdatenbank, die bekannte Schwachstellen und Sicherheitslücken in Software und Hardware dokumentiert. Jeder \gls{cve}-Eintrag enthält spezifische Informationen zu einer identifizierten Schwachstelle und bietet eine Grundlage für die Kommunikation und Priorisierung von Sicherheitsmaßnahmen, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
 
 \begin{itemize}

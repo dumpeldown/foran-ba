@@ -5,63 +5,63 @@ In der folgenden Übersicht sind die Routen dargestellt, die im Dashboard verfü
 
 \begin{itemize}
     \item \textbf{/ (Startseite):} Statische Startseite des Dashboards mit Buttons zur Navigation zu anderen Routen.
-    
-    \item \textbf{/mitre/kubernetes\_matrix (Kubernetes Matrix):} Visualisierung der angepassten \gls{mitre} \gls{attack} Matrix.
-    \begin{itemize}
-        \item \textbf{Dynamisch erzeugt aus:}
-        \begin{itemize}
-            \item \textbf{kubernetes\_matrix.tmpl:} Nutzt die Anzahl der Taktiken und Techniken zum Aufbau der Zeilen und Spalten. 
-            \item \textbf{technique.partial.tmpl:} Füllt die Felder mit den in \verb|pkg/mitre/technique.go| definierten Techniken.
-        \end{itemize}
-    \end{itemize}
-    
-    \item \textbf{/artifacts (Artefakte - Index):} Liefert eine Liste aller Artefakte, aller Filtermöglichkeiten und einer visuellen Darstellung auf der Zeitachse.
-    \begin{itemize}
-        \item \textbf{Query-Parameter (optional):}
-        \begin{itemize}
-            \item \texttt{tool\_name} - Filtert Artefakte nach dem Namen des Tools.
-            \item \texttt{tactic} - Filtert Artefakte nach der zugehörigen Taktik.
-            \item \texttt{microsoft\_technique} - Filtert Artefakte nach Microsoft-Techniken.
-            \item \texttt{start\_date} - Filtert Artefakte nach Startzeitpunk.
-            \item \texttt{end\_date} - Filtert Artefakte nach Endzeitpunkt.
-        \end{itemize}
-        \item \textbf{Dynamisch erzeugt aus:} 
-        \begin{itemize}
-            \item \textbf{artifacts/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
-        \end{itemize}
-    \end{itemize}
-    
-    \item \textbf{/artifacts/:id (Artefakte - Details):} Liefert Details zu einem spezifischen Artefakt anhand der \texttt{id}.
-    \begin{itemize}
-        \item \textbf{Dynamisch erzeugt aus:} 
-        \begin{itemize}
-            \item \textbf{artifacts/show.tmpl:} Nutzt die Daten eines Artefaktes.
-            \item \textbf{error.tmpl:} Spezifische Fehlermeldung von \textit{Go} nach Datenbankabfrage.
-        \end{itemize}
 
-    \end{itemize}
-    
+    \item \textbf{/mitre/kubernetes\_matrix (Kubernetes Matrix):} Visualisierung der angepassten \gls{mitre} \gls{attack} Matrix.
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{kubernetes\_matrix.tmpl:} Nutzt die Anzahl der Taktiken und Techniken zum Aufbau der Zeilen und Spalten.
+                        \item \textbf{technique.partial.tmpl:} Füllt die Felder mit den in \verb|pkg/mitre/technique.go| definierten Techniken.
+                    \end{itemize}
+          \end{itemize}
+
+    \item \textbf{/artifacts (Artefakte - Index):} Liefert eine Liste aller Artefakte, aller Filtermöglichkeiten und einer visuellen Darstellung auf der Zeitachse.
+          \begin{itemize}
+              \item \textbf{Query-Parameter (optional):}
+                    \begin{itemize}
+                        \item \texttt{tool\_name} - Filtert Artefakte nach dem Namen des Tools.
+                        \item \texttt{tactic} - Filtert Artefakte nach der zugehörigen Taktik.
+                        \item \texttt{microsoft\_technique} - Filtert Artefakte nach Microsoft-Techniken.
+                        \item \texttt{start\_date} - Filtert Artefakte nach Startzeitpunk.
+                        \item \texttt{end\_date} - Filtert Artefakte nach Endzeitpunkt.
+                    \end{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{artifacts/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
+                    \end{itemize}
+          \end{itemize}
+
+    \item \textbf{/artifacts/:id (Artefakte - Details):} Liefert Details zu einem spezifischen Artefakt anhand der \texttt{id}.
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{artifacts/show.tmpl:} Nutzt die Daten eines Artefaktes.
+                        \item \textbf{error.tmpl:} Spezifische Fehlermeldung von \textit{Go} nach Datenbankabfrage.
+                    \end{itemize}
+
+          \end{itemize}
+
     \item \textbf{/campaigns (Kampagnen - Index):} Liefert eine Liste aller Kampagnen.
-    \begin{itemize}
-        \item \textbf{Dynamisch erzeugt aus:}
-        \begin{itemize}
-            \item \textbf{campaigns/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
-        \end{itemize}
-    \end{itemize}
-    
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{campaigns/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
+                    \end{itemize}
+          \end{itemize}
+
     \item \textbf{/campaigns/:id (Kampagnen - Details):} Liefert Details zu einer spezifischen Kampagne anhand der \texttt{id}.
     \item \textbf{Query-Parameter (optional):}
-        \begin{itemize}
-            \item \texttt{start\_date} - Filtert Kampagnen nach Startzeitpunk.
-            \item \texttt{end\_date} - Filtert Kampagnen nach Endzeitpunkt.
-        \end{itemize}
-    \begin{itemize}
-        \item \textbf{Dynamisch erzeugt aus:}
-        \begin{itemize}
-            \item \textbf{campaigns/show.tmpl:} Nutzt die Daten einer Kampagne.
-            \item \textbf{error.tmpl:} Spezifische Fehlermeldung von \textit{Go} nach Datenbankabfrage.
-        \end{itemize}
-    \end{itemize}
+          \begin{itemize}
+              \item \texttt{start\_date} - Filtert Kampagnen nach Startzeitpunk.
+              \item \texttt{end\_date} - Filtert Kampagnen nach Endzeitpunkt.
+          \end{itemize}
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{campaigns/show.tmpl:} Nutzt die Daten einer Kampagne.
+                        \item \textbf{error.tmpl:} Spezifische Fehlermeldung von \textit{Go} nach Datenbankabfrage.
+                    \end{itemize}
+          \end{itemize}
 \end{itemize}
 
 \section[Anwendung von ACEMA]{Anwendung von ACEMA auf das Dashboard}
@@ -85,7 +85,7 @@ Der originale Quellcode arbeitet beim Mapping von \gls{mitre}-Technik zu \gls{ca
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2.5cm and 3cm]
 
@@ -142,7 +142,7 @@ Aktuell gibt es keine Möglichkeit die \gls{acema} Python Skripte aus dem Dashbo
          & \text{Durchschnittliche Anzahl von } \frac{\glspl{cwe}}{\gls{capec}} & \quad & =
         4{,}1                                                                                              \\
          & \text{Schätzung der Anzahl der Mappings}                             & \quad & =
-        \text{Gesamtmenge von } \glspl{capec} \cdot 4{,}1                                                 \\
+        \text{Gesamtmenge von } \glspl{capec} \cdot 4{,}1                                                  \\
          &                                                                      &       & \thickapprox2300 \\
     \end{alignedat}
 \]
@@ -158,15 +158,15 @@ Um die Outputdatei der verbesserten Implementierung im Dashboard nutzen zu könn
     //go:embed t-cwe-cve-dict-small.json
     var data_json embed.FS
     if ACEMA_DATA.Data == nil {
-        fileData, err := data_json.ReadFile("t-cwe-cve-dict-small.json")
-        if err != nil {
-            log.Fatal(err)
+            fileData, err := data_json.ReadFile("t-cwe-cve-dict-small.json")
+            if err != nil {
+                    log.Fatal(err)
+                }
+            err = json.Unmarshal(fileData, &ACEMA_DATA.Data)
+            if err != nil {
+                    log.Fatal(err)
+                }
         }
-        err = json.Unmarshal(fileData, &ACEMA_DATA.Data)
-        if err != nil {
-            log.Fatal(err)
-        }
-    }
 \end{code}
 \label{list:go-embed}
 
@@ -187,7 +187,7 @@ Die arithmetischen Mittel der Metriken werden daher somit direkt in die \verb|js
 
 Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildung \ref{fig:calc-cvss} gezeigt. Zu ungefähr 90\% der im Dashboard dargestellten Techniken ist eine \gls{mitre}-Technik zugeordnet und über \gls{acema} können für diese insgesamt 306 relevante \glspl{cve} gefunden werden. Diese Menge an \glspl{cve} bietet eine ausreichende wissenschaftliche Basis zur Auswertung von \gls{cvss} Daten. Es sind keine zu visualisierende Daten verfügbar, wenn entweder keine \glspl{cve} zu der \gls{mitre}-Technik gefunden werden oder keine \gls{mitre}-Technik zu der Technik im Dashboard zugewiesen ist. Zwei Beispiele, eins mit Daten und eines ohne, sind in Abbildung \ref{fig:technik-vis-example} abgebildet.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{technik-vis-example}
     \caption{Visualisierung des Basiswerts für eine Technik}
@@ -195,7 +195,7 @@ Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildu
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{calc-cvss}
     \caption{Einflüsse in der Berechnung des CVSS \textit{Basisscores} über die drei Metrikgruppen}
@@ -228,17 +228,17 @@ Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildu
 
 \begin{code}[caption={Implementierung der farblichen Kategorisierung von Schweregraden}]
     func ScoreColor(score float64) string {
-        switch {
-            case score > 7.0:
-            return "danger"
-            case score > 3.0:
-            return "warning"
-            case score == 0.0:
-            return "secondary"
-            default:
-            return "success"
+            switch {
+                    case score > 7.0:
+                    return "danger"
+                    case score > 3.0:
+                    return "warning"
+                    case score == 0.0:
+                    return "secondary"
+                    default:
+                    return "success"
+                }
         }
-    }
 \end{code}
 \label{list:scorecolor}
 Die Darstellung von einzelnen GUI-Elementen wird durch die Nutzung von Bootstrap-Komponenten unterstützt. Bootstrap bietet unter anderem vorgefertigte \textit{Badges} (deutsch: Plaketten) an, die genutzt werden, um zum Beispiel den \gls{cvss} Wert für eine Technik in der Matrix darzustellen. Die Nutzung von \textit{Badges} ist in Abbildung \ref{fig:cvss-colors}, die zugehörige Zeile des Quellcodes in einer Template-Datei ist in Listing \ref{listing:template-cvss} gezeigt \autocite{contributorsmarkottojacobthorntonandbootstrapBadges}.
@@ -257,7 +257,7 @@ Eine Verwendung weiterer Daten, wie weiterführende Infos über spezifische \gls
 \section{Visualisierung des Angriffspfads}
 \label{sec:impl-visualisierungDesAngriffspfads}
 Die Visualisierung des Angriffspfads bietet im Dashboard eine intuitive Darstellung der Angriffssequenzen in Form eines Netzwerks, das durch Icons ergänzt wird. Der Begriff \textit{Netzwerk} meint in diesem Kontext einen gerichteten Graphen (Digraph), also einen Diagram mit Knoten und Kanten, indem die Kanten durch einen Pfeil dargestellt werden, der von einem Knoten auf einen Anderen zeigt \autocite{DigraphDefinition}. Die Darstellung erlaubt eine schnelle Erfassung der kritischen Informationen, indem sie zeigt, welches Gerät mit welchem Software-Werkzeug und welchem ausgeführten Kommando in Verbindung steht, um die Angriffssimulation auszuführen. In der Verkettung werden außerdem die Daten über das genutzte Angriffsmuster (\gls{capec}), Schwachstellenkategorie (\gls{cwe}) und letztendlich die spezifische Schwachstelle (\gls{cve}) visualisiert. Das Ergebnis ist in Abbildung \ref{fig:attack-graph} gezeigt.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{attack-graph}
     \caption{Visualisierung eines Angriffspfads}
@@ -274,24 +274,24 @@ Die Visualisierung des Angriffspfads bietet im Dashboard eine intuitive Darstell
 \par Im letzten Schritt übernimmt der \gls{js}-Controller, in diesem Fall vis\_controller.js, die Verantwortung. Dieser liest den dynamisch generierten \gls{dot}-String aus dem \gls{html}-Attribut aus und verarbeitet sie mit der Funktion \verb|parseDOTNetwork| aus dem \gls{js}-Paket vis-network weiter. Dieses Paket wandelt den \gls{dot}-Quellcode in eine visuelle Graphenstruktur um, die anschließend in das Zielelement gerendert wird. Durch die Verwendung von vis-network wird eine Darstellung gewährleistet, die es dem Nutzer erlaubt mit dem Graphen zu interagieren \autocite{VisjsVisnetwork2024}. Detailierte Informationen zu den Funktionen des Graphen wurden in Kapitel \ref{sec:auswahlDerVisualisierungstechniken} gegeben.
 \par Insgesamt bietet dieser Prozess eine effiziente Methode, um \gls{dot}-Quellcode dynamisch zu erstellen, in \gls{js} zu interaktiven Graphen zu verarbeiten und in \gls{html} visuell darzustellen.
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2cm, auto]
 
-    % Nodes
-    \node (start) [rectangle, draw, text centered] {Daten existieren in Datenbank};
-    \node (process1) [rectangle, draw,below of=start] {Dynamisches Füllen der Lücken im \gls{dot}-Template};
-    \node (process2) [rectangle, draw,below of=process1] {Setzen von \textit{Hotwire Stimulus} \verb|value| und \verb|target|};
-    \node (process3) [rectangle, draw,below of=process2] {\textit{\gls{html}} ist Transfermedium der Daten};
-    \node (process4) [rectangle, draw,below of=process3] {Verarbeitung von \gls{dot} zu \textit{Vis Network}};
-    \node (stop) [rectangle, draw,below of=process4] {Visualisierung des Graphen};
+        % Nodes
+        \node (start) [rectangle, draw, text centered] {Daten existieren in Datenbank};
+        \node (process1) [rectangle, draw,below of=start] {Dynamisches Füllen der Lücken im \gls{dot}-Template};
+        \node (process2) [rectangle, draw,below of=process1] {Setzen von \textit{Hotwire Stimulus} \verb|value| und \verb|target|};
+        \node (process3) [rectangle, draw,below of=process2] {\textit{\gls{html}} ist Transfermedium der Daten};
+        \node (process4) [rectangle, draw,below of=process3] {Verarbeitung von \gls{dot} zu \textit{Vis Network}};
+        \node (stop) [rectangle, draw,below of=process4] {Visualisierung des Graphen};
 
-    % Arrows
-    \draw [->, thick] (start) -- (process1) node[midway, left] {Schritt 1: \textit{Datenbank} nach \textit{Go}};
-    \draw [->, thick] (process1) -- (process2) node[midway, right] {Schritt 2: \textit{Go} nach \textit{Go Template}};
-    \draw [->, thick] (process2) -- (process3) node[midway, left] {Schritt 3: \textit{Go Template} nach \textit{\gls{html}-Attribut}};
-    \draw [->, thick] (process3) -- (process4) node[midway, right] {Schritt 4: \textit{\gls{html}-Attribut} nach \textit{\gls{js}}};
-    \draw [->, thick] (process4) -- (stop) node[midway, left] {Schritt 5: \textit{\gls{js}} nach \textit{\gls{html}-Element}};
+        % Arrows
+        \draw [->, thick] (start) -- (process1) node[midway, left] {Schritt 1: \textit{Datenbank} nach \textit{Go}};
+        \draw [->, thick] (process1) -- (process2) node[midway, right] {Schritt 2: \textit{Go} nach \textit{Go Template}};
+        \draw [->, thick] (process2) -- (process3) node[midway, left] {Schritt 3: \textit{Go Template} nach \textit{\gls{html}-Attribut}};
+        \draw [->, thick] (process3) -- (process4) node[midway, right] {Schritt 4: \textit{\gls{html}-Attribut} nach \textit{\gls{js}}};
+        \draw [->, thick] (process4) -- (stop) node[midway, left] {Schritt 5: \textit{\gls{js}} nach \textit{\gls{html}-Element}};
 
     \end{tikzpicture}
     \caption{Schritte zur Erstellung des Graphen}
@@ -308,7 +308,15 @@ Um diese Zuweisungen nicht nur ohne weitere Funktion textuell darzustellen, wurd
 \par Die Zuordnung zu den Quellen wird auch farblich gekennzeichnet. Wenn kein Wert angezeigt wird, ist keine weitere Zuordnung möglich.
 \subsection{Zoom- und Filterverhalten in der Zeitleiste}
 \todo{Hier erklären, warum die Dumbbells angezeigt, nur max 100 Artefakte gleichzeitig angezeigt werden.
-und verhalten der Start/Endzeit.}
+    und verhalten der Start/Endzeit.}
 
 \subsection{Vereinfachung der Datenstruktur eines Artefakts}
-Über den Zeitraum der Implementierung haben sich nicht wenige Änderungen in der Datenstruktur eines Artefakts ergeben. In einer NoSQL Datenbank muss prinzipiell keine feste Struktur vorhanden sein muss, ist jedoch für das Auslesen eines Objekts in die definierte Datenstruktur in \textit{Go} nötig. Da die Serialisierung von Python zu JSON in einer anderen Anwendung und von anderen Personen implementiert wurde als die Deserialisierung von JSON zu Go, war eine Absprache von großer Wichtigkeit. So wurde aus dem Feld \verb|mitre| mit Datentyp \verb|String| zuerst eine Liste um auch eine Zuordnung zu mehreren \gls{mitre} Techniken abbilden zu können. Später wurden alle Informationen über Techniken und Taktik in ein Feld vereint. Das Feld \verb|command| wurde angepasst, um die Ausführung mehrerer Kommandos während eines Angriffs modellieren zu können. Weitere kleinere Änderungen führten zu dem Schema, welches im Anhang \ref{app:db-schema} dargestellt ist.
+Über den Zeitraum der Implementierung haben sich nicht wenige Änderungen in der Datenstruktur eines Artefakts ergeben. In einer NoSQL Datenbank muss prinzipiell keine feste Struktur vorhanden sein muss, ist jedoch für das Auslesen eines Objekts in die definierte Datenstruktur in \textit{Go} nötig. Da die Serialisierung von Python zu JSON in einer anderen Anwendung und von anderen Personen implementiert wurde als die Deserialisierung von JSON zu Go, war eine Absprache von großer Wichtigkeit. So wurde aus dem Feld \verb|mitre| mit Datentyp \verb|String| zuerst eine Liste um auch eine Zuordnung zu mehreren \gls{mitre} Techniken abbilden zu können. Später wurden alle Informationen über Techniken und Taktik in ein Feld vereint. Das Feld \verb|command| wurde angepasst, um die Ausführung mehrerer Kommandos während eines Angriffs modellieren zu können. Weitere kleinere Änderungen führten zu dem Schema, welches im Anhang \ref{app:db-schema} dargestellt ist. Eine Erweitung dieses Schemas ist einfach möglich. Das hinzugekommene Feld muss dafür in der Datei \verb|pkg\artifacts\model.go| in der \verb|struct| Definition eines Artefakts hinzugefügt werden.
+\begin{code}[caption=Hinzufügen eines Feldes zum Schema in \textit{Go}]
+    type Artifact struct {
+            ID          primitive.ObjectID  `bson:"_id" json:"id"`
+            IP          string              `bson:"ip" json:"ip"`
+            ...
+            NewField    float64             `bson:"new_field" json:"new_field"`
+        }
+\end{code}
