@@ -154,7 +154,7 @@ Das Mapping zwischen \gls{mitre}-Technik und \glspl{cve} ändert sich infolgedes
 
 Um die Outputdatei der verbesserten Implementierung im Dashboard nutzen zu können, wird das Paket \verb|embed| aus der Standard Bibliothek von \textit{Go} genutzt \autocite{EmbedPackageEmbed}. Dies ermöglicht es, auf die Datei zuzugreifen, nachdem das Dashboard Projekt mit \verb|go build cmd/main.go| zu einer Binärdatei kompiliert wurde. Der Quellcode in Listing \ref{list:go-embed} zeigt, wie die Datei in eine Variable gelesen wird, die ein lokales Dateisystem simuliert. Von dort kann die Datei in Objekt in die vorher definierte Liste vom Datentyp \verb|ACEMA_DATA| gelesen werden. Die Variable \verb|ACEMA_DATA.Data| agiert hierbei quasi als \textit{Immutable Object} (deutsch: unveränderliches Objekt), das heißt der Wert der Datei wird während der Laufzeit einmal gesetzt und nicht mehr verändert. Die Sprache \textit{Go} hat keinen eingebauten unveränderlichen Datentyp, der die bei Laufzeit gesetzt werden kann. Außerdem wird die Datei nicht unnötig aus dem Speicher gelesen, wenn die Daten bereits in der Variable vorhanden sind. Die Datenstruktur folgt daher dem \gls{worm}-Prinzip. Ausgelesen werden die Daten mehrfach während der Visualisierung der \gls{cvss} Daten.
 
-\begin{code}[caption=Datei in Binardatei einbetten und in Struktur überführen]
+\begin{code}[caption=Datei in Binardatei einbetten und in Struktur überführen, label={list:go-embed}]
     //go:embed t-cwe-cve-dict-small.json
     var data_json embed.FS
     if ACEMA_DATA.Data == nil {
@@ -168,7 +168,6 @@ Um die Outputdatei der verbesserten Implementierung im Dashboard nutzen zu könn
                 }
         }
 \end{code}
-\label{list:go-embed}
 
 \section{CVSS Integration} \todo{In diesem Kapitel ist eine Umordnung von Paragraphen nötig!!}
 \label{sec:impl-cvssIntegration}
@@ -176,12 +175,11 @@ Eine Integration mit dem \gls{cvss} ist eine grundlegende Funktion für jede Anw
 Die Visualisierung von einem durchschnittlichen\footnote{In diesem Kapitel wird über den Durchschnitt von Werten gesprochen, gemeint ist immer das arithmetische Mittel.} \gls{cvss} Wert für eine \gls{tm4k}-Technik in der Matrix ist einer der Anwendungszwecke, die durch das von \gls{acema} erstellte Mapping möglich gemacht wird. Dabei wird für eine Technik der Durchschnitt aller \gls{cvss} \textit{v2\_score} Werte in den zugeordneten \glspl{cve} gebildet (siehe Zeile 1 im Listing \ref{list:mean}).  Wie bereits in Kapitel \ref{limitationen-acema} beschrieben, nutzt \gls{acema} das \gls{cvss} in \textit{Version 2}. Die Metrik \textit{v2\_score} ist dabei ein Wert, der sich aus allen vorhandenen Metriken aus den verschiedenen Metrikgruppen zusammensetzt. In der \textit{Gruppe der Basismetriken} werden die grundlegenden Merkmale einer Schwachstelle bewertet, die sich, im Gegensatz zu Metriken aus der \textit{zeitlichen Gruppe} und der \textit{Umgebungsgruppe}, nicht über die Zeit verändern \autocite{CVSSV2Complete}.
 
 Bei der Ausführung von \verb|data_analysis_nb.py| wird auch für jede \gls{mitre}-Technik die Berechnung der durchschnittlichen \gls{cvss} Werte über alle gefundenen \glspl{cve} durchgeführt. In der Funktion \verb|generate_json_with_scores| werden dazu die jeweiligen Werte in einer Liste gesammelt und mithilfe der Funktion \verb|mean(list[])| aus dem Python Modul \verb|statistics| das arithmetische Mittel berechnet, wie in Listing \ref{list:mean} gezeigt.
-\begin{code}[caption=Berechnung des arithmetischen Mittels aus den CVSS Metriken mehrerer CVEs]
+\begin{code}[caption=Berechnung des arithmetischen Mittels aus den CVSS Metriken mehrerer CVEs, label={list:mean}]
     new_technique["avg_score"] = statistics.mean(all_v2_scores)
     new_technique["avg_impact_score"] = statistics.mean(all_v2_impact_scores)
     new_technique["avg_exploitability_score"] = statistics.mean(all_v2_exploitability_score)
 \end{code}
-\label{list:mean}
 
 Die arithmetischen Mittel der Metriken werden daher somit direkt in die \verb|json|-Datei geschrieben und müssen nicht bei einem Neustart des Dashboards neu berechnet werden.
 
@@ -226,7 +224,7 @@ Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildu
 
 \par In beiden Fälle ergänzt eine farbliche Darstellung die numerischen Werte. Die Implementierung im \textit{Go} Quellcode ist in Listing \ref{list:scorecolor} gezeigt. Die Schwellwerte, die ein Spektrum zu einer diskreten Farbe abbilden, können hier angepasst werden. Diese Funktion wird dann über die \verb|template.FuncMap| als Funktion definiert, die direkt in einer \verb|.tmpl| Datei genutzt werden kann. \textit{Go Templates} (deutsch: Vorlagen) werden in \textit{Go} genutzt, um datengesteuert \gls{html}-Seiten mit dynamischen Daten aus einer Datenquelle zu befüllen. Die Datenquellen sind in der Implementierung der das Dashboard Objekte oder eine Liste von Objekten vom Datentyp \verb|Tactic|, \verb|Technique| und \verb|Artifact|. Die Möglichkeit, eine Funktion über \verb|template.FuncMap| verfügbar zu machen, erweitert die Standardfunktionen der Vorlagen-Engine und erlaubt es, komplexe logische Operationen oder Formatierungen direkt im Template auszuführen. Dies führt zu einer klaren Trennung von Logik in \textit{.go} und Darstellung in \textit{.tmpl} Dateien \autocite{TemplatePackageText}.
 
-\begin{code}[caption={Implementierung der farblichen Kategorisierung von Schweregraden}]
+\begin{code}[caption={Implementierung der farblichen Kategorisierung von Schweregraden}, label={list:scorecolor}]
     func ScoreColor(score float64) string {
             switch {
                     case score > 7.0:
@@ -240,15 +238,14 @@ Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildu
                 }
         }
 \end{code}
-\label{list:scorecolor}
+
 Die Darstellung von einzelnen GUI-Elementen wird durch die Nutzung von Bootstrap-Komponenten unterstützt. Bootstrap bietet unter anderem vorgefertigte \textit{Badges} (deutsch: Plaketten) an, die genutzt werden, um zum Beispiel den \gls{cvss} Wert für eine Technik in der Matrix darzustellen. Die Nutzung von \textit{Badges} ist in Abbildung \ref{fig:cvss-colors}, die zugehörige Zeile des Quellcodes in einer Template-Datei ist in Listing \ref{listing:template-cvss} gezeigt \autocite{contributorsmarkottojacobthorntonandbootstrapBadges}.
 
 Die Rückgabe der Funktion \verb|ScoreColor| wird im Template direkt als String in die Definition einer \textit{Badge} eingefügt. So lassen sich vorgefertigte Farben anhand von damit assoziierten Adjektiven auswählen. Am Beispiel von Listing \ref{listing:template-cvss} wird erkennbar, dass die Funktion \verb|scorecolor| mit dem Attribut \verb|AvgV2Score| eines Artefakts als Parameter aufgerufen wird, dessen Rückgabe die Klasse des \gls{html}-Elements \verb|span| definiert. Der tatsächliche Wert des Attributes wird dann innerhalb des Elements ausgegeben \autocite{HTMLSpanTag}.
 
-\begin{code}[caption=Aufbau eines \gls{html} Elements zur Darstellung eines CVSS Werts in einer Bootstrap Komponente]
+\begin{code}[caption=Aufbau eines \gls{html} Elements zur Darstellung eines CVSS Werts in einer Bootstrap Komponente, label={listing:template-cvss}]
     <span class="badge bg-{{ scoreColor .AvgV2Score }}">{{ .AvgV2Score }}</span>
 \end{code}
-\label{listing:template-cvss}
 
 Eine Verwendung weiterer Daten, wie weiterführende Infos über spezifische \glspl{cve} und \glspl{cwe}, die in der originalen \verb|t-cwe-cve-dict.json| Datei vorhanden sind, ist in der aktuellen Version des Dashboards nicht angedacht und daher nicht implementiert. \todo{In Ausblick auf dieses Thema eingehen.}
 
@@ -313,8 +310,8 @@ Die Zeitleiste ist ein wichtiges Feature im Dashboard. Es zeigt visuell aufberei
 \par Ein Angriff dauert in der Regel nur wenige Sekunden, eine Darstellung auf einer Zeitleiste die mehrere Stunden oder Tage umfasst ist daher schwierig. Das \gls{js} Framework \textit{Apexcharts.js}, welches für die Visualisierung der Zeitleisten verwendet wird, bietet eine Funktion die es erlaubt, auch kleinste zeitliche Abschnitte in einem großen Zeitraum zu erkennen. Die Funktion fügt zum Start- und Endzeitpunkt eines Angriffs jeweils einen Punkt hinzu, dessen Größe nicht mit der Dauer des Angriffs skaliert. In einer Übersicht über mehrere Stunden oder Tage ist jedes Artefakt mit einem gleichgroßen Punkt gekennzeichnet. Eine detailierte Ansicht kann dann über die Zoomfunktion erreicht werden. Dabei kann direkt in der Zeitliste durch \textit{Klicken-und-Ziehen} der Maus eine Zeitspanne ausgewählt werden. Diese beiden Funktionen werden über die Konfiguration in der Datei \verb|assets\js\controllers\timeline_controller.js| aktiviert.
 
 \subsection{Vereinfachung der Datenstruktur eines Artefakts}
-Über den Zeitraum der Implementierung haben sich nicht wenige Änderungen in der Datenstruktur eines Artefakts ergeben. In einer NoSQL Datenbank muss prinzipiell keine feste Struktur vorhanden sein muss, ist jedoch für das Auslesen eines Objekts in die definierte Datenstruktur in \textit{Go} nötig. Da die Serialisierung von Python zu JSON in einer anderen Anwendung und von anderen Personen implementiert wurde als die Deserialisierung von JSON zu Go, war eine Absprache von großer Wichtigkeit. So wurde aus dem Feld \verb|mitre| mit Datentyp \verb|String| zuerst eine Liste um auch eine Zuordnung zu mehreren \gls{mitre} Techniken abbilden zu können. Später wurden alle Informationen über Techniken und Taktik in ein Feld vereint. Das Feld \verb|command| wurde angepasst, um die Ausführung mehrerer Kommandos während eines Angriffs modellieren zu können. Weitere kleinere Änderungen führten zu dem Schema, welches im Anhang \ref{app:db-schema} dargestellt ist. Eine Erweitung dieses Schemas ist einfach möglich. Das hinzugekommene Feld muss dafür in der Datei \verb|pkg\artifacts\model.go| in der \verb|struct| Definition eines Artefakts hinzugefügt werden.
-\begin{code}[caption=Hinzufügen eines Feldes zum Schema in \textit{Go}]
+Über den Zeitraum der Implementierung haben sich nicht wenige Änderungen in der Datenstruktur eines Artefakts ergeben. In einer NoSQL Datenbank muss prinzipiell keine feste Struktur vorhanden sein muss, ist jedoch für das Auslesen eines Objekts in die definierte Datenstruktur in \textit{Go} nötig. Da die Serialisierung von Python zu JSON in einer anderen Anwendung und von anderen Personen implementiert wurde als die Deserialisierung von JSON zu Go, war eine Absprache von großer Wichtigkeit. So wurde aus dem Feld \verb|mitre| mit Datentyp \verb|String| zuerst eine Liste um auch eine Zuordnung zu mehreren \gls{mitre} Techniken abbilden zu können. Später wurden alle Informationen über Techniken und Taktik in ein Feld vereint. Das Feld \verb|command| wurde angepasst, um die Ausführung mehrerer Kommandos während eines Angriffs modellieren zu können. Weitere kleinere Änderungen führten zu dem Schema, welches im Anhang \ref{app:db-schema} dargestellt ist. Eine Erweitung dieses Schemas ist einfach möglich. Das hinzugekommene Feld muss dafür in der Datei \verb|pkg\artifacts\model.go| in der \verb|struct| Definition eines Artefakts hinzugefügt werden, wie in Listing \ref{list:new-field} demonstriert ist.
+\begin{code}[caption=Hinzufügen eines Feldes zum Schema in \textit{Go}, label={list:new-field}]
     type Artifact struct {
             ID          primitive.ObjectID  `bson:"_id" json:"id"`
             IP          string              `bson:"ip" json:"ip"`
