@@ -1,11 +1,11 @@
 \chapter{Implementierung}
 \label{chap:implementierung}
-\todo{Intro zur Implementierung schreiben.}
-In der folgenden Übersicht sind die Routen dargestellt, die im Dashboard verfügbar sind. Angegeben wird auch, welche Daten verwendet werden, um die Seite dynamisch mit Inhalt zu füllen.
+In diesem Kapitel wird die praktische Umsetzung der im Methodikteil beschriebenen Ansätze detailliert erläutert. Der Schwerpunkt liegt dabei auf der Anwendung und Integration der empirischen Methode \gls{acema}. Außerdem wird beschrieben, wie und wo die Integration von \gls{cvss} Daten vorgenommen wurde. Weiterhin wird auf die Visualisierung des Angriffspfads eingegangen, wodur ermöglicht. Abschließend werden zusätzliche Implementierungen vorgestellt, die die Funktionalität und Benutzerfreundlichkeit des Dashboards erweitern, darunter die Verbesserung der Zeitleistenansicht, die Vereinfachung der Datenstruktur von Artefakten sowie weiterführende Informationen zu genutzten Techniken.
+\par Grundlegend besitzt das Dashboard vier verschiedene Bereiche, die aus dem Hauptmenü angesteuert werden können. Der Bereich von Artefakten und Kampagnen ist dabei in die Übersichtsseite und die Detailsansicht zu trennen. In der folgenden Übersicht sind die Routen dargestellt, die im Dashboard verfügbar sind. Angegeben wird auch, welche Daten verwendet werden, um die Seite dynamisch mit Inhalt zu füllen.
 
 \begin{itemize}
     \item \textbf{/ (Startseite):} Statische Startseite des Dashboards mit Buttons zur Navigation zu anderen Routen.
-
+    \item \textbf{/acema (Darstellung der ACEMA Diaramme):} Enthält alle über ACEMA erstellen Diagramme als PDFs.
     \item \textbf{/mitre/kubernetes\_matrix (Kubernetes Matrix):} Visualisierung der angepassten \gls{mitre} \gls{attack} Matrix.
           \begin{itemize}
               \item \textbf{Dynamisch erzeugt aus:}
@@ -64,26 +64,36 @@ In der folgenden Übersicht sind die Routen dargestellt, die im Dashboard verfü
           \end{itemize}
 \end{itemize}
 
-\section[Anwendung von ACEMA]{Anwendung von ACEMA auf das Dashboard}
+\section{Implementierung von ACEMA}
+Die empirische Methode kann auf zwei verschiedenen Arten für das Dashboard genutzt werden. Zum einen lassen sich über die Matrixdaten aus Anhang \ref{app:mapping-dataset} sehr aussagekräftige Diagramme erstellen, die jedoch nicht direkt in die Technik- oder Artefaktdarstellung im Dashboard integriert werden. Zum anderen gibt der Output von \gls{acema} die Möglichkeit, die \gls{cvss} Daten direkt in existierende Seiten des Dashboards zu integieren und den Inhalt aufzuwerten.
+
+\subsection{Anwendung von ACEMA auf die Daten}
 \label{sec:impl-anwendungVonAcema}
-\todo{Dieses Kapitel benötigt noch viel Arbeit.}
-\todo{Hier muss erstmal noch erklärt werden, wie aus den in Go Code definierten Techniken der Input für ACEMA generiert wird.}
+Der allgemeine Ablauf der Mappings wurde in Kapitel \ref{sec:auswahlDerEmpirischenMethode} bereits angeschnitten. Es wurden zwei Grundvoraussetzungen definiert, die für die erfolgreiche Implementierung von \gls{acema} nötig sind. Die erste Voraussetzung (Zuordnung Angriffsszenario zu \gls{mitre}-Technik) wurde von den Verantwortlichen des \glspl{at} umgesetzt. Die zweite Voraussetzung bedurfte einer manuellen Zuordnung von Techniken zu O-RAN \textit{Threat-IDs}. Diese Zuordnung ist einmal manuell nötig und aufgrund der ausführlichen Beschreibungen der Techniken und \textit{Threat-IDs} gut machbar. Diese Zuordnung ist in die Datenstruktur einer Technik im Dashboard integriert. Eine Technik in der modifizierten Matrix wird wie in Listing \ref{list:def-technique} beispielhaft gezeigt definiert.
+\begin{code}[caption=Beispielhafte Definition einer Technik im Dashboard, label={list:def-technique}]
+    AddEntryToMap(
+        "MS-TA9002",                        // KEY in die Map
+        "MS-TA9002",                        // TM4K-ID
+        []string{"T1195.002", "T1525"},     // ATT&CK-Technik-IDs
+        "Compromised Image In Registry",    // Technik Name
+        []string{"initial-access"},         // ATT&CK-Taktik-Namen
+        []string{"T-IMG-01"},               // O-RAN Threat-IDs
+    )
+\end{code}
 
-Die Funktionen, die die Datenverarbeitung aus der \verb|json| Datei vornehmen, arbeiten nicht direkt mit dem Output von \gls{acema} (Dateiname: \verb|t-cwe-cve-dict.json|), sondern mit einer eigens leicht abgewandelten Version, in der nur die für das Dashboard relevanten Daten vorhanden sind. Der abgewandelten Quellcodes sind im Fork \autocite{jesseDumpeldownAcema_oranDev} des Repositories \autocite{klement2023acema} verfügbar. Diese \textit{neue} Datei mit dem Suffix \textit{\_small} wird über das Ausführen von \verb|data_analysis_nb.py| erstellt. Darin sind nur die Daten enthalten, die für die Integration einer Bewertung nach \gls{cvss} nötig sind. Anstatt 43 Zeilen beanspruchen die Daten über einen CVE nur noch sechs Zeilen und beschränken sich auf \gls{cve}-ID, und vier Metriken aus zwei Metrikgruppen die in \gls{cvss}\textit{v2} definiert sind \autocite{CVSSV2Complete}. Details über die Inhalte der Metrikgruppen werden in Kapitel \ref{sec:impl-cvssIntegration} beschrieben.
+Ein Export im \verb|csv| Format aller definierten Techniken ist in Anhang \ref{app:mapping-dataset} abgebildet. Dieser Datensatz stellt auch gleichzeitig die Eingangsdatei dar, auf dessen Basis \gls{acema} arbeitet. Der Datenexport wird erzeugt, wenn die Dashboardanwendung gestartet wird.
+\par Die Implementierung von \gls{acema} lässt sich in zwei Teile spalten: den \verb|Gathering|-Teil (deutsch: Sammlungsteil) und den \verb|Analysis|-Teil (deutsch: Analyseteil). Es existieren hierfür jeweils eine Datei mit den aufrufbaren Funktionen und eine andere, die die Aufrufe dieser Funktionen tätigt und prozedural ausgeführt wird.
 
-Es wurden weitere Anpassungen des verfügbaren \gls{acema}-Quellcodes vorgenommen, die den Entwicklungsfluss vereinfachen und Verbesserungen vornehmen. Die Implementierung lässt sich in zwei Teile spalten: den \verb|Gathering|-Teil (deutsch: Sammlungsteil) und den \verb|Analysis|-Teil (deutsch: Analyseteil). Es existieren hierfür jeweils eine Datei mit den aufrufbaren Funktionen und eine andere, die die Aufrufe dieser Funktionen tätigt und prozedural ausgeführt wird und auch so gelesen werden kann.
-Die prozeduralen Teile sind im originalen Repository als \verb|jupyter notebooks| (\verb|.ipynb|-Dateien) geschrieben \autocite{klement2023acema,ProjectJupyter}. Diese Dateien wurden zu einfacheren Ausführung in \verb|.py| Dateien konvertiert, sodass sie direkt über die Python-\gls{cli} aufrufbar sind.
-Eine vorgenommene Verbesserung bezieht sich auf die in Kapitel \ref{sec:limitationen} angesprochene Limitation der \gls{acema} Implementierung in Bezug auf die Vollständigkeit des Daten-Mappings. Es wurde bereits gezeigt, dass die im Folgenden beschriebene Verbesserung\footnote{Die \gls{acema}-Implementierung in \autocite{klement2023acema} wird als originaler Quellcode bezeichnet, die Veränderung in \autocite{jesseDumpeldownAcema_oranDev} als verbesserter Quellcode.} zu der Schöpfung einer größeren Datenmenge aus der Quelle \gls{nvd} führt (siehe Abbildung \ref{tab:comparison_with_diff}).
+\par Es wurden einige Anpassungen des verfügbaren \gls{acema}-Quellcodes vorgenommen, die den Entwicklungsfluss vereinfachen und Verbesserungen vornehmen. Eine vorgenommene Verbesserung bezieht sich auf die Vollständigkeit des Daten-Mappings. Es wird in Kapitel \ref{sec:limitationen} gezeigt, dass die im Folgenden beschriebene Verbesserung\footnote{Die \gls{acema}-Implementierung in \autocite{klement2023acema} wird als originaler Quellcode bezeichnet, die Veränderung in \autocite{jesseDumpeldownAcema_oranDev} als verbesserter Quellcode.} zu der Schöpfung einer größeren Datenmenge aus dem \gls{cti} Repository führt.
+Eine weitere Änderung betrifft die Ausführung der Python Skripte. Die prozeduralen Teile sind im originalen Repository als \verb|jupyter notebooks| (\verb|.ipynb|-Dateien) geschrieben \autocite{klement2023acema,ProjectJupyter}. Diese Dateien wurden zu einfacheren Ausführung in \verb|.py| Dateien konvertiert, sodass sie direkt über die Python-\gls{cli} aufrufbar sind. Eine Ausführung in einem Jupyter Notebook ergibt für das erstmalige Nachvollziehen oder Demonstrationszwecke Sinn, ist aber für die spätere Ausführbarkeit hinderlich.
 
-Der originale Quellcode arbeitet beim Mapping von \gls{mitre}-Technik zu \gls{capec} mit einem \verb|pandas dataframe|. \textit{Pandas} ist eine bekannte Datenanalysebibliothek für Python \autocite{PandasPythonData}. Für das Konvertieren von \gls{stix}-Daten zu einem \verb|dataframe| wird die Funktion \verb|stixToDf| des \textit{mitreattack} Modules genutzt \autocite{MitreattackpythonMitreattackAttackToExcel}. Wie bereits in Kapitel \ref{sec:limitationen} beschrieben, wird dadurch nur der \textit{enterprise-attack}-Teil der \gls{cti} Daten genutzt. Viele Beziehungen zwischen \gls{mitre}-Technik und \gls{capec} finden sich jedoch auch im \textit{capec/2.1/attack-pattern} Teil des Repositories. Deshalb nutzt die verbesserte Implementierung die Datensätze aus beiden Teilen. Auch wurde ein anderer Ansatz zur Verarbeitung der einzelnen \verb|json|-Dateien angewandt. Anstatt der Konvertierung zu einem mächtigen \verb|dataframe| der alle Daten enthält, werden die \gls{stix}-Daten aus jeder \verb|json|-Datei einzeln geladen und der Inhalt der \gls{stix}-Objekte über \verb|stix_data.get()| ausgelesen \autocite{OasisopenCtipythonstix2OASIS}. Die genaue Abfolge der abgefragten Kriterien bis zum Finden eines Mappings in Abbildung \ref{fig:detailed-mapping} ist als detaillierte Ansicht des Schrittes 1 in Abbildung \ref{fig:mitre_mapping} zu verstehen.
+Der originale Quellcode arbeitet beim Mapping von \gls{mitre}-Technik zu \gls{capec} mit einem \verb|pandas dataframe|. \textit{Pandas} ist eine bekannte Datenanalysebibliothek für Python \autocite{PandasPythonData}. Für das Konvertieren von \gls{stix}-Daten zu einem \verb|dataframe| wird die Funktion \verb|mitreattack.stixToDf| genutzt \autocite{MitreattackpythonMitreattackAttackToExcel}. Es wird dadurch nur der \textit{enterprise-attack}-Teil der \gls{cti} Daten genutzt. Viele Beziehungen zwischen \gls{mitre}-Technik und \gls{capec} finden sich jedoch auch im \textit{capec/2.1/attack-pattern} Teil des Repositories. Diese Limitation bringt signifikant weniger Mappings zum Vorschein, wie empirisch in Kapitel \ref{limitationen-acema} gezeigt wird. Deshalb nutzt die verbesserte Implementierung die Datensätze aus beiden Teilen. Auch wurde ein anderer Ansatz zur Verarbeitung der einzelnen \verb|json|-Dateien angewandt. Anstatt der Konvertierung zu einem mächtigen \verb|dataframe| der alle Daten enthält, werden die \gls{stix}-Daten aus jeder \verb|json|-Datei einzeln geladen und der Inhalt der \gls{stix}-Objekte über \verb|stix_data.get()| ausgelesen \autocite{OasisopenCtipythonstix2OASIS}. Die genaue Abfolge der abgefragten Kriterien bis zum Finden eines Mappings in Abbildung \ref{fig:detailed-mapping} ist als detaillierte Ansicht des Schrittes 1 in Abbildung \ref{fig:mitre_mapping} zu verstehen.
 
 \usetikzlibrary{shapes.geometric, arrows}
-
 \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=0cm, minimum height=0cm, text centered, draw=black, fill=red!30]
 \tikzstyle{process} = [rectangle, minimum width=0cm, minimum height=0cm, text centered, draw=black, fill=blue!30]
 \tikzstyle{decision} = [diamond, minimum width=0cm, minimum height=0cm, text centered, draw=black, fill=green!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
-
 
 \begin{figure}[H]
     \centering
@@ -132,46 +142,54 @@ Der originale Quellcode arbeitet beim Mapping von \gls{mitre}-Technik zu \gls{ca
     \label{fig:detailed-mapping}
 \end{figure}
 
-Wenn alle Mappings über die verbesserte Implementierung gefunden wurden, werden die Ergebnisse mit den Ergebnissen aus der originalen Implementierung zusammengeführt. Dadurch ergibt sich das komplette Mapping von \gls{mitre}-Technik zu \gls{capec}. Für die anderen Schritte des Mappings wurden keine Verbesserungsmöglichkeiten gefunden, daher sind die Funktionen aus dem originalen Quellcode beibehalten worden.
+Wenn alle Mappings über die verbesserte Implementierung gefunden wurden, werden die Ergebnisse mit den Ergebnissen aus der originalen Implementierung zusammengeführt. Dadurch ergibt sich das komplette Mapping von \gls{mitre}-Technik zu \gls{capec}. Für die anderen Schritte des Mappings wurden keine Verbesserungsmöglichkeiten gefunden, daher sind die Funktionen aus dem originalen Quellcode beibehalten worden. Die Ausgabe der \gls{acema} Ausführung ist eine Datei im \verb|json| Format. Ein beispielhafter Auszug aus dieser Datei ist im Anhang \ref{app:acema-output} dargestellt. Bis zur Erstellung dieser Datei vergingen beim letzten Durchlauf knapp unter 40 Minuten. Das ist der hohen Anzahl der \glspl{cve} geschuldet, für die jeweils eine Anfrage an die \gls{nvd} geschickt wird. Die Dokumentation der \gls{nvd} Schnittstelle empfiehlt eine Wartezeit von sechs Sekunden zwischen Anfragen \autocite{DevelopersStartHere}.
+\[353 \text{ CVEs} \cdot 6 \text{ Sekunden Wartezeit} \thickapprox 35 min \]
 
-Aktuell gibt es keine Möglichkeit die \gls{acema} Python Skripte aus dem Dashboard heraus auszuführen, um eine neue Datensammlung oder Datenauswertung zu starten. Die Änderungsrate der Daten ist zudem eher gering. Die \gls{mitre}-Techniken im Dashboard sind quasi statisch, da sie sich an den implementieren Szenarien des \glspl{at} und dem \gls{attack}-Framework in Version \textit{16.1}orientieren. Insgesamt umfasst die Gesamtmenge aller \glspl{capec} 559 in \gls{capec} Version \textit{3.9}, wobei seit Januar 2023 nur vier neue (+0,7\%) hinzugefügt wurden. Auch die Veränderung im Mapping zwischen \gls{capec} und \gls{cwe} ist gut dokumentiert auf der \gls{capec} Webseite einsehbar. Hier ist eine Veränderung von 59 neu hinzugefügten Mapping in Version \textit{3.9} vor dem Hintergrund der Gesamtmenge auch eine sehr kleine Veränderung. Die Gesamtmenge der \gls{capec}-zu-\gls{cwe}-Mappings lässt sich anhand folgender Daten aus dem Testdatensatz in Anhang \ref{app:mapping-dataset} und den Werten aus \autocite{CAPECNewsEvents} schätzen:
+Der Output des \textit{Gathering} Skripts wird für die Analyse der Daten verwendet, um verschiedene Arten von Diagrammen zu erzeugen. Auf die Erkenntnisse, die man aus diesen Diagrammen gewinnen kann, wird in Kapitel \ref{sec:interpretation} eingegangen. Alle Diagramme können auch im Dashboard angezeigt werden. Dazu wurde die Seite \verb|/acema| erstellt, die alle pdf-Dateien aus dem Ordner \verb|public\data| enthält.
+
+\par Aktuell gibt es keine Möglichkeit die \gls{acema} Python Skripte aus dem Dashboard heraus auszuführen, um eine neue Datensammlung oder Datenauswertung zu starten. Die Änderungsrate der Daten ist zudem eher gering. Die \gls{mitre}-Techniken im Dashboard sind quasi statisch, da sie sich an den implementieren Szenarien des \glspl{at} und dem \gls{attack}-Framework in Version \textit{16.1}orientieren. Insgesamt umfasst die Gesamtmenge aller \glspl{capec} 559 in \gls{capec} Version \textit{3.9}, wobei seit Januar 2023 nur vier neue (+0,7\%) hinzugefügt wurden. Auch die Veränderung im Mapping zwischen \gls{capec} und \gls{cwe} ist gut dokumentiert auf der \gls{capec} Webseite einsehbar. Hier ist eine Veränderung von 59 neu hinzugefügten Mapping in Version \textit{3.9} vor dem Hintergrund der Gesamtmenge auch eine sehr kleine Veränderung. Die Gesamtmenge der \gls{capec}-zu-\gls{cwe}-Mappings lässt sich anhand folgender Daten aus dem Testdatensatz in Anhang \ref{app:mapping-dataset} und dem Wert aus \autocite{CAPECNewsEvents} schätzen:
 \[
     \begin{alignedat}{2}
-         & \text{Anzahl von } \glspl{capec} \text{ in Testdatensatz}            & \quad & = 29             \\
-         & \text{Anzahl von } \glspl{cwe} \text{ in Testdatensatz}              & \quad & = 119            \\
-         & \text{Durchschnittliche Anzahl von } \frac{\glspl{cwe}}{\gls{capec}} & \quad & =
+         & \text{Anzahl von CAPEC in Testdatensatz}            & \quad & = 29             \\
+         & \text{Anzahl von CWE in Testdatensatz}              & \quad & = 119            \\
+         & \text{Durchschnittliche Anzahl von } \frac{\text{CWEs}}{\text{CAPEC}} & \quad & =
         4{,}1                                                                                              \\
-         & \text{Schätzung der Anzahl der Mappings}                             & \quad & =
-        \text{Gesamtmenge von } \glspl{capec} \cdot 4{,}1                                                  \\
+        & \text{Gesamtmenge aller CAPECs}                        & \quad & = 559 \\
+        & \text{Schätzung der Anzahl der Mappings}                             & \quad & =
+         559 \cdot 4{,}1                                                  \\
          &                                                                      &       & \thickapprox2300 \\
     \end{alignedat}
 \]
 Zu einem ähnlichen Wert von 1700 bis 2800 kommt auch OpenAI ChatGPT 4o, wobei dort mit Werten von 3 bis 5 für die Anzahl der durchschnittlichen \glspl{cwe} pro \gls{capec} gerechnet wird \autocite{openaichatgpt4oCAPECCWEMapping2024}.
 
-Zu Letzt muss noch das Mapping von \gls{cwe} zu \gls{cve} betrachtet werden. Die Daten dazu stammen aus der \gls{mitre} \gls{cwe} Liste und werden mehrmals jährlich, ungefähr alle vier Monate aktualisiert \autocite{CWEDownloads,AIWorkingGroupMeeting_slides20241115_CWEAIWGpdf2024}.
+Zuletzt muss noch das Mapping von \gls{cwe} zu \gls{cve} betrachtet werden. Die Daten dazu stammen aus der \gls{mitre} \gls{cwe} Liste und werden mehrmals jährlich, ungefähr alle vier Monate aktualisiert \autocite{CWEDownloads,AIWorkingGroupMeeting_slides20241115_CWEAIWGpdf2024}.
 
 Das Mapping zwischen \gls{mitre}-Technik und \glspl{cve} ändert sich infolgedessen nur in geringer Weise. Eine Integration der neuen Daten durch das Ausführen der \gls{acema} Skript und das Kopieren der \verb|json|-Datei in die Dashboardverzeichnisse \verb|pkg\artifacts| und \verb|pkg\mitre| ist demnach nicht kontinuierlich, aber mit einem Abstand von ungefähr vier Monaten, angepasst an die Änderungsrate der \gls{cwe} Liste, empfehlenswert.
 
-Um die Outputdatei der verbesserten Implementierung im Dashboard nutzen zu können, wird das Paket \verb|embed| aus der Standard Bibliothek von \textit{Go} genutzt \autocite{EmbedPackageEmbed}. Dies ermöglicht es, auf die Datei zuzugreifen, nachdem das Dashboard Projekt mit \verb|go build cmd/main.go| zu einer Binärdatei kompiliert wurde. Der Quellcode in Listing \ref{list:go-embed} zeigt, wie die Datei in eine Variable gelesen wird, die ein lokales Dateisystem simuliert. Von dort kann die Datei in Objekt in die vorher definierte Liste vom Datentyp \verb|ACEMA_DATA| gelesen werden. Die Variable \verb|ACEMA_DATA.Data| agiert hierbei quasi als \textit{Immutable Object} (deutsch: unveränderliches Objekt), das heißt der Wert der Datei wird während der Laufzeit einmal gesetzt und nicht mehr verändert. Die Sprache \textit{Go} hat keinen eingebauten unveränderlichen Datentyp, der die bei Laufzeit gesetzt werden kann. Außerdem wird die Datei nicht unnötig aus dem Speicher gelesen, wenn die Daten bereits in der Variable vorhanden sind. Die Datenstruktur folgt daher dem \gls{worm}-Prinzip. Ausgelesen werden die Daten mehrfach während der Visualisierung der \gls{cvss} Daten.
+
+\subsection{CVSS Integration} \todo{In diesem Kapitel ist eine Umordnung von Paragraphen nötig!!}
+\label{sec:impl-cvssIntegration}
+Eine Integration mit dem \gls{cvss} ist eine grundlegende Funktion für jede Anwendung, die eine Bewertung von Schwachstellen vornimmt. Der \gls{cvss} Wert hilft dabei, schnell einen Überblick über den Schweregrad eines potenziellen Angriffs durch Ausnutzung der spezifischen Schwachstelle zubekommen. Aus diesem Grund hatte die Umsetzung von Beginn an eine hohe Priorität. Ursprünglich sollte die Bewertung nur über manuell zugeordnete \glspl{cve} vorgenommen werden, dieser Ansatz stellte sich allerdings als mühsam und nicht praktikabel heraus. Über die in Kapitel \ref{sec:impl-anwendungVonAcema} beschriebene Implementierung von \gls{acema} war eine deutlich schnellere und automatisierte Anreicherung von Daten mit \glspl{cve} möglich. Die Visualisierung von spezifischen Werten, die sich aus insgesamt sechs \gls{cvss} Metriken zusammensetzen, wurde an zwei Stellen implementiert, die im Folgenden genauer betrachtet werden.
+Der in Listing \ref{list:go-embed} dargestellte und im nachfolgenden Kapitel beschriebene \textit{Go} QUellcode arbeiten nicht direkt mit dem originalen Output von \gls{acema} (Dateiname: \verb|t-cwe-cve-dict.json|), sondern mit einer eigens leicht abgewandelten Version, in der nur die für das Dashboard relevanten Daten vorhanden sind. Der abgewandelten Quellcodes sind im Fork \autocite{jesseDumpeldownAcema_oranDev} des Repositories \autocite{klement2023acema} verfügbar. Diese \textit{neue} Datei mit dem Suffix \textit{\_small} wird über das Ausführen von \verb|data_analysis_nb.py| erstellt. Darin sind nur die Daten enthalten, die für die Integration einer Bewertung nach \gls{cvss} nötig sind, wie in Anhang \ref{app:acema-output-small} zu erkennen ist. Die enthaltenen Daten beschränken sich auf \gls{mitre} Technik-ID, \gls{capec}-ID, \gls{cwe}-ID, \gls{cve}-ID, und vier Metriken aus zwei Metrikgruppen die in \gls{cvss}\textit{v2} definiert sind \autocite{CVSSV2Complete}. Details über die Inhalte der Metrikgruppen werden in diesem Kapitel tiefergehend gegeben.
+
+\par Um die Outputdatei mit den relevanten Daten im Dashboard nutzen zu können, wird das Paket \verb|embed| aus der Standard Bibliothek von \textit{Go} genutzt \autocite{EmbedPackageEmbed}. Dies ermöglicht es, auf die Datei zuzugreifen, nachdem das Dashboard Projekt mit \verb|go build cmd/main.go| zu einer Binärdatei kompiliert wurde. Der Quellcode in Listing \ref{list:go-embed} zeigt, wie die Datei in eine Variable gelesen wird, die ein lokales Dateisystem simuliert. Von dort kann die Datei in Objekt in die vorher definierte Liste vom Datentyp \verb|ACEMA_DATA| gelesen werden. Die Variable \verb|ACEMA_DATA.Data| agiert hierbei quasi als \textit{Immutable Object} (deutsch: unveränderliches Objekt), das heißt der Wert der Datei wird während der Laufzeit einmal gesetzt und nicht mehr verändert. Die Sprache \textit{Go} hat keinen eingebauten unveränderlichen Datentyp, der die bei Laufzeit gesetzt werden kann. Außerdem wird die Datei nicht unnötig aus dem Speicher gelesen, wenn die Daten bereits in der Variable vorhanden sind. Die Datenstruktur folgt daher dem \gls{worm}-Prinzip. Ausgelesen werden die Daten mehrfach während der Visualisierung der \gls{cvss} Daten.
 
 \begin{code}[caption=Datei in Binardatei einbetten und in Struktur überführen, label={list:go-embed}]
     //go:embed t-cwe-cve-dict-small.json
     var data_json embed.FS
     if ACEMA_DATA.Data == nil {
-            fileData, err := data_json.ReadFile("t-cwe-cve-dict-small.json")
-            if err != nil {
-                    log.Fatal(err)
-                }
-            err = json.Unmarshal(fileData, &ACEMA_DATA.Data)
-            if err != nil {
-                    log.Fatal(err)
-                }
-        }
+        fileData, err := data_json.ReadFile("t-cwe-cve-dict-small.json")
+        if err != nil {
+                log.Fatal(err)
+            }
+        err = json.Unmarshal(fileData, &ACEMA_DATA.Data)
+        if err != nil {
+                log.Fatal(err)
+            }
+    }
 \end{code}
 
-\section{CVSS Integration} \todo{In diesem Kapitel ist eine Umordnung von Paragraphen nötig!!}
-\label{sec:impl-cvssIntegration}
-Eine Integration mit dem \gls{cvss} ist eine grundlegende Funktion für jede Anwendung, die eine Bewertung von Schwachstellen vornimmt. Der \gls{cvss} Wert hilft dabei, schnell einen Überblick über den Schweregrad eines potenziellen Angriffs durch Ausnutzung der spezifischen Schwachstelle zubekommen. Aus diesem Grund hatte die Umsetzung von Beginn an eine hohe Priorität. Ursprünglich sollte die Bewertung nur über manuell zugeordnete \glspl{cve} vorgenommen werden, dieser Ansatz stellte sich allerdings als mühsam und nicht praktikabel heraus. Über die in Kapitel \ref{sec:impl-anwendungVonAcema} beschriebene Implementierung von \gls{acema} war eine deutlich schnellere und automatisierte Anreicherung von Daten mit \glspl{cve} möglich. Die Visualisierung von spezifischen Werten, die sich aus insgesamt sechs \gls{cvss} Metriken zusammensetzen, wurde an zwei Stellen implementiert, die im Folgenden genauer betrachtet werden.
+
 Die Visualisierung von einem durchschnittlichen\footnote{In diesem Kapitel wird über den Durchschnitt von Werten gesprochen, gemeint ist immer das arithmetische Mittel.} \gls{cvss} Wert für eine \gls{tm4k}-Technik in der Matrix ist einer der Anwendungszwecke, die durch das von \gls{acema} erstellte Mapping möglich gemacht wird. Dabei wird für eine Technik der Durchschnitt aller \gls{cvss} \textit{v2\_score} Werte in den zugeordneten \glspl{cve} gebildet (siehe Zeile 1 im Listing \ref{list:mean}).  Wie bereits in Kapitel \ref{limitationen-acema} beschrieben, nutzt \gls{acema} das \gls{cvss} in \textit{Version 2}. Die Metrik \textit{v2\_score} ist dabei ein Wert, der sich aus allen vorhandenen Metriken aus den verschiedenen Metrikgruppen zusammensetzt. In der \textit{Gruppe der Basismetriken} werden die grundlegenden Merkmale einer Schwachstelle bewertet, die sich, im Gegensatz zu Metriken aus der \textit{zeitlichen Gruppe} und der \textit{Umgebungsgruppe}, nicht über die Zeit verändern \autocite{CVSSV2Complete}.
 
 Bei der Ausführung von \verb|data_analysis_nb.py| wird auch für jede \gls{mitre}-Technik die Berechnung der durchschnittlichen \gls{cvss} Werte über alle gefundenen \glspl{cve} durchgeführt. In der Funktion \verb|generate_json_with_scores| werden dazu die jeweiligen Werte in einer Liste gesammelt und mithilfe der Funktion \verb|mean(list[])| aus dem Python Modul \verb|statistics| das arithmetische Mittel berechnet, wie in Listing \ref{list:mean} gezeigt.
@@ -248,8 +266,6 @@ Die Rückgabe der Funktion \verb|ScoreColor| wird im Template direkt als String 
 \end{code}
 
 Eine Verwendung weiterer Daten, wie weiterführende Infos über spezifische \glspl{cve} und \glspl{cwe}, die in der originalen \verb|t-cwe-cve-dict.json| Datei vorhanden sind, ist in der aktuellen Version des Dashboards nicht angedacht und daher nicht implementiert.
-
-\todo{Worüber kann ich hier noch mehr schreiben??}
 
 \section{Visualisierung des Angriffspfads}
 \label{sec:impl-visualisierungDesAngriffspfads}

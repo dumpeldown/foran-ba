@@ -1,0 +1,64 @@
+{
+ "scan_date": "2024-12-10",
+ "scan_runtime": "00h 38m and 35.43s",
+ "data": [
+  {
+   "technique_id": "T1485",
+   "t_findings": []
+  },
+  {
+   "technique_id": "T1070",
+   "t_findings": [
+    {
+     "capec_id": "CAPEC-268",
+     "c_findings": [
+      {
+       "cwe": "CWE-117",
+       "cves": [
+        {
+         "cve_id": "CVE-2006-4624",
+         "score": [
+          "V2",
+          2.6,
+          "LOW"
+         ],
+         "v2_score": 2.6,
+         "v2_exploitability_score": 4.9,
+         "v2_impact_score": 2.9,
+         "v2_vector": "AV:N/AC:H/Au:N/C:N/I:P/A:N",
+         "access_vector": "NETWORK",
+         "full_metrics": [
+          {
+           "source": "nvd@nist.gov",
+           "type": "Primary",
+           "cvssData": {
+            "version": "2.0",
+            "vectorString": "AV:N/AC:H/Au:N/C:N/I:P/A:N",
+            "baseScore": 2.6,
+            "accessVector": "NETWORK",
+            "accessComplexity": "HIGH",
+            "authentication": "NONE",
+            "confidentialityImpact": "NONE",
+            "integrityImpact": "PARTIAL",
+            "availabilityImpact": "NONE"
+           },
+           "baseSeverity": "LOW",
+           "exploitabilityScore": 4.9,
+           "impactScore": 2.9,
+           "acInsufInfo": false,
+           "obtainAllPrivilege": false,
+           "obtainUserPrivilege": false,
+           "obtainOtherPrivilege": false,
+           "userInteractionRequired": true
+          }
+         ],
+         "description": "CRLF injection vulnerability in...", 
+         "cpe_vulnerable": true,
+         "cpe_criteria": "cpe:2.3:a:gnu:mailman:*:*:*:*:*...",
+         "published": "2006-09-07T19:04:00.000",
+         "last_modified": "2024-11-21T00:16:24.163"
+        }
+       ]
+      }
+     ]
+    },

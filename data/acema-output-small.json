@@ -1,0 +1,28 @@
+{
+ "data": [
+  {
+   "technique_id": "T1485",
+   "t_findings": [],
+   "avg_score": 0,
+   "avg_impact_score": 0,
+   "avg_exploitability_score": 0
+  },
+  {
+   "technique_id": "T1070",
+   "t_findings": [
+    {
+     "capec_id": "CAPEC-268",
+     "c_findings": [
+      {
+       "cwe": "CWE-117",
+       "cves": [
+        {
+         "id": "CVE-2006-4624",
+         "v2_score": 2.6,
+         "v2_impact_score": 2.9,
+         "v2_exploitability_score": 4.9
+        }
+       ]
+      }
+     ]
+    },
