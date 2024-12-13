@@ -24,7 +24,7 @@ In der Arbeit werden verschiedene Quellcodes referenziert. Es folgt eine Auflist
 \newgeometry{left=0.05cm,bottom=0.1cm, right=1cm}
 \label{app:mapping-dataset}
 \begin{longtable}{|l|l|l|l|l|}
-    \caption{Mapping von Threat ID zu MITRE-Technik und MITRE-Taktik}\\
+    \caption{Mapping von Threat-ID zu MITRE-Technik und MITRE-Taktik}\\
     \hline
     T-IMG-01 & enterprise-attack & Application Vulnerability & T1190 & initial-access \\ \hline
     T-VM-C-01 & enterprise-attack & bash or cmd inside container & T1059 & execution \\ \hline
@@ -106,7 +106,7 @@ In der Arbeit werden verschiedene Quellcodes referenziert. Es folgt eine Auflist
 
 \chapter{Diagramme aus ACEMA}
 \label{app:acema-diagrams}
-Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerweise nicht numerisch, sondern textuell ausgedrückt. Um mit den Werten zu rechnen, wird die textuelle Darstellung über Formeln in einen numerischen Wert umgewandelt, die in der \gls{cvss}\textit{v2} Spezifikation hinterlegt sind \autocite{CVSSV2Complete}. Diese Werte sind auch in der \gls{acema} Implementation genutzt, um die Werte in einem Spektrum zwischen 0 und 1 darzustellen, um diese in einem Netzdiagram darzustellen (vgl. Abbildung \ref{app:fig-acema-radar}).
+Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerweise nicht numerisch, sondern textuell ausgedrückt. Um mit den Werten zu rechnen, wird die textuelle Darstellung über Formeln in einen numerischen Wert umgewandelt, die in der \gls{cvss}\textit{v2} Spezifikation hinterlegt sind \autocite{CVSSV2Complete}. Diese Werte werden in der \gls{acema} Implementation genutzt, um die Werte in einem Spektrum zwischen 0 und 1 darzustellen, um diese in einem Netzdiagram darzustellen (vgl. Abbildung \ref{app:fig-acema-radar}).
 \[
 \begin{aligned}
 \text{AccessVector} & = 
@@ -152,7 +152,7 @@ Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerwei
 \begin{figure}
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
-            \caption{Durchschnittlicher CVSS-Vektor aller CVEs pro Schweregrad}
+            \caption{Durchschnittlicher CVSS Vektor aller CVEs pro Schweregrad}
         \end{minipage}}}
         \includegraphics[scale=1]{data/radar_plot_vector_per_severity.pdf}
     \end{adjustbox}
@@ -162,19 +162,19 @@ Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerwei
 \begin{figure}
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
-            \caption{Summierung aller CVSS Werte der CVEs pro MITRE-Technik pro Schweregrad}
+            \caption{Durchschnitt aller CVSS Werte der CVEs pro MITRE-Technik und Schweregrad}
         \end{minipage}},rotate=-90,center}
-        \includegraphics[scale=0.5]{data/sum_of_cvss_scores_per_technique.pdf}
+        \includegraphics[scale=0.5]{data/mean_cvss_scores_per_technique_and_sev.pdf}
     \end{adjustbox}
-    \label{app:fig-acema-sum-teq}
+    \label{app:fig-acema-mean-teq}
 \end{figure}
 
 \begin{figure}
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
-            \caption{Summierung aller CVSS Werte der CVEs pro O-RAN Threat pro Schweregrad}
+            \caption{Summierung aller CVSS Werte der CVEs pro O-RAN Threat-ID und Schweregrad}
         \end{minipage}},rotate=-90,center}
-        \includegraphics[scale=0.5]{data/sum_of_cvss_scores_per_threat.pdf}
+        \includegraphics[scale=0.5]{data/sum_of_cvss_scores_per_threat_and_sev.pdf}
     \end{adjustbox}
     \label{app:fig-acema-sum-threat}
 \end{figure}

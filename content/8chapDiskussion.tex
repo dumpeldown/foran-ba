@@ -6,13 +6,33 @@ In diesem Kapitel werden die von \gls{acema} generierten Diagramme interpretiert
 \subsection{Interpretation der ACEMA Diagramme}
 \label{sec:interpretation-acema}
 Über das Analyseskript der \gls{acema} Implementierung lassen sich verschiedene Arten von Diagrammen erstellen. Von \citeauthor{klementSecuring6GTransition2024} wurden Datenanalysen vom Typen Heatmap-, Netz- und Balkendiagram erstellt. Eine Auswahl von besonders interessanten Diagrammen ist in Anhang \ref{app:acema-diagrams} zu finden. Alle Diagramme sind über das Github-Repository \autocite{jesseDumpeldownAcema_oranDev} abrufbar und reproduzierbar. Im Folgenden werden drei der Diagramme genauer betrachtet und interpretiert.
-\par Das Netzdiagram in Abbildung \ref{app:fig-acema-radar} zeigt den durchschnittlichen \gls{cvss} Vektor der Metriken aus der Basisgruppe gruppiert nach dem Schweregrad (\textit{baseSeverity}). Dieser wird aus dem arithmetischen Mittel aller Vektoren (\(N = 353\)) berechnet, die mittels \gls{acema} gefunden werden. Die Metriken \textit{Access Vector}, \textit{Access Complexity} und \textit{Authentication} geben an, wie auf die Schwachstelle zugegriffen wurde und ob für den Zugriff weitere Hürden überwunden werden mussten. Die \textit{Impact} Metriken geben an, wie schwer die Auswirkung in den jeweiligen Kategorien nach erfolgreicher Ausnutzung wären \autocite{CVSSV2Complete}. Zum Verständnis des Netzdiagrams ist die Erklärung in Anhang \ref{app:acema-diagrams} über die Umwandlung von textueller zu numerischer Darstellung hilfreich. Generell kann man sagen: Je weiter das Netz nach \textit{außen} spannt, desto gefährlicher ist ein \gls{cve}. 
+\par Das Netzdiagram in Abbildung \ref{app:fig-acema-radar} zeigt den durchschnittlichen \gls{cvss} Vektor der Metriken aus der Basisgruppe gruppiert nach dem Schweregrad (\textit{baseSeverity}). Dieser wird aus dem arithmetischen Mittel aller Vektoren (\(N = 353\)) berechnet, die mittels \gls{acema} gefunden werden. Die Metriken \textit{Access Vector}, \textit{Access Complexity} und \textit{Authentication} geben an, wie auf die Schwachstelle zugegriffen wurde und ob für den Zugriff weitere Hürden überwunden werden mussten. Die \textit{Impact}-Metriken geben an, wie schwer die Auswirkung in den jeweiligen Kategorien nach erfolgreicher Ausnutzung wären \autocite{CVSSV2Complete}. Zum Verständnis des Netzdiagrams ist die Erklärung in Anhang \ref{app:acema-diagrams} über die Umwandlung von textueller zu numerischer Darstellung hilfreich. Generell kann man sagen: Je weiter das Netz nach \textit{außen} spannt, desto gefährlicher ist ein \gls{cve}. 
 \par Der Zugriff auf die durchschnittliche Schwachstelle bei mittelerem (\(n = 154\)) oder hohem (\(n = 191\)) Schweregrad kann in den meisten Fällen über das Netzwerk erfolgen und es ist keine weitere Authentifizierung notwenig. Die Komplexität des Zugriffs befindet sich zwischen hoher und mittlerer Komplexität. Die Auswirkungen sind bei hohem Schweregrad jedoch um ungefähr 0.25 Punkt größer als bei mitterem Schweregrad, und beeinträchtigen damit durchschnittlich mindestens teilweise die Integrität, Verfügbarkeit und Vertraulichkeit des Systems. Bei \glspl{cve} mit niedrigem Schweregrad ist eine deutliche Zunahme der Zugriffskomplexität erkennbar, was auch damit zusammenhängt, dass der initiale Zugriff häufiger nicht über das direkte Netzwerk möglich ist, sondern über benachbarte Netzwerke. Mit Ausnahme der Auswirkung auf Integrität sind die Auswirkungen nochmal deutlich geringer als bei mittelerem Schweregrad. Der Ausreißer ist eventuell auf die geringe Stichprobe von \(n = 8\) aus der Grundgesamtheit von \(N = 353\) zurückzuführen.
 
-Es ist aus der Anzahl der Stichproben pro Schweregrad deutlich erkennbar, dass die im Dashboard dargestellten \gls{mitre}-Techniken signifikant öfter \glspl{cve} mit hohem oder mittlerem Schweregrad zugeordnet werden als solchen mit niedrigem Schweregrad. Dies hängt potenziell damit zusammen, dass \gls{open-ran} Systeme oder Kubernetes allgemein standardmäßig mit einem Netzwerk verbunden sind. Diese Schnittstelle erhöht die Möglichkeit und reduziert die Komplexität eines Zugriffs.
+\todo{Dies Absatz eventuell erst am Ende.}
+\par Es ist aus der Anzahl der Stichproben pro Schweregrad deutlich erkennbar, dass den im Dashboard dargestellten \gls{mitre}-Techniken signifikant öfter \glspl{cve} mit hohem oder mittlerem Schweregrad zugeordnet werden als solchen mit niedrigem Schweregrad. Dies hängt potenziell damit zusammen, dass \gls{open-ran} Systeme oder Kubernetes allgemein standardmäßig mit einem Netzwerk verbunden sind. Diese Schnittstelle erhöht die Möglichkeit und reduziert die Komplexität eines Zugriffs. 
 
-\todo{Die anderen beiden Digramme erklären.}
-\todo{Die anderen beiden Diagramme erklären und interpretieren.}
+\par Abbildung \ref{app:fig-acema-mean-teq} zeigt den Durchschnitt der \gls{cvss} Gesamtbewertung pro Schweregrad und \gls{mitre}-Technik. Auffallend sind hier vier Techniken, bei denen der Durchschnitt der Bewertung bei hohem Schwerergrad 8 übersteigt. Zwei der vier Techniken werden im Folgenden genauer betrachtet.
+\par Eine der Techniken ist \textit{T1059}, die in der \gls{tm4k} die Bezeichung \textit{Bash or cmd inside container} trägt \autocite{BashCmdContainer}. Es handelt sich dabei also um Angriffe, die es erlauben bösartigen Code innerhalb eines Containers in einer Kubernetes Umgebung aufzuführen. In Zusammenhang mit Zugriff über das Netzwerk werden solche Angriffe auch als \textit{Remote Code Execution} bezeichnet und haben meist schwere Auswirkungen auf das betroffene System.
+\par Eine weitere Technik ist \textit{T1528: Container service account}. Diese Technik befasst sich mit der Ausnutzung von Service-Konten, die zum Beispiel in Kubernetes für jeden Pod angelegt werden. Service-Konten haben oft hohe Privilegien und ein Angriff über diese Technik kann verschiedene Taktiken verfolgen. Laut der \gls{tm4k} kann diese Technik für den Zugriff auf andere Zugangsberechtigungen, laterale Bewegung innerhalb des Systems und Persistenz genutzt werden \autocite{bibid}.
+Diese beiden Techniken bergen hohes Potenzial für schwere Auswirkungen in Kubernetes Umgebungen. 
+\par Die Auswirkung auf spezielle Komponenten in O-RAN wird über die Abbildung \ref{app:fig-acema-sum-threat} in Verbindung mit \autocite{o-ranworkgroup11securityworkgroupORANSecurityThreat2024} ersichtlich. Die Abbildung zeigt die Summe der \gls{cvss} Gesamtbewertung über alle \glspl{cve} pro O-RAN \textit{Threat-ID} und Schweregrad. Auffallend sind hier vor allem die Summierungen die einen Wert über 500 erreichen. Genaue Werte sind in Tabelle \ref{tab:top5-threats} dargestellt. Die höchste Summe erreicht dabei \textit{T-VM-C-01}, die in \autocite{o-ranworkgroup11securityworkgroupORANSecurityThreat2024} den Titel \textit{Abuse of a privileged VM/Container} trägt. Die \textit{Threat-ID} wurde in der manuellen Zuordnung nicht wenigen \gls{mitre}-Techniken zugeordnet, darunter auch \textit{T1059} (vgl. Abbildung \ref{app:fig-acema-mean-teq}). Über den Report der O-RAN \gls{wg11} können Komponenten einer virtualisierten Umgebung und spezielle Komponenten aus der O-RAN Architektur (siehe Abbildung \ref{fig:oran-architecture}) identifiziert werden, die von einem Angriff aus dieser Kategorie betroffen sind. Für die genannte \textit{Threat-ID} sind das der \textit{Near-Real-Time} \gls{ric}, \gls{o-cu} und \gls{o-du} sowie das Hostbetriebsystem und die Virtualisierungsplattform.
+
+\begin{table}[h]
+    \centering
+    \caption{Top 5 der O-RAN Threat-IDs, dessen zugeordnete CVEs eine hohe Summierung ihrer Werte nach CVSS zeigen.}
+    \begin{tabular}{|l|l|}
+    \hline
+        Score & O-RAN Threat \\ \hline
+        645.7 & T-VM-C-01 \\ \hline
+        570.9 & T-IMG-01 \\ \hline
+        560.4 & T-ADMIN-02 \\ \hline
+        388.7 & T-O2-01 \\ \hline
+        348.6 & T-HW-01 \\ \hline
+    \end{tabular}
+    \label{tab:top5-threats}
+\end{table}
+
 \subsection{Erfolg der Implementierung}
 Die Implementierung wurde ohne große Hindernisse erfolgreich beendet. Alle Meilensteine wurden wie geplant erreicht. Besonders die Integration der Methode von \citeauthor{klementSecuring6GTransition2024} brachte einen großen Mehrwert für das Dashboard. Die Visualisierung der \gls{cvss} Daten in der Matrix und in der Detailsseite von Artefakten liefert wertvolle Einblicke in die Bewertung der Auswirkungen der Angriffe. Es wird empirisch aufgezeigt, welche Angriffstechniken besonders risikobehaftet sind, beziehungsweise aus der Perspektive eines Angreifers ein höheres Potenzial bieten. 
 \todo{Hier weiterschreiben.}
@@ -62,6 +82,8 @@ Die Implementierung von \gls{acema} nutzt für die Bewertung das \gls{cvss} in V
     \end{tabular}
     \label{tab:comparison_with_diff}
 \end{table}
+
+\par Fehler bei der Datenanalyse mit vermischung v21 und v31 in Funktion \verb|gen\_statistics\_per\_tactic|. CVEs mit cvss v31 "CRITICAL" gehen komplett verloren. Fix: Anstatt die Daten aus dem Score[] zu bekommen, wie sie eventuell auch als V31 stehen, wie die severity aus "BaseSeverity" und der Score aus "v2\_score" benutzt.
 
 \section{Ausblick}
 \label{sec:ausblick}

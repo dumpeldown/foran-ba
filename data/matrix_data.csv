@@ -1,13 +1,13 @@
 Name;Domain;Description;Technique;Tactic
 T-IMG-01;enterprise-attack;Application Vulnerability;T1190;initial-access
 T-VM-C-01;enterprise-attack;bash or cmd inside container;T1059;execution
-T-VM-C-01;enterprise-attack;bash or cmd inside container;TT1204;execution
+T-VM-C-01;enterprise-attack;bash or cmd inside container;T1204;execution
 T-ADMIN-02;enterprise-attack;bash or cmd inside container;T1059;execution
-T-ADMIN-02;enterprise-attack;bash or cmd inside container;TT1204;execution
+T-ADMIN-02;enterprise-attack;bash or cmd inside container;T1204;execution
 T-HW-01;enterprise-attack;bash or cmd inside container;T1059;execution
-T-HW-01;enterprise-attack;bash or cmd inside container;TT1204;execution
+T-HW-01;enterprise-attack;bash or cmd inside container;T1204;execution
 T-IMG-01;enterprise-attack;bash or cmd inside container;T1059;execution
-T-IMG-01;enterprise-attack;bash or cmd inside container;TT1204;execution
+T-IMG-01;enterprise-attack;bash or cmd inside container;T1204;execution
 T-VM-C-01;enterprise-attack;Kubernetes CronJob;T1053.007;persistence
 T-VM-C-01;enterprise-attack;Clear container logs;T1070;defense-evasion
 T-IMG-01;enterprise-attack;Compromised Image In Registry;T1195.002;initial-access
