@@ -104,5 +104,79 @@ In der Arbeit werden verschiedene Quellcodes referenziert. Es folgt eine Auflist
     \caption{Struktur eines Artefakts in der Datenbank und in Go.}
 \end{figure}
 
+\chapter{Diagramme aus ACEMA}
+\label{app:acema-diagrams}
+Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerweise nicht numerisch, sondern textuell ausgedrückt. Um mit den Werten zu rechnen, wird die textuelle Darstellung über Formeln in einen numerischen Wert umgewandelt, die in der \gls{cvss}\textit{v2} Spezifikation hinterlegt sind \autocite{CVSSV2Complete}. Diese Werte sind auch in der \gls{acema} Implementation genutzt, um die Werte in einem Spektrum zwischen 0 und 1 darzustellen, um diese in einem Netzdiagram darzustellen (vgl. Abbildung \ref{app:fig-acema-radar}).
+\[
+\begin{aligned}
+\text{AccessVector} & = 
+\begin{cases} 
+    \text{requires local access} & : 0{,}395 \\
+    \text{adjacent network accessible} & : 0{,}646 \\
+    \text{network accessible} & : 1{,}0
+\end{cases} \\[10pt]
+\text{AccessComplexity} & = 
+\begin{cases} 
+    \text{high} & : 0{,}35 \\
+    \text{medium} & : 0{,}61 \\
+    \text{low} & : 0{,}71
+\end{cases} \\[10pt]
+\text{Authentication} & = 
+\begin{cases} 
+    \text{requires multiple instances of authentication} & : 0{,}45 \\
+    \text{requires single instance of authentication} & : 0{,}56 \\
+    \text{requires no authentication} & : 0{,}704
+\end{cases} \\[10pt]
+\text{ConfImpact} & = 
+\begin{cases} 
+    \text{none} & : 0{,}0 \\
+    \text{partial} & : 0{,}275 \\
+    \text{complete} & : 0{,}660
+\end{cases} \\[10pt]
+\text{IntegImpact} & = 
+\begin{cases} 
+    \text{none} & : 0{,}0 \\
+    \text{partial} & : 0{,}275 \\
+    \text{complete} & : 0{,}660
+\end{cases} \\[10pt]
+\text{AvailImpact} & = 
+\begin{cases} 
+    \text{none} & : 0{,}0 \\
+    \text{partial} & : 0{,}275 \\
+    \text{complete} & : 0{,}660
+\end{cases}
+\end{aligned}
+\]
+
+
+\begin{figure}
+    \begin{adjustbox}{addcode={
+        \begin{minipage}{\width}}{
+            \caption{Durchschnittlicher CVSS-Vektor aller CVEs pro Schweregrad}
+        \end{minipage}}}
+        \includegraphics[scale=1]{data/radar_plot_vector_per_severity.pdf}
+    \end{adjustbox}
+    \label{app:fig-acema-radar}
+\end{figure}
+
+\begin{figure}
+    \begin{adjustbox}{addcode={
+        \begin{minipage}{\width}}{
+            \caption{Summierung aller CVSS Werte der CVEs pro MITRE-Technik pro Schweregrad}
+        \end{minipage}},rotate=-90,center}
+        \includegraphics[scale=0.5]{data/sum_of_cvss_scores_per_technique.pdf}
+    \end{adjustbox}
+    \label{app:fig-acema-sum-teq}
+\end{figure}
+
+\begin{figure}
+    \begin{adjustbox}{addcode={
+        \begin{minipage}{\width}}{
+            \caption{Summierung aller CVSS Werte der CVEs pro O-RAN Threat pro Schweregrad}
+        \end{minipage}},rotate=-90,center}
+        \includegraphics[scale=0.5]{data/sum_of_cvss_scores_per_threat.pdf}
+    \end{adjustbox}
+    \label{app:fig-acema-sum-threat}
+\end{figure}
 
 
