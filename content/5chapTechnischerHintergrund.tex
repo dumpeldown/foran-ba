@@ -28,7 +28,7 @@ Für das ATTACK-Teilvorhaben wurde ein Framework implementiert, was es ermöglic
 \section{Dashboard}
 \label{sec:tech-dashboard}
 Das Dashboard ist ein Visualisierungtool, über das die Gesamtmenge aller Angriffssimulationen dargestellt werden kann. Für jeden Angriff werden die Metadaten und Ergebnisse textuell aufbereitet dargestellt und mit weiteren grafischen Visualisierungen, wie einem zeitlichen Verlauf, aufgewertet.
-Das Dashboard ist über einen Webserver in der Programmiersprache \textit{Go} implementiert, der serverseitig eine Darstellung der Webseite erstellt und diese beim Aufruf der spezifischen Seiten des Dashboards an den Browser des Anwenders schickt. Neben den \gls{html} Dateien werden außerdem \gls{css} und \gls{js} Dateien ausgeliefert, die für die Weboberfläche stilisieren und Fuktionalität hinzufügen, die nicht in \gls{html} ausgedrückt werden kann. Die Architektur des Dashboard basiert auf dem Hotwire (HTML-over-the-wire) Web-Framework, welches es zum Ziel hat, möglich wenig \gls{js} einzusetzen. Stattdessen werden die \gls{html} Dateien dynamisch vom Server angepasst und in wenigen Millisekunden an den Client versandt. Dieser Ansatz ist weit verbreitet und wird auch als \textit{server-sided rendering} bezeichnet \autocite{HTMLWireHotwire}. Die einzelnen Seiten, die im Dashboard aufgerufen werden können, sind in einer Übersicht in Kapitel \ref{chap:implementierung} aufgelistet.
+Das Dashboard ist über einen Webserver in der Programmiersprache \textit{Go} implementiert, der serverseitig eine Darstellung der Webseite erstellt und diese beim Aufruf der spezifischen Seiten des Dashboards an den Browser des Anwenders schickt. Neben den \gls{html} Dateien werden außerdem \gls{css} und \gls{js} Dateien ausgeliefert, die für die Weboberfläche stilisieren und Fuktionalität hinzufügen, die nicht in \gls{html} ausgedrückt werden kann. Die Architektur des Dashboards basiert auf dem Hotwire (HTML-over-the-wire) Web-Framework, welches es zum Ziel hat, möglich wenig \gls{js} im Frontend einzusetzen. Stattdessen werden \gls{html} Dateien dynamisch vom Server angepasst und in wenigen Millisekunden an den Client versandt. Dieser Ansatz ist weit verbreitet und wird auch als \textit{server-sided rendering} bezeichnet \autocite{HTMLWireHotwire}. Die einzelnen Seiten, die im Dashboard aufgerufen werden können, sind in einer Übersicht in Kapitel \ref{chap:implementierung} aufgelistet.
 Diese Arbeit dokumentiert die Weiterentwicklung auf Basis der Forschungsarbeit \autocite{weberEvaluationDashboardTechniques}.
 
 \label{bg:mitre-frameworks}
@@ -39,6 +39,30 @@ Die von der \gls{mitre}\footnote{Entgegen einem verbreiteten Missverständnis st
 \subsection{MITRE ATT\&CK}
 \glsreset{attack}
 Das \gls{mitre} \gls{attack} Framework ist ein Wissensfundus, der Angreifertaktiken und -techniken dokumentiert, die auf realen Beobachtungen basieren. Es bietet eine strukturierte Möglichkeit, Angriffsmethoden zu analysieren und deren Auswirkung auf einzelne Systeme oder Infrastrukturen zu bewerten. In der aktuellen \textit{Version 16.1} enthält das Framework 14 Taktiken und 203 Techniken in der \textit{enterprise}-Matrix. Die Quelle ist aufgrund ihrer breiten Akzeptanz und der kontinuierlichen Aktualisierung durch die \gls{mitre}-Organisation als äußerst verlässlich einzustufen \autocite{MITREATTCK}. Es existieren diverse Spezialisierung der \gls{attack} Matrix, die sich auf konkrete Anwendungsfälle konzentrieren, wie zum Beispiel die \gls{mitre} \gls{atlas} Matrix. Diese beschäftigt sich insbesondere mit Angriffen auf KI-gestützte Systeme \autocite{ATLASMatrixMITRE}.
+
+\subsection{CVE}
+\label{bg:cve}
+\glsreset{cve}
+Das \gls{cve}-System ist eine standardisierte Referenzdatenbank, die bekannte Schwachstellen und Sicherheitslücken in Software und Hardware dokumentiert. Jeder \gls{cve}-Eintrag enthält spezifische Informationen zu einer identifizierten Schwachstelle und bietet eine Grundlage für die Kommunikation und Priorisierung von Sicherheitsmaßnahmen, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
+
+\begin{itemize}
+    \item \textbf{CVE-ID}: Eine weltweit eindeutige Kennung im Format \texttt{CVE-JJJJ-NNNNN}, die die Schwachstelle klar identifiziert.
+    \item \textbf{Betroffene Produkte}: Angaben zu spezifischen Softwareversionen oder Hardware, die von der Schwachstelle betroffen sind.
+    \item \textbf{Schweregrad und CVSS-Wertung}: Integration mit dem \gls{cvss} das, neben anderen Metriken, eine Basisbewertung von 0 bis 10 bereitstellt, um die Kritikalität der Schwachstelle zu quantifizieren.
+    \item \textbf{Verknüpfungen zu CWE}: Hinweise auf zugrunde liegende Schwachstellen aus der \gls{cwe}-Taxonomie.
+\end{itemize}
+
+\subsection{CWE}
+\label{bg:cwe}
+\glsreset{cwe}
+Die \gls{cwe} ist eine Aufzählung von häufigen Schwachstellenkategorien und Fehlermustern in Software und Hardware, die dazu dient, Sicherheitsprobleme systematisch zu identifizieren und zu dokumentieren \autocite{CWEWebsite}. Jede \gls{cwe}-Instanz beschreibt eine spezifische Schwachstellenkategorie, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
+
+\begin{itemize}
+    \item \textbf{Schwachstellen-ID und Name}: Eine eindeutige Kennung und Beschreibung der Schwachstellenkategorie.
+    \item \textbf{Übliche Konsequenzen}: Eine Liste von typischen Auswirkungen, die durch Ausnutzung einer Schwachstelle dieser Kategorie verursacht werden können.
+    \item \textbf{Beobachtete Beispiele}: Verweise auf reale Anwendungsfälle, in denen ein \gls{cve} aus dieser Kategorie ausgenutzt wurde.
+    \item \textbf{Demonstrative Beispiele}: Codebeispiele, die die Ausnutzung einer Schwachstelle dieser Kategorie illustrieren und deren Auswirkungen verdeutlichen.
+\end{itemize}
 
 \subsection{CAPEC}
 \label{bg:capec}
@@ -54,31 +78,7 @@ Das \gls{capec} Framework zielt darauf ab, Angriffsmuster systematisch zu dokume
 
 Die Datenbank ist umfassend und bietet eine hierarchische Klassifikation der Angriffsmuster, die es ermöglicht, zwischen allgemeinen Kategorien und spezifischen Instanzen zu navigieren. Diese Daten sind in der Sicherheitsforschung nützlich, da sie dabei helfen, typische Bedrohungen zu gruppieren und Szenarien für Sicherheitsüberprüfungen zu erstellen \autocite{CAPECWebsite}.
 
-\subsection{CWE}
-\label{bg:cwe}
-\glsreset{cwe}
-Die \gls{cwe} ist eine Aufzählung von häufigen Schwachstellenkategorien und Fehlermustern in Software und Hardware, die dazu dient, Sicherheitsprobleme systematisch zu identifizieren und zu dokumentieren \autocite{CWEWebsite}. Jede \gls{cwe}-Instanz beschreibt eine spezifische Schwachstellenkategorie, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
-
-\begin{itemize}
-    \item \textbf{Schwachstellen-ID und Name}: Eine eindeutige Kennung und Beschreibung der Schwachstellenkategorie.
-    \item \textbf{Übliche Konsequenzen}: Eine Liste von typischen Auswirkungen, die durch Aunutzung einer Schwachstelle dieser Kategorie verursacht werden können.
-    \item \textbf{Beobachtete Beispiele}: Verweise auf reale Anwendungsfälle, in denen ein \gls{cve} aus dieser Kategorie ausgenutzt wurde.
-    \item \textbf{Demonstrative Beispiele}: Codebeispiele, die die Ausnutzung einer Schwachstelle dieser Kategorie illustrieren und deren Auswirkungen verdeutlichen.
-\end{itemize}
-
-\subsection{CVE}
-\label{bg:cve}
-\glsreset{cve}
-Das \gls{cve}-System ist eine standardisierte Referenzdatenbank, die bekannte Schwachstellen und Sicherheitslücken in Software und Hardware dokumentiert. Jeder \gls{cve}-Eintrag enthält spezifische Informationen zu einer identifizierten Schwachstelle und bietet eine Grundlage für die Kommunikation und Priorisierung von Sicherheitsmaßnahmen, darunter die folgenden Hauptbestandteile, die für diese Arbeit besonders relevant sind:
-
-\begin{itemize}
-    \item \textbf{CVE-ID}: Eine weltweit eindeutige Kennung im Format \texttt{CVE-JJJJ-NNNNN}, die die Schwachstelle klar identifiziert.
-    \item \textbf{Betroffene Produkte}: Angaben zu spezifischen Softwareversionen oder Hardware, die von der Schwachstelle betroffen sind.
-    \item \textbf{Schweregrad und CVSS-Wertung}: Integration mit dem \gls{cvss} das, neben anderen Metriken, eine Basisbewertung von 0 bis 10 bereitstellt, um die Kritikalität der Schwachstelle zu quantifizieren.
-    \item \textbf{Verknüpfungen zu CWE}: Hinweise auf zugrunde liegende Schwachstellen aus der \gls{cwe}-Taxonomie.
-\end{itemize}
-
-Das \gls{cve}-System unterscheidet sich von \gls{cwe} dadurch, dass es konkrete Sicherheitslücken in spezifischen Produkten beschreibt, während \gls{cwe} die allgemeine Kategorie oder Art der Schwachstelle adressiert. In Kombination mit \gls{capec} und \gls{cwe} ermöglicht \gls{cve} eine ganzheitliche Analyse, die sowohl Schwachstellenursachen als auch deren Ausnutzung und Abwehrmaßnahmen abdeckt. Diese Eigenschaften machen \gls{cve} zu einem unverzichtbaren Werkzeug in der Sicherheitsanalyse und ist auch sehr gut auf \gls{open-ran}-Umgebungen anwendbar \cite{CVEWebsite}.
+\par Das \gls{cve}-System unterscheidet sich von \gls{cwe} dadurch, dass es konkrete Sicherheitslücken in spezifischen Produkten beschreibt, während \gls{cwe} die allgemeine Kategorie oder Art der Schwachstelle adressiert. In Kombination mit der \gls{capec} und der \gls{cwe} ermöglicht die \gls{cve} eine ganzheitliche Analyse, die sowohl Schwachstellenursachen als auch deren Ausnutzung und Abwehrmaßnahmen abdeckt. Diese Eigenschaften machen die \gls{cve} zu einem unverzichtbaren Werkzeug in der Sicherheitsanalyse und ist auch sehr gut auf \gls{open-ran}-Umgebungen anwendbar \cite{CVEWebsite}.
 
 \section{Datenquellen}
 \label{sec:datenquellen}
@@ -89,4 +89,4 @@ Die Integration von relevanten Datenquellen stellt eine wesentliche Grundlage f�
 \subsection{Datenquellen für empirische Analyse}
 \par In der Implementierung von \gls{acema} werden Daten aus externen Datenquellen genutzt. Für das Mapping von \gls{mitre}-Technik zu \gls{cve} wird das \gls{mitre}-\gls{cti} Repository genutzt. Weitere Informationen über einen spezifischen \gls{cve} werden über die \gls{nvd} des \gls{nist} beschafft.
 \par Das \gls{cti} Repository enthält eine Vielzahl an Daten zur Identifikation und Kategorisierung von Cyberangriffstechniken. Es stellt spezifische Zuordnungen zwischen den im \gls{mitre} \gls{attack}-Framework beschriebenen Angriffstechniken und Schwachstellen (\glspl{cwe}) bereit, die eine wichtige Grundlage für Bedrohungsanalysen bilden. Diese Informationen umfassen unter anderem Angriffsmethoden, Exploit-Beschreibungen und potenzielle Abwehrmaßnahmen. Wissenschaftlich anerkannt ist das Repository durch die breite Akzeptanz des \gls{mitre} \gls{attack}-Frameworks in der Sicherheitsforschung sowie durch die Anwendung in praxisorientierten Sicherheitslösungen.
-\par Die \gls{nvd} ist eine zentrale Datenbank des \gls{nist}, die umfassende Informationen zu Schwachstellen und deren Bewertungen liefert. Sie basiert auf international anerkannten Standards wie CVE und CVSS, um die Schwere und Ausnutzbarkeit von Sicherheitslücken zu quantifizieren. Die NVD ist aufgrund der Bereitstellung standardisierter Sicherheitsmetriken ein unverzichtbares Werkzeug in der Sicherheitsforschung und -praxis. Die Kombination aus systematischer Datenaufbereitung und fundierten Bewertungen macht die NVD besonders geeignet für die Implementierung von Sicherheitslösungen und ist zum Beispiel standardmäßig in einigen der meistgenutzten Software in Enterprise Umgebungen integriert \autocite{AssetsNVDIntegration,InformationenNVDIntegrationen}.
+\par Die \gls{nvd} ist eine zentrale Datenbank des \gls{nist}, die umfassende Informationen zu Schwachstellen und deren Bewertungen liefert. Sie basiert auf international anerkannten Standards wie \gls{cve} und \gls{cvss}, um die Schwere und Ausnutzbarkeit von Sicherheitslücken zu quantifizieren. Die \gls{nvd} ist aufgrund der Bereitstellung standardisierter Sicherheitsmetriken ein unverzichtbares Werkzeug in der Sicherheitsforschung und -praxis. Die Kombination aus systematischer Datenaufbereitung und fundierten Bewertungen macht die \gls{nvd} besonders geeignet für die Implementierung von Sicherheitslösungen und lässt sich standardmäßig in viele Management- und Dokumentationslösungen in Enterprise Umgebungen integriert \autocite{AssetsNVDIntegration,InformationenNVDIntegrationen}.
