@@ -17,7 +17,6 @@ In diesem Kapitel werden die von \gls{acema} generierten Diagramme interpretiert
 Diese beiden Techniken bergen hohes Potenzial für schwere Auswirkungen in Kubernetes Umgebungen. 
 \par Die Auswirkung auf spezielle Komponenten in O-RAN wird über die Abbildung \ref{app:fig-acema-sum-threat} in Verbindung mit \autocite{o-ranworkgroup11securityworkgroupORANSecurityThreat2024} ersichtlich. Die Abbildung zeigt die Summe der \gls{cvss} Gesamtbewertung über alle \glspl{cve} pro O-RAN \textit{Threat-ID} und Schweregrad. Auffallend sind hier vor allem die Summierungen die einen Wert über 500 erreichen. Genaue Werte sind in Tabelle \ref{tab:top5-threats} dargestellt. Die höchste Summe erreicht dabei \textit{T-VM-C-01}, die in \autocite{o-ranworkgroup11securityworkgroupORANSecurityThreat2024} den Titel \textit{Abuse of a privileged VM/Container} trägt. Die \textit{Threat-ID} wurde in der manuellen Zuordnung nicht wenigen \gls{mitre}-Techniken zugeordnet, darunter auch \textit{T1059} (vgl. Abbildung \ref{app:fig-acema-mean-teq}). Über den Report der O-RAN \gls{wg11} können Komponenten einer virtualisierten Umgebung und spezielle Komponenten aus der O-RAN Architektur (siehe Abbildung \ref{fig:oran-architecture}) identifiziert werden, die von einem Angriff aus dieser Kategorie betroffen sind. Für die genannte \textit{Threat-ID} sind das der \textit{Near-Real-Time} \gls{ric}, \gls{o-cu} und \gls{o-du} sowie das Hostbetriebsystem und die Virtualisierungsplattform.
 
-\todo{Hier noch eine aussagekräftige Interpretation oder Zusammenfassung der Ergebisse schreiben!}
 \begin{table}[h]
     \centering
     \caption{Top 5 der O-RAN Threat-IDs, dessen zugeordnete CVEs eine hohe Summierung ihrer Werte nach CVSS zeigen.}
@@ -39,11 +38,11 @@ Die Implementierung wurde ohne große Hindernisse erfolgreich beendet. Alle Meil
 Ein zentraler Fortschritt bei der Weiterentwicklung des Dashboards war die Visualisierung des Angriffspfads, der als interaktiver Graph die kritischen Informationen zu Angriffsmustern, Schwachstellen und genutzten Werkzeugen kompakt darstellt. Neben den \textit{MUST-Features} wurden weitere Funktionen wie die Verbesserung der Zeitleistenansicht und die Verlinkung zu weiterführenden Information über Techniken implementiert, welche die Benutzbarkeit verbessern und den Funktionsumfang des Dashboards erweitern. Insgesamt zeigt das Ergebnis, wie eine wissenschaftliche Herangehensweise an die Konzeption und Implementierung eines Dashboards die Analyse- und Visualisierungsfähigkeiten in einem \gls{dfir}-Umfeld erheblich verbessern kann. Die erfolgreiche Umsetzung belegt die Praxistauglichkeit der theoretisch erarbeiteten Methoden.
 
 \subsection{Einsatz in der Praxis}
-Inwiefern ist das Ergebnis in der Praxis anwendbar? Welche Verbesserungen sind nötig? \\
-Vergleich mit bestehenden Lösungen: \\
-Falls bekannt, könnten Sie Ihre Lösung mit anderen Ansätzen vergleichen. \\
-- \autocite{Vulcan}
-- \autocite{CVELandingMappings}
+In Kapitel \ref{sec:auswahlDerEmpirischenMethode} wird die Existenz von anderen Mappingtools erwähnt. Diese erfüllen teilweise dieselbe Funktion wie \gls{acema}, bieten aber keine Möglichkeit der Integration von Bedrohungsdaten aus der spezialisierten O-RAN Umgebung. 
+\par Die umfangreichste Ansammung von Zuordnungen wird im \textit{Mappings Explorer} vom \gls{mitre} \textit{Center for Threat-Informed Defense} gepflegt. Dieses Tool bietet nicht nur eine Möglichkeit zur Zuordnung von \gls{mitre}-Techniken zu \glspl{cve} und umgekehrt, sondern auch in weiterer Frameworks, die eine Art der Kategorisierung von Schwachstellen implementieren. Solche eigenen Frameworks werden zum Beispiel von großen Anbietern für Clouddienste wie Google, Amazon und Microsoft konzeptioniert und Mappings in diese Frameworks sind über den \textit{Mappings Explorer} verfügbar. Eine Integration mit dem O-RAN Bedrohungsmodel gibt es bisher nicht \autocite{HomeMappingsExplorer}.
+\par Ein simpleres Tool wird vom Forschungsteam \textit{Voyager18} des Unternehmens \textit{Vulcan Cyber} bereitgestellt. Es erlaubt das Mapping zwischen \gls{mitre}-Technik und \glspl{cve}, und umgekehrt \autocite{Vulcan}. Laut \autocite{keizmanMITREATTCKFramework2022} verbindet das Tool maschinelles Lernen und textuelle Analyse zum Finden von Mappings und soll für weitere Anwendungszwecke weiterentwickelt werden.
+\par Eine stichprobenartige Analyse der gespeicherten Mappings der drei Mappingtools fand keine Übereinstimmung zwischen gefundenen \glspl{cve} für \gls{mitre}-Techniken. Diese Abweichungen sind auf die Anzahl von über 240.000 \glspl{cve} zurückzuführen. Durch die textuelle Analyse oder maschinelles Lernen ist es möglich, dass die Tools unterschiedliche \glspl{cve} für eine Technik oder umgekehrt finden. Die Unterschiede könnten auch aufgrund der Verwendung von verschiedenen Datenquellen entstehen.
+\gls{acema} findet eine ausreichende Datenmenge, um eine aussagekräftige Datenanalyse durchzuführen, würde aber durch einen größeren Datensatz weiter verbessert werden. Die Implementierung des Dashboards ist aktuell schon in der Lage, in einer realen Umgebung eingesetzt zu werden, um die effektive Bewertung von Angriffen zu ermöglichen.
 
 \section{Limitation}
 \label{sec:limitationen}
@@ -86,8 +85,6 @@ Die Implementierung von \gls{acema} nutzt für die Bewertung das \gls{cvss} in V
     \end{tabular}
     \label{tab:comparison_with_diff}
 \end{table}
-
-\par Fehler bei der Datenanalyse mit vermischung v21 und v31 in Funktion \verb|gen\_statistics\_per\_tactic|. CVEs mit cvss v31 "CRITICAL" gehen komplett verloren. Fix: Anstatt die Daten aus dem Score[] zu bekommen, wie sie eventuell auch als V31 stehen, wie die severity aus "BaseSeverity" und der Score aus "v2\_score" benutzt. \todo{Ausschreiben!}
 
 \section{Ausblick}
 \label{sec:ausblick}

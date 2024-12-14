@@ -10,97 +10,107 @@ In der Arbeit werden verschiedene Quellcodes referenziert. Es folgt eine Auflist
 
 \chapter{Ausschnitt aus dem ACEMA-Output}
 \label{app:acema-output}
-\newgeometry{left=1cm,bottom=0.1cm, right=1cm}
+\newgeometry{left=1cm, right=1cm}
 \verbatiminput{data/acema-output.json}
 \restoregeometry
 \chapter{Ausschnitt aus dem angepassten ACEMA-Output}
 \label{app:acema-output-small}
-\newgeometry{left=1cm,bottom=0.1cm, right=1cm}
+\newgeometry{left=1cm, right=1cm}
 \verbatiminput{data/acema-output-small.json}
 \restoregeometry
 
 \chapter{Mapping Datensatz}
-\newgeometry{left=0.05cm,bottom=0.1cm, right=1cm}
+\newgeometry{left=1cm, right=1cm}
 \label{app:mapping-dataset}
 \begin{longtable}{|l|l|l|l|l|}
     \caption{Mapping von Threat-ID zu MITRE-Technik und MITRE-Taktik}\\
     \hline
-    T-IMG-01 & enterprise-attack & Application Vulnerability & T1190 & initial-access \\ \hline
-    T-VM-C-01 & enterprise-attack & bash or cmd inside container & T1059 & execution \\ \hline
-    T-VM-C-01 & enterprise-attack & bash or cmd inside container & T1204 & execution \\ \hline
-    T-ADMIN-02 & enterprise-attack & bash or cmd inside container & T1059 & execution \\ \hline
-    T-ADMIN-02 & enterprise-attack & bash or cmd inside container & T1204 & execution \\ \hline
-    T-HW-01 & enterprise-attack & bash or cmd inside container & T1059 & execution \\ \hline
-    T-HW-01 & enterprise-attack & bash or cmd inside container & T1204 & execution \\ \hline
-    T-IMG-01 & enterprise-attack & bash or cmd inside container & T1059 & execution \\ \hline
-    T-IMG-01 & enterprise-attack & bash or cmd inside container & T1204 & execution \\ \hline
-    T-VM-C-01 & enterprise-attack & Kubernetes CronJob & T1053.007 & persistence \\ \hline
-    T-VM-C-01 & enterprise-attack & Clear container logs & T1070 & defense-evasion \\ \hline
-    T-IMG-01 & enterprise-attack & Compromised Image In Registry & T1195.002 & initial-access \\ \hline
-    T-IMG-01 & enterprise-attack & Compromised Image In Registry & T1525 & initial-access \\ \hline
-    T-GEN-02 & enterprise-attack & Access Managed Identity credentials & T1552 & credential-access \\ \hline
-    T-O2-01 & enterprise-attack & Network mapping & T1046 & discovery \\ \hline
-    T-VM-C-02 & enterprise-attack & Cluster internal networking & T1210 & lateral-movement \\ \hline
-    T-IMG-01 & enterprise-attack & images from a private registry & T1530 & collection \\ \hline
-    T-IMG-04 & enterprise-attack & images from a private registry & T1530 & collection \\ \hline
-    T-ADMIN-02 & enterprise-attack & Exec into container & T1609 & execution \\ \hline
-    T-O2-01 & enterprise-attack & Exec into container & T1609 & execution \\ \hline
-    T-VM-C-03 & enterprise-attack & Exec into container & T1609 & execution \\ \hline
-    T-VM-C-04 & enterprise-attack & Exec into container & T1609 & execution \\ \hline
-    T-VM-C-01 & enterprise-attack & Backdoor container & T1543 & persistence \\ \hline
-    T-VM-C-01 & enterprise-attack & Backdoor container & T1542 & persistence \\ \hline
-    T-VL-02 & enterprise-attack & Backdoor container & T1543 & persistence \\ \hline
-    T-VL-02 & enterprise-attack & Backdoor container & T1542 & persistence \\ \hline
-    T-GEN-02 & enterprise-attack & Mount service principal & T1552 & credential-access \\ \hline
-    T-O2-01 & enterprise-attack & Access Kubelet API & T1613 & discovery \\ \hline
-    T-IMG-03 & enterprise-attack & List K8S secrets & T1552 & credential-access \\ \hline
-    T-VM-C-04 & enterprise-attack & Resource hijacking & T1496 & impact \\ \hline
-    T-VL-01 & enterprise-attack & Resource hijacking & T1496 & impact \\ \hline
-    T-O2-01 & enterprise-attack & Delete K8S events & T1070 & defense-evasion \\ \hline
-    T-VL-01 & enterprise-attack & Pod or container name similarily & T1036 & defense-evasion \\ \hline
-    T-VL-01 & enterprise-attack & Pod or container name similarily & T1036.005 & defense-evasion \\ \hline
-    T-IMG-01 & enterprise-attack & Pod or container name similarily & T1036 & defense-evasion \\ \hline
-    T-IMG-01 & enterprise-attack & Pod or container name similarily & T1036.005 & defense-evasion \\ \hline
-    T-ADMIN-01 & enterprise-attack & Denial of service & T1498 & impact \\ \hline
-    T-ADMIN-01 & enterprise-attack & Denial of service & T1499 & impact \\ \hline
-    T-VM-C-04 & enterprise-attack & Denial of service & T1498 & impact \\ \hline
-    T-VM-C-04 & enterprise-attack & Denial of service & T1499 & impact \\ \hline
-    T-VM-C-05 & enterprise-attack & Denial of service & T1498 & impact \\ \hline
-    T-VM-C-05 & enterprise-attack & Denial of service & T1499 & impact \\ \hline
-    T-GEN-02 & enterprise-attack & container service account & T1528 & credential-access \\ \hline
-    T-GEN-02 & enterprise-attack & container service account & T1528 & lateral-movement \\ \hline
-    T-GEN-02 & enterprise-attack & container service account & T1528 & persistence \\ \hline
-    T-ADMIN-02 & enterprise-attack & Application credentials in configuration files & T1552 & credential-access \\ \hline
-    T-VM-C-03 & enterprise-attack & Application credentials in configuration files & T1552 & credential-access \\ \hline
-    T-ADMIN-02 & enterprise-attack & Application credentials in configuration files & T1552 & lateral-movement \\ \hline
-    T-VM-C-03 & enterprise-attack & Application credentials in configuration files & T1552 & lateral-movement \\ \hline
-    T-VM-C-03 & enterprise-attack & Instance Metadata API & T1552 & discovery \\ \hline
-    T-IMG-03 & enterprise-attack & Instance Metadata API & T1552 & discovery \\ \hline
-    T-VM-C-01 & enterprise-attack & Data destruction & T1485 & impact \\ \hline
-    T-GEN-01 & enterprise-attack & Application exploit (RCE) & T1190 & execution \\ \hline
-    T-VM-C-01 & enterprise-attack & Privileged container & T1610 & privilege-escalation \\ \hline
-    T-VM-C-02 & enterprise-attack & Writable hostPath mount & T1611 & persistence \\ \hline
-    T-VM-C-02 & enterprise-attack & Writable hostPath mount & T1611 & privilege-escalation \\ \hline
-    T-VM-C-02 & enterprise-attack & Writable hostPath mount & T1611 & lateral-movement \\ \hline
-    T-O2-01 & enterprise-attack & Access the K8S API server & T1613 & discovery \\ \hline
-    T-GEN-02 & enterprise-attack & Exposed sensitive interfaces & T1133 & initial-access \\ \hline
-    T-GEN-02 & enterprise-attack & Exposed sensitive interfaces & T1078 & initial-access \\ \hline
-    T-GEN-02 & enterprise-attack & Exposed sensitive interfaces & T1133 & discovery \\ \hline
-    T-GEN-02 & enterprise-attack & Exposed sensitive interfaces & T1078 & discovery \\ \hline
-    T-IMG-01 & enterprise-attack & New Container & T1610 & execution \\ \hline
-    T-IMG-01 & enterprise-attack & New Container & T1612 & execution \\ \hline
-    T-IMG-04 & enterprise-attack & New Container & T1610 & execution \\ \hline
-    T-IMG-04 & enterprise-attack & New Container & T1612 & execution \\ \hline
+    Threat-ID & TK4M Technique Name & MITRE-Technique & MITRE-Technique \\ \hline
+T-IMG-01 & Application Vulnerability & T1190 & initial-access \\ \hline
+T-VM-C-01 & bash or cmd inside container & T1059 & execution \\ \hline
+T-VM-C-01 & bash or cmd inside container & T1204 & execution \\ \hline
+T-ADMIN-02 & bash or cmd inside container & T1059 & execution \\ \hline
+T-ADMIN-02 & bash or cmd inside container & T1204 & execution \\ \hline
+T-HW-01 & bash or cmd inside container & T1059 & execution \\ \hline
+T-HW-01 & bash or cmd inside container & T1204 & execution \\ \hline
+T-IMG-01 & bash or cmd inside container & T1059 & execution \\ \hline
+T-IMG-01 & bash or cmd inside container & T1204 & execution \\ \hline
+T-VM-C-01 & Kubernetes CronJob & T1053.007 & persistence \\ \hline
+T-VM-C-01 & Clear container logs & T1070 & defense-evasion \\ \hline
+T-IMG-01 & Compromised Image In Registry & T1195.002 & initial-access \\ \hline
+T-IMG-01 & Compromised Image In Registry & T1525 & initial-access \\ \hline
+T-GEN-02 & Access Managed Identity credentials & T1552 & credential-access \\ \hline
+T-O2-01 & Network mapping & T1046 & discovery \\ \hline
+T-VM-C-02 & Cluster internal networking & T1210 & lateral-movement \\ \hline
+T-IMG-01 & images from a private registry & T1530 & collection \\ \hline
+T-IMG-04 & images from a private registry & T1530 & collection \\ \hline
+T-ADMIN-02 & Exec into container & T1609 & execution \\ \hline
+T-O2-01 & Exec into container & T1609 & execution \\ \hline
+T-VM-C-03 & Exec into container & T1609 & execution \\ \hline
+T-VM-C-04 & Exec into container & T1609 & execution \\ \hline
+T-VM-C-01 & Backdoor container & T1543 & persistence \\ \hline
+T-VM-C-01 & Backdoor container & T1542 & persistence \\ \hline
+T-VL-02 & Backdoor container & T1543 & persistence \\ \hline
+T-VL-02 & Backdoor container & T1542 & persistence \\ \hline
+T-GEN-02 & Mount service principal & T1552 & credential-access \\ \hline
+T-O2-01 & Access Kubelet API & T1613 & discovery \\ \hline
+T-IMG-03 & List K8S secrets & T1552 & credential-access \\ \hline
+T-VM-C-04 & Resource hijacking & T1496 & impact \\ \hline
+T-VL-01 & Resource hijacking & T1496 & impact \\ \hline
+T-O2-01 & Delete K8S events & T1070 & defense-evasion \\ \hline
+T-VL-01 & Pod or container name similarily & T1036 & defense-evasion \\ \hline
+T-VL-01 & Pod or container name similarily & T1036.005 & defense-evasion \\ \hline
+T-IMG-01 & Pod or container name similarily & T1036 & defense-evasion \\ \hline
+T-IMG-01 & Pod or container name similarily & T1036.005 & defense-evasion \\ \hline
+T-ADMIN-01 & Denial of service & T1498 & impact \\ \hline
+T-ADMIN-01 & Denial of service & T1499 & impact \\ \hline
+T-VM-C-04 & Denial of service & T1498 & impact \\ \hline
+T-VM-C-04 & Denial of service & T1499 & impact \\ \hline
+T-VM-C-05 & Denial of service & T1498 & impact \\ \hline
+T-VM-C-05 & Denial of service & T1499 & impact \\ \hline
+T-GEN-02 & container service account & T1528 & credential-access \\ \hline
+T-GEN-02 & container service account & T1528 & lateral-movement \\ \hline
+T-GEN-02 & container service account & T1528 & persistence \\ \hline
+T-ADMIN-02 & Application credentials in configuration files & T1552 & credential-access \\ \hline
+T-VM-C-03 & Application credentials in configuration files & T1552 & credential-access \\ \hline
+T-ADMIN-02 & Application credentials in configuration files & T1552 & lateral-movement \\ \hline
+T-VM-C-03 & Application credentials in configuration files & T1552 & lateral-movement \\ \hline
+T-VM-C-03 & Instance Metadata API & T1552 & discovery \\ \hline
+T-IMG-03 & Instance Metadata API & T1552 & discovery \\ \hline
+T-VM-C-01 & Data destruction & T1485 & impact \\ \hline
+T-GEN-01 & Application exploit (RCE) & T1190 & execution \\ \hline
+T-VM-C-01 & Privileged container & T1610 & privilege-escalation \\ \hline
+T-VM-C-02 & Writable hostPath mount & T1611 & persistence \\ \hline
+T-VM-C-02 & Writable hostPath mount & T1611 & privilege-escalation \\ \hline
+T-VM-C-02 & Writable hostPath mount & T1611 & lateral-movement \\ \hline
+T-O2-01 & Access the K8S API server & T1613 & discovery \\ \hline
+T-GEN-02 & Exposed sensitive interfaces & T1133 & initial-access \\ \hline
+T-GEN-02 & Exposed sensitive interfaces & T1078 & initial-access \\ \hline
+T-GEN-02 & Exposed sensitive interfaces & T1133 & discovery \\ \hline
+T-GEN-02 & Exposed sensitive interfaces & T1078 & discovery \\ \hline
+T-IMG-01 & New Container & T1610 & execution \\ \hline
+T-IMG-01 & New Container & T1612 & execution \\ \hline
+T-IMG-04 & New Container & T1610 & execution \\ \hline
+T-IMG-04 & New Container & T1612 & execution \\ \hline
 \end{longtable}
 \restoregeometry
+
 
 \chapter{Datenstruktur}
 \label{app:db-schema}
 
-\begin{figure}[H]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=0.5\textwidth]{db-schema}
     \caption{Struktur eines Artefakts in der Datenbank und in Go.}
+\end{figure}
+
+\chapter{Angepasste Matrix im Dashboard}
+\label{app:matrix}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=1\textwidth]{matrix}
+    \caption{Darstellung aller Techniken in der Matrix.}
 \end{figure}
 
 \chapter{Diagramme aus ACEMA}
@@ -148,7 +158,7 @@ Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerwei
 \]
 
 
-\begin{figure}
+\begin{figure}[!htb]
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
             \caption{Durchschnittlicher CVSS Vektor aller CVEs pro Schweregrad}
@@ -158,7 +168,7 @@ Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerwei
     \label{app:fig-acema-radar}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
             \caption{Durchschnitt aller CVSS Werte der CVEs pro MITRE-Technik und Schweregrad}
@@ -168,7 +178,7 @@ Die Werte der Metriken in einem \gls{cvss}\textit{v2} Vektor werden typischerwei
     \label{app:fig-acema-mean-teq}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!htb]
     \begin{adjustbox}{addcode={
         \begin{minipage}{\width}}{
             \caption{Summierung aller CVSS Werte der CVEs pro O-RAN Threat-ID und Schweregrad}

@@ -1,24 +1,24 @@
 \chapter{Theoretischer Hintergrund}
 \label{chap:technischerHintergrund}
-Um die technische Implementierung und die methodischen Ansätze zu verstehen, muss eine Einleitung in das Thema gegeben werden. In diesem Kapitel werden die technischen Hintergründe von \gls{open-ran} und O-Ran erläutert, und auf die technischen Implementierungen der \gls{foran}-Anwendung eingegangen.
+In diesem Kapitel werden die technischen Hintergründe von \gls{open-ran} und O-Ran erläutert, und auf die technischen Implementierungen der \gls{foran}-Anwendungen eingegangen. Außerdem werden die \gls{mitre} Frameworks und Datenquellen für die empirische Analyse vorgestellt.
 
 \section{Open RAN und O-RAN}
 \label{sec:tech-openran}
 Die \gls{open-ran} Architektur bietet eine innovative Möglichkeit, die traditionell monolithische Struktur der \gls{ran} (deutsch: Funkzugangsnetze) durch modulare und offene Ansätze zu ersetzen. Dieser Wandel wird vor allem durch die \orana{} und die O-RAN \gls{sc} vorangetrieben. Ziel ist es, die Interoperabilität zwischen verschiedenen Komponentenherstellern zu verbessern und neue Möglichkeiten für Automatisierung und Sicherheit zu schaffen.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{oran-architecture}
+    \includegraphics[width=0.6\textwidth]{oran-architecture}
     \caption{Logische Architektur von O-RAN (Quelle: \autocite{ORANAlliance})}
     \label{fig:oran-architecture}
 \end{figure}
 
-Die Architektur des O-RAN, dargestellt in Abbildung \ref{fig:oran-architecture}, wird von der \gls{wg1} verantwortet und in verschiedenen \textit{Task Groups} entwickelt. Sie basiert auf der Definition von standardisierten offenen Schnittstellen und einer logischen Trennung zwischen den Hauptfunktionen eines \glspl{ran}. Dazu gehören unter anderem der nicht-echtzeitfähige RAN-Intelligent-Controller (Non-RT-RIC) und der echtzeitfähige RIC (Near-RT-RIC), die jeweils für unterschiedliche Steuerungszyklen optimiert sind \autocite{o-ranworkgroup1usecasesandoverallarchitectureORANArchitectureDescription2024}. 
+Die Architektur des O-RAN, dargestellt in Abbildung \ref{fig:oran-architecture}, wird von der \gls{wg1} verantwortet und in verschiedenen \textit{Task Groups} entwickelt. Sie basiert auf der Definition von standardisierten offenen Schnittstellen und einer logischen Trennung zwischen den Hauptfunktionen eines \glspl{ran}. Dazu gehören unter anderem der nicht-echtzeitfähige RAN-Intelligent-Controller (Non-RT-RIC) und der nahezu-echtzeitfähige RIC (Near-RT-RIC), die jeweils für unterschiedliche Steuerungszyklen optimiert sind \autocite{o-ranworkgroup1usecasesandoverallarchitectureORANArchitectureDescription2024}. 
 
 \section{Virtualisierung mit Kubernetes}
 \todo{Wofür ist dieser technische Hintergrund nötig?}
 Die O-RAN \gls{sc} Referenzimplementierung basiert grundlegend auf Kubernetes, einer Plattform zur Orchestrierung von containerisierten Anwendungen \autocite{ReleaseReleasesConfluence}. Kubernetes ermöglicht es, Anwendungen in Containern auszuführen, die von ihrer Umgebung unabhängig sind und so eine hohe Flexibilität und Skalierbarkeit bieten. Container können durch Software wie Docker erstellt werden und nutzen Virtualisierung auf Betriebssystemebene, um eine isolierte Laufzeitumgebung für O-RAN Komponenten zu schaffen. Kubernetes orchestriert diese Container, indem es deren Bereitstellung, Skalierung und Verwaltung automatisiert. Das Konzept der Virtualisierung, auf dem Kubernetes aufbaut, hat zum Ziel, physische Ressourcen wie Prozessor und Arbeitsspeicher abstrahiert bereitzustellen. Dabei werden mehrere virtuelle Container auf einer physischen Maschine betrieben. Trotz der Vorteile bringt die Nutzung von Kubernetes und Virtualisierung auch Sicherheitsrisiken mit sich. Angriffsvektoren können durch falsch konfigurierte Container, ungesicherte Schnittstellen oder Schwachstellen in der Orchestrierungsplattform selbst entstehen.
-Die O-RAN Spezifikation biete ein stark standardisiertes und modulares Modell, das sowohl Innovationen vorantreibt als auch Sicherheitsmaßnahmen in einem frühen Stadium der Konzeptionierung ermöglicht (\textit{security-by-design}). Die in der Literatur aufgezeigten Schwachstellen der O-RAN-\gls{sc}-Referenzimplementierung zeigen jedoch, dass erhebliche Anstrengungen nötig sind, um ein sicheres und robustes System zu gewährleisten \autocite{klementSecuringOpenRAN2024}.
+\par Mit Ausnahme der O-RAN Radio Unit (O-RU) können alle Komponenten der Abbildung \ref{fig:oran-architecture} vollständig containerisiert, das heißt in einer virtuellen Umgebung ausgeführt, werden. Die O-RU ist die hardware-nahste Komponente und benötigt spezialisierte Hardware zur Verarbeitung der empfangenden Signale.
 
 \section{5G-FORAN}
 \label{sec:tech-foran}
@@ -29,12 +29,12 @@ Für das ATTACK-Teilvorhaben wurde ein Framework implementiert, was es ermöglic
 \label{sec:tech-dashboard}
 Das Dashboard ist ein Visualisierungtool, über das die Gesamtmenge aller Angriffssimulationen dargestellt werden kann. Für jeden Angriff werden die Metadaten und Ergebnisse textuell aufbereitet dargestellt und mit weiteren grafischen Visualisierungen, wie einem zeitlichen Verlauf, aufgewertet.
 Das Dashboard ist über einen Webserver in der Programmiersprache \textit{Go} implementiert, der serverseitig eine Darstellung der Webseite erstellt und diese beim Aufruf der spezifischen Seiten des Dashboards an den Browser des Anwenders schickt. Neben den \gls{html} Dateien werden außerdem \gls{css} und \gls{js} Dateien ausgeliefert, die für die Weboberfläche stilisieren und Fuktionalität hinzufügen, die nicht in \gls{html} ausgedrückt werden kann. Die Architektur des Dashboards basiert auf dem Hotwire (HTML-over-the-wire) Web-Framework, welches es zum Ziel hat, möglich wenig \gls{js} im Frontend einzusetzen. Stattdessen werden \gls{html} Dateien dynamisch vom Server angepasst und in wenigen Millisekunden an den Client versandt. Dieser Ansatz ist weit verbreitet und wird auch als \textit{server-sided rendering} bezeichnet \autocite{HTMLWireHotwire}. Die einzelnen Seiten, die im Dashboard aufgerufen werden können, sind in einer Übersicht in Kapitel \ref{chap:implementierung} aufgelistet.
-Diese Arbeit dokumentiert die Weiterentwicklung auf Basis der Forschungsarbeit \autocite{weberEvaluationDashboardTechniques}.
+\par Diese Arbeit umfasst die Weiterentwicklung des Dashboards auf Basis einer vorangegangenen Forschungsarbeit \autocite{weberEvaluationDashboardTechniques}.
 
 \label{bg:mitre-frameworks}
 \section{MITRE Frameworks}
 \glsreset{mitre}
-Die von der \gls{mitre}\footnote{Entgegen einem verbreiteten Missverständnis steht MITRE \textbf{nicht} für "Massachusetts Institute of Technology Research and Engineering".} zur Verfügung gestellten Werkzeuge und Kategorisierungssysteme wurden entwickelt, um Sicherheitsrisiken zu analysieren, zu bewerten und zu behandeln. Die im Folgenden beschriebenen Frameworks bieten strukturierte Daten zur Analyse von Schwachstellen, Schwachstellenkategorien und Angriffsmustern. In diesem Kapitel werden die einzelnen Frameworks beschrieben und deren Anwendungsgebiete erläutert.
+Die von der \gls{mitre}\footnote{Entgegen einem verbreiteten Missverständnis (ChatGPT-4 liegt auch falsch) steht MITRE \textbf{nicht} für "Massachusetts Institute of Technology Research and Engineering".} zur Verfügung gestellten Werkzeuge und Kategorisierungssysteme wurden entwickelt, um Sicherheitsrisiken zu analysieren, zu bewerten und zu behandeln. Die im Folgenden beschriebenen Frameworks bieten strukturierte Daten zur Analyse von Schwachstellen, Schwachstellenkategorien und Angriffsmustern. In diesem Kapitel werden die einzelnen Frameworks beschrieben und deren Anwendungsgebiete erläutert.
 
 \subsection{MITRE ATT\&CK}
 \glsreset{attack}

@@ -95,7 +95,7 @@ Der originale Quellcode arbeitet beim Mapping von \gls{mitre}-Technik zu \gls{ca
 \tikzstyle{decision} = [diamond, minimum width=0cm, minimum height=0cm, text centered, draw=black, fill=green!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{tikzpicture}[node distance=2.5cm and 3cm]
 
@@ -200,9 +200,9 @@ Bei der Ausführung von \verb|data_analysis_nb.py| wird auch für jede \gls{mitr
 
 Die arithmetischen Mittel der Metriken werden daher somit direkt in die \verb|json|-Datei geschrieben und müssen nicht bei einem Neustart des Dashboards neu berechnet werden.
 
-Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildung \ref{fig:calc-cvss} gezeigt. Zu ungefähr 90\% der im Dashboard dargestellten Techniken ist eine \gls{mitre}-Technik zugeordnet und über \gls{acema} können für diese insgesamt 306 relevante \glspl{cve} gefunden werden. Diese Menge an \glspl{cve} bietet eine ausreichende wissenschaftliche Basis zur Auswertung von \gls{cvss} Daten. Es sind keine zu visualisierende Daten verfügbar, wenn entweder keine \glspl{cve} zu der \gls{mitre}-Technik gefunden werden oder keine \gls{mitre}-Technik zu der Technik im Dashboard zugewiesen ist. Zwei Beispiele, eins mit Daten und eines ohne, sind in Abbildung \ref{fig:technik-vis-example} abgebildet.
+Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildung \ref{fig:calc-cvss} gezeigt. Zu ungefähr 90\% der im Dashboard dargestellten Techniken ist eine \gls{mitre}-Technik zugeordnet und über \gls{acema} können für diese insgesamt 306 relevante \glspl{cve} gefunden werden. Diese Menge an \glspl{cve} bietet eine ausreichende wissenschaftliche Basis zur Auswertung von \gls{cvss} Daten. Es sind keine zu visualisierende Daten verfügbar, wenn entweder keine \glspl{cve} zu der \gls{mitre}-Technik gefunden werden oder keine \gls{mitre}-Technik zu der Technik im Dashboard zugewiesen ist. Zwei Beispiele, eins mit Daten und eines ohne, sind in Abbildung \ref{fig:technik-vis-example} abgebildet. Die gesamte Matrix mit allen Zuordnungen und \gls{cvss} Werten ist im Anhang \ref{app:matrix} dargestellt.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{technik-vis-example}
     \caption{Visualisierung des Basiswerts für eine Technik}
@@ -210,7 +210,7 @@ Eine visuelle Darstellung der Berechnung des \textit{Basisscores} ist in Abbildu
 \end{figure}
 
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{calc-cvss}
     \caption{Einflüsse in der Berechnung des CVSS \textit{Basisscores} über die drei Metrikgruppen}
@@ -269,7 +269,7 @@ Eine Verwendung weiterer Daten, wie weiterführende Informationen über spezifis
 \section{Visualisierung des Angriffspfads}
 \label{sec:impl-visualisierungDesAngriffspfads}
 Die Visualisierung des Angriffspfads bietet im Dashboard eine intuitive Darstellung der Angriffssequenzen in Form eines Netzwerks, das durch Icons ergänzt wird. Der Begriff \textit{Netzwerk} meint in diesem Kontext einen gerichteten Graphen (Digraph), also einen Diagram mit Knoten und Kanten, indem die Kanten durch einen Pfeil dargestellt werden, der von einem Knoten auf einen Anderen zeigt \autocite{DigraphDefinition}. Die Darstellung erlaubt eine schnelle Erfassung der kritischen Informationen, indem sie zeigt, welches Gerät mit welchem Software-Werkzeug und welchem ausgeführten Kommando in Verbindung steht, um die Angriffssimulation auszuführen. In der Verkettung werden außerdem die Daten über das genutzte Angriffsmuster (\gls{capec}), Schwachstellenkategorie (\gls{cwe}) und letztendlich die spezifische Schwachstelle (\gls{cve}) visualisiert. Das Ergebnis ist in Abbildung \ref{fig:attack-graph} gezeigt.
-\begin{figure}[H]
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{attack-graph}
     \caption{Visualisierung eines Angriffspfads}
@@ -286,7 +286,7 @@ Die Visualisierung des Angriffspfads bietet im Dashboard eine intuitive Darstell
 \par Im letzten Schritt übernimmt der \gls{js}-Controller, in diesem Fall vis\_controller.js, die Verantwortung. Dieser liest den dynamisch generierten \gls{dot}-String aus dem \gls{html}-Attribut aus und verarbeitet sie mit der Funktion \verb|parseDOTNetwork| aus dem \gls{js}-Paket vis-network weiter. Dieses Paket wandelt den \gls{dot}-Quellcode in eine visuelle Graphenstruktur um, die anschließend in das Zielelement gerendert wird. Durch die Verwendung von vis-network wird eine Darstellung gewährleistet, die es dem Nutzer erlaubt mit dem Graphen zu interagieren \autocite{VisjsVisnetwork2024}. Detailierte Informationen zu den Funktionen des Graphen wurden in Kapitel \ref{sec:auswahlDerVisualisierungstechniken} gegeben.
 \par Insgesamt bietet dieser Prozess eine effiziente Methode, um \gls{dot}-Quellcode dynamisch zu erstellen, in \gls{js} zu interaktiven Graphen zu verarbeiten und in \gls{html} visuell darzustellen.
 
-\begin{figure}[H]
+\begin{figure}
     \centering
     \begin{tikzpicture}[node distance=2cm, auto]
 
