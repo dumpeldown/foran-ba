@@ -34,16 +34,16 @@ Diese beiden Techniken bergen hohes Potenzial für schwere Auswirkungen in Kuber
 \end{table}
 
 \subsection{Erfolg der Implementierung}
-Die Implementierung wurde ohne große Hindernisse erfolgreich beendet. Alle Meilensteine wurden wie geplant erreicht. Besonders die Integration der Methode von \citeauthor{klementSecuring6GTransition2024} brachte einen großen Mehrwert für das Dashboard. Die Visualisierung der \gls{cvss} Daten in der Matrix und in der Detailsseite von Artefakten liefert wertvolle Einblicke in die Bewertung der Auswirkungen der Angriffe.
+Die Implementierung wurde ohne große Hindernisse erfolgreich beendet. Alle Meilensteine wurden wie geplant erreicht. Besonders die Integration der Methode von \citeauthor{klementSecuring6GTransition2024} brachte einen großen Mehrwert für das Dashboard. Die Visualisierung der \gls{cvss} Daten in der Matrix und in der Detailsseite von Artefakten liefen wertvolle Einblicke in die Bewertung der Auswirkungen der Angriffe. Die erstellten und im Dashboard angezeigten Diagramme liefern sowohl technische als auch wissenschaftliche Erkenntnisse.
 
-Ein zentraler Fortschritt bei der Weiterentwicklung des Dashboards war die Visualisierung des Angriffspfads, der als interaktiver Graph die kritischen Informationen zu Angriffsmustern, Schwachstellen und genutzten Werkzeugen kompakt darstellt. Neben den \textit{MUST-Features} wurden weitere Funktionen wie die Verbesserung der Zeitleistenansicht und die Verlinkung zu weiterführenden Information über Techniken implementiert, welche die Benutzbarkeit verbessern und den Funktionsumfang des Dashboards erweitern. Insgesamt zeigt das Ergebnis, wie eine wissenschaftliche Herangehensweise an die Konzeption und Implementierung eines Dashboards die Analyse- und Visualisierungsfähigkeiten in einem \gls{dfir}-Umfeld erheblich verbessern kann.
+Ein zentraler Fortschritt bei der Weiterentwicklung des Dashboards war die Visualisierung des Angriffspfads, der als interaktiver Graph die kritischen Informationen zu Angriffsmustern, Schwachstellen und genutzten Werkzeugen kompakt darstellt. Neben den \textit{MUST-Features} wurden weitere Funktionen wie die Verbesserung der Zeitleistenansicht und die Verlinkung zu weiterführenden Information über Techniken implementiert, welche die Benutzbarkeit verbessern und den Funktionsumfang des Dashboards erweitern. Insgesamt zeigt das Ergebnis, wie eine wissenschaftliche Herangehensweise an die Konzeption und Implementierung eines Dashboards die Analyse- und Visualisierungsfähigkeiten in einem \gls{dfir}-Umfeld erheblich verbessern kann. Die erfolgreiche Umsetzung belegt die Praxistauglichkeit der theoretisch erarbeiteten Methoden.
 
 \subsection{Einsatz in der Praxis}
 Inwiefern ist das Ergebnis in der Praxis anwendbar? Welche Verbesserungen sind nötig? \\
 Vergleich mit bestehenden Lösungen: \\
 Falls bekannt, könnten Sie Ihre Lösung mit anderen Ansätzen vergleichen. \\
-
-Es gibt existierende Lösungen um von \gls{mitre}-Techniken 
+- \autocite{Vulcan}
+- \autocite{CVELandingMappings}
 
 \section{Limitation}
 \label{sec:limitationen}
@@ -87,7 +87,7 @@ Die Implementierung von \gls{acema} nutzt für die Bewertung das \gls{cvss} in V
     \label{tab:comparison_with_diff}
 \end{table}
 
-\par Fehler bei der Datenanalyse mit vermischung v21 und v31 in Funktion \verb|gen\_statistics\_per\_tactic|. CVEs mit cvss v31 "CRITICAL" gehen komplett verloren. Fix: Anstatt die Daten aus dem Score[] zu bekommen, wie sie eventuell auch als V31 stehen, wie die severity aus "BaseSeverity" und der Score aus "v2\_score" benutzt.
+\par Fehler bei der Datenanalyse mit vermischung v21 und v31 in Funktion \verb|gen\_statistics\_per\_tactic|. CVEs mit cvss v31 "CRITICAL" gehen komplett verloren. Fix: Anstatt die Daten aus dem Score[] zu bekommen, wie sie eventuell auch als V31 stehen, wie die severity aus "BaseSeverity" und der Score aus "v2\_score" benutzt. \todo{Ausschreiben!}
 
 \section{Ausblick}
 \label{sec:ausblick}
