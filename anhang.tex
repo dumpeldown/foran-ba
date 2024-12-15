@@ -95,6 +95,71 @@ T-IMG-04 & New Container & T1612 & execution \\ \hline
 \end{longtable}
 \restoregeometry
 
+\chapter{Liste der Routen im Dashboard}
+\label{app:routes}
+\begin{itemize}
+    \item \textbf{/ (Startseite):} Statische Startseite des Dashboards mit Buttons zur Navigation zu anderen Routen.
+    \item \textbf{/acema (Darstellung der ACEMA Diagramme):} Enthält alle über ACEMA erstellen Diagramme als PDFs.
+    \item \textbf{/mitre/kubernetes\_matrix (Kubernetes Matrix):} Visualisierung der angepassten \gls{mitre} \gls{attack} Matrix.
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{kubernetes\_matrix.tmpl:} Nutzt die Anzahl der Taktiken und Techniken zum Aufbau der Zeilen und Spalten.
+                        \item \textbf{technique.partial.tmpl:} Füllt die Felder mit den in \\
+                        \verb|pkg/mitre/technique.go| definierten Techniken.
+                    \end{itemize}
+          \end{itemize}
+
+    \item \textbf{/artifacts (Artefakte - Index):} Liefert eine Liste aller Artefakte, aller Filtermöglichkeiten und einer visuellen Darstellung auf der Zeitachse.
+          \begin{itemize}
+              \item \textbf{Query-Parameter (optional):}
+                    \begin{itemize}
+                        \item \texttt{tool\_name} - Filtert Artefakte nach dem Namen des Tools.
+                        \item \texttt{tactic} - Filtert Artefakte nach der zugehörigen Taktik.
+                        \item \texttt{microsoft\_technique} - Filtert Artefakte nach Microsoft-Techniken.
+                        \item \texttt{start\_date} - Filtert Artefakte nach Startzeitpunk.
+                        \item \texttt{end\_date} - Filtert Artefakte nach Endzeitpunkt.
+                    \end{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{artifacts/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
+                    \end{itemize}
+          \end{itemize}
+
+    \item \textbf{/artifacts/:id (Artefakte - Details):} Liefert Details zu einem spezifischen Artefakt anhand der \texttt{id}.
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{artifacts/show.tmpl:} Nutzt die Daten eines Artefaktes.
+                        \item \textbf{error.tmpl:} Spezifische Fehlermeldung von Go nach Datenbankabfrage.
+                    \end{itemize}
+
+          \end{itemize}
+
+    \item \textbf{/campaigns (Kampagnen - Index):} Liefert eine Liste aller Kampagnen.
+          \begin{itemize}
+              \item \textbf{Dynamisch erzeugt aus:}
+                    \begin{itemize}
+                        \item \textbf{campaigns/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
+                    \end{itemize}
+          \end{itemize}
+
+    \item \textbf{/campaigns/:id (Kampagnen - Details):} Liefert Details zu einer spezifischen Kampagne anhand der \texttt{id}.
+    \begin{itemize}
+    \item \textbf{Query-Parameter (optional):}
+          \begin{itemize}
+              \item \texttt{start\_date} - Filtert Kampagnen nach Startzeitpunk.
+              \item \texttt{end\_date} - Filtert Kampagnen nach Endzeitpunkt.
+          \end{itemize}
+    \item \textbf{Dynamisch erzeugt aus:}
+            \begin{itemize}
+                \item \textbf{campaigns/show.tmpl:} Nutzt die Daten einer Kampagne.
+                \item \textbf{error.tmpl:} Spezifische Fehlermeldung von Go nach Datenbankabfrage.
+            \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+
 
 \chapter{Datenstruktur}
 \label{app:db-schema}

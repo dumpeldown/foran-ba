@@ -1,70 +1,14 @@
 \chapter{Implementierung}
 \label{chap:implementierung}
 In diesem Kapitel wird die praktische Umsetzung der im Methodikteil beschriebenen Ansätze detailliert erläutert. Der Schwerpunkt liegt dabei auf der Anwendung und Integration der empirischen Methode \gls{acema}. Außerdem wird beschrieben, wie und wo die Integration von \gls{cvss} Daten vorgenommen wurde. Weiterhin wird auf die Visualisierung des Angriffspfads eingegangen und erklärt, welche Tools dafür eingesetzt wurden. Abschließend werden zusätzliche Implementierungen vorgestellt, welche die Funktionalität und Benutzerfreundlichkeit des Dashboards erweitern, darunter die Verbesserung der Zeitleistenansicht, die Vereinfachung der Datenstruktur von Artefakten sowie weiterführende Informationen zu genutzten Techniken.
-\par Grundlegend besitzt das Dashboard vier verschiedene Seiten, die aus dem Hauptmenü angesteuert werden können. Die Seiten von Artefakten und Kampagnen sind dabei in die Übersichtsseite und Detailsansicht zu trennen, \gls{acema} und Matrix besitzen nur die Hauptroute. In der folgenden Übersicht sind alle Routen dargestellt, die im Dashboard verfügbar sind. Angegeben wird auch, welche Daten verwendet werden, um die Seite dynamisch mit Inhalt zu füllen.
+\par Grundlegend besitzt das Dashboard vier verschiedene Seiten, die aus dem Hauptmenü angesteuert werden können. Die Seiten von Artefakten und Kampagnen sind dabei in die Übersichtsseite und Detailsansicht zu trennen, \gls{acema} und Matrix besitzen nur die Hauptroute. In der Abbildung \ref{fig:home} sind alle Seiten dargestellt, die direkt vom Dashboard aus erreichbar sind. In der Liste in Anhang \ref{app:routes} werden für alle Seiten im Dashboard detailierte Informationen bereitgestellt. Diese umfassen eine allgemeine Beschreibung der Funktion, mögliche Filtermöglichkeiten der Daten und es wird erklärt welche Daten dazu beitragen die Seite dynamisch mit Inhalt zu füllen.
 
-\begin{itemize}
-    \item \textbf{/ (Startseite):} Statische Startseite des Dashboards mit Buttons zur Navigation zu anderen Routen.
-    \item \textbf{/acema (Darstellung der ACEMA Diagramme):} Enthält alle über ACEMA erstellen Diagramme als PDFs.
-    \item \textbf{/mitre/kubernetes\_matrix (Kubernetes Matrix):} Visualisierung der angepassten \gls{mitre} \gls{attack} Matrix.
-          \begin{itemize}
-              \item \textbf{Dynamisch erzeugt aus:}
-                    \begin{itemize}
-                        \item \textbf{kubernetes\_matrix.tmpl:} Nutzt die Anzahl der Taktiken und Techniken zum Aufbau der Zeilen und Spalten.
-                        \item \textbf{technique.partial.tmpl:} Füllt die Felder mit den in \\
-                        \verb|pkg/mitre/technique.go| definierten Techniken.
-                    \end{itemize}
-          \end{itemize}
-
-    \item \textbf{/artifacts (Artefakte - Index):} Liefert eine Liste aller Artefakte, aller Filtermöglichkeiten und einer visuellen Darstellung auf der Zeitachse.
-          \begin{itemize}
-              \item \textbf{Query-Parameter (optional):}
-                    \begin{itemize}
-                        \item \texttt{tool\_name} - Filtert Artefakte nach dem Namen des Tools.
-                        \item \texttt{tactic} - Filtert Artefakte nach der zugehörigen Taktik.
-                        \item \texttt{microsoft\_technique} - Filtert Artefakte nach Microsoft-Techniken.
-                        \item \texttt{start\_date} - Filtert Artefakte nach Startzeitpunk.
-                        \item \texttt{end\_date} - Filtert Artefakte nach Endzeitpunkt.
-                    \end{itemize}
-              \item \textbf{Dynamisch erzeugt aus:}
-                    \begin{itemize}
-                        \item \textbf{artifacts/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
-                    \end{itemize}
-          \end{itemize}
-
-    \item \textbf{/artifacts/:id (Artefakte - Details):} Liefert Details zu einem spezifischen Artefakt anhand der \texttt{id}.
-          \begin{itemize}
-              \item \textbf{Dynamisch erzeugt aus:}
-                    \begin{itemize}
-                        \item \textbf{artifacts/show.tmpl:} Nutzt die Daten eines Artefaktes.
-                        \item \textbf{error.tmpl:} Spezifische Fehlermeldung von Go nach Datenbankabfrage.
-                    \end{itemize}
-
-          \end{itemize}
-
-    \item \textbf{/campaigns (Kampagnen - Index):} Liefert eine Liste aller Kampagnen.
-          \begin{itemize}
-              \item \textbf{Dynamisch erzeugt aus:}
-                    \begin{itemize}
-                        \item \textbf{campaigns/index.tmpl:} Nutzt die Daten aller Artefakte und die Werte der Filterparameter.
-                    \end{itemize}
-          \end{itemize}
-
-    \item \textbf{/campaigns/:id (Kampagnen - Details):} Liefert Details zu einer spezifischen Kampagne anhand der \texttt{id}.
-    \begin{itemize}
-    \item \textbf{Query-Parameter (optional):}
-          \begin{itemize}
-              \item \texttt{start\_date} - Filtert Kampagnen nach Startzeitpunk.
-              \item \texttt{end\_date} - Filtert Kampagnen nach Endzeitpunkt.
-          \end{itemize}
-    \item \textbf{Dynamisch erzeugt aus:}
-            \begin{itemize}
-                \item \textbf{campaigns/show.tmpl:} Nutzt die Daten einer Kampagne.
-                \item \textbf{error.tmpl:} Spezifische Fehlermeldung von Go nach Datenbankabfrage.
-            \end{itemize}
-    \end{itemize}
-\end{itemize}
-
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=1\textwidth]{images/home.png}
+    \caption{Seiten, die von der Startseite des Dashboards aus geöffnet werden können.}
+    \label{fig:home}
+\end{figure}
 \section{Implementierung von ACEMA}
 Die empirische Methode kann auf zwei verschiedenen Arten für das Dashboard genutzt werden. Zum einen lassen sich über die Matrixdaten aus Anhang \ref{app:mapping-dataset} sehr aussagekräftige Diagramme erstellen, die jedoch nicht direkt in die Technik- oder Artefaktdarstellung im Dashboard integriert werden. Zum anderen gibt der Output von \gls{acema} die Möglichkeit, die \gls{cvss} Daten direkt in existierende Seiten des Dashboards zu integieren und den Inhalt aufzuwerten.
 
