@@ -1,4 +1,4 @@
-# Implementierung eines Dashboard für Pentesting in einer Digital Forensik und Incident Response (DFIR) Umgebung für Open RAN
+# Implementierung eines Dashboards für Pentesting in einer Digital Forensik und Incident Response (DFIR) Umgebung für Open RAN
 
 Bachelor Thesis, Bachelor Technische Informatik, Computer Networks Research Group, Forschungsprojekt 5G-FORAN, TH Köln, WS2024/25
 
