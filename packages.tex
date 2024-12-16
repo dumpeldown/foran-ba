@@ -19,6 +19,8 @@
 \usepackage{verbatim}
 \usepackage{geometry}
 \usepackage{adjustbox}
+\usepackage{makecell} % Falls nicht bereits geladen
+\usepackage{graphicx} % Für das Bild
 %
 \ifluatex
  % LuaLaTeX
@@ -39,7 +41,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 %
-\usepackage[backend=biber,style=numeric,sortcites=true,sorting=none,]{biblatex}
+\usepackage[backend=biber,style=numeric,sortcites=true,sorting=none,maxbibnames=99]{biblatex}
 \DeclareDelimFormat{multicitedelim}{\addcomma}
 \DeclareDelimFormat{compcitedelim}{\addcomma}
 \DefineBibliographyStrings{german}{%
