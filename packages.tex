@@ -4,7 +4,6 @@
 %
 \usepackage{ifluatex}
 \usepackage{babel}
-\setlength {\marginparwidth }{2cm} %stellt die TODOS besser dar.
 \usepackage[textsize=tiny]{todonotes}
 \usepackage{float}
 \usepackage{scrhack}
@@ -19,8 +18,8 @@
 \usepackage{verbatim}
 \usepackage{geometry}
 \usepackage{adjustbox}
-\usepackage{makecell} % Falls nicht bereits geladen
-\usepackage{graphicx} % Für das Bild
+\usepackage{makecell}
+\usepackage{graphicx}
 %
 \ifluatex
  % LuaLaTeX
@@ -35,18 +34,10 @@
 \usepackage{scrlayer-scrpage}
 \usepackage{microtype}
 %
-%\usepackage{ziffer}% optional
-%\usepackage[locale=DE]{siunitx}% optional
-%
 \usepackage{tikz}
 \usepackage{pgfplots}
 %
 \usepackage[backend=biber,style=numeric,sortcites=true,sorting=none,maxbibnames=99]{biblatex}
-\DeclareDelimFormat{multicitedelim}{\addcomma}
-\DeclareDelimFormat{compcitedelim}{\addcomma}
-\DefineBibliographyStrings{german}{%
-  andothers = {{et al}\adddot}
-}
 %
 \usepackage{amsmath}
 \usepackage{amssymb}
