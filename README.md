@@ -7,7 +7,8 @@ This repository contains all LaTeX files and resources for my Bachelor’s thesi
 ## Repository Structure
 
 - **content/**: Contains individual chapter files in `.tex` format. Each file represents a different section or chapter of the thesis for modular editing and compilation.
-- **images/**: Folder for images, diagrams, and other visual assets referenced in the thesis.
+- **images/**: Folder for images, and other visual assets referenced in the thesis.
+- **data/**: Folder for not image format assets, mainly ACEMA-generated diagrams and raw data used in the thesis.
 - **Abschlussarbeit.tex**: Main LaTeX file that compiles the entire thesis document by including files from the `content` folder and applying configurations from other `.tex` files.
 - **definitions.tex**: Contains custom definitions, macros, and LaTeX commands specific to the thesis.
 - **glsdefs.tex**: File for glossary and acronyms definitions.
