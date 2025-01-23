@@ -14,7 +14,6 @@ This repository contains all LaTeX files and resources for my Bachelor’s thesi
 - **glsdefs.tex**: File for glossary and acronyms definitions.
 - **packages.tex**: Specifies all LaTeX packages required for the thesis document.
 - **references.bib**: Bibliography file with references in BibTeX format, used for citation within the thesis.
-- **wip_TOC.md**: A working Table of Contents (TOC) in Markdown, used for planning and organizing the structure of the thesis.
 
 ## Usage
 
