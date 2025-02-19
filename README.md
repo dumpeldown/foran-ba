@@ -4,6 +4,8 @@ Bachelor Thesis, Bachelor Technische Informatik, Computer Networks Research Grou
 
 This repository contains all LaTeX files and resources for my Bachelor’s thesis on implementing a dashboard for pentesting within a Digital Forensic and Incident Response (DFIR) environment, focusing on Open RAN (Radio Access Networks). The project is part of the 5G-FORAN research initiative, conducted within the Computer Networks Research Group at the TH Köln during the Winter Semester 2024/25.
 
+For more information visit [the 5G-FORAN website.](https://www.5g-foran.com/)
+
 ## Repository Structure
 
 - **content/**: Contains individual chapter files in `.tex` format. Each file represents a different section or chapter of the thesis for modular editing and compilation.
